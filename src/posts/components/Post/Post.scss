@@ -1,0 +1,14 @@
+.post {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  padding: 16px 8px;
+  max-width: 100%;
+  &-src {
+    max-width: 960px;
+  }
+  &-title {
+    margin-bottom: 8px;
+  }
+}
