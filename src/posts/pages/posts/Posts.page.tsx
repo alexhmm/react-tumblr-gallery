@@ -1,36 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-import './Posts.scss';
+import './posts.scss';
+import { getPosts } from './posts.utils';
 import Post from '../../components/Post/Post.component';
+import { Post as PostType } from '../../models/post.interface';
 
-const Posts = () => {
+const Posts = (): ReactElement => {
+  const { pageNumber, postId, tag } = useParams<{
+    pageNumber: string;
+    postId: string;
+    tag: string;
+  }>();
+
   // Posts state
-  const [posts, setPosts]: any[] = useState([]);
+  const [posts, setPosts] = useState<PostType[]>([]);
 
+  // Code to run on component mount
   useEffect(() => {
-    // Code to run on component mount
     // Set state after fetch success
-    fetchPosts().then(data => {
-      if (data) {
+    getPosts(pageNumber, postId, tag).then(data => {
+      if (data && data.response && data.response.posts) {
         setPosts([...data.response.posts]);
       }
     });
-  }, []);
-
-  // Fetch tumblr posts
-  const fetchPosts = async () => {
-    let url =
-      process.env.REACT_APP_API_URL +
-      '/posts?api_key=' +
-      process.env.REACT_APP_API_KEY;
-
-    const response = await fetch(url);
-    const data = await response.json();
-    return data;
-  };
+  }, [pageNumber, postId, tag]);
 
   // Components array
-  const postElements: any[] = [];
+  const postElements: ReactNode[] = [];
 
   // Push posts to components array
   for (let post of posts) {
