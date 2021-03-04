@@ -6,10 +6,10 @@ import './Post.scss';
 const Post = (props: { post: PostType }): ReactElement => {
   return (
     <article className='post'>
-      <div className='post-title'>{props?.post?.summary}</div>
+      {/* <div className='post-title'>{props?.post?.summary}</div> */}
       <img
         alt={props?.post?.caption}
-        src={props?.post?.photos[0].original_size.url}
+        src={props?.post?.photos[0]?.original_size.url}
         className='post-src'
       />
     </article>
