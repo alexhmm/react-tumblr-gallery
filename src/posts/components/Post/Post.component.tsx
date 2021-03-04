@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { Post as PostType } from '../../models/post.interface';
 
-import './Post.scss';
+import './post.scss';
 
 const Post = (props: { post: PostType }): ReactElement => {
   return (

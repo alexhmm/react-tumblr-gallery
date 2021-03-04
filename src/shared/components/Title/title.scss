@@ -1,0 +1,46 @@
+@import '../../styles/breakpoints.scss';
+
+.title {
+  align-items: center;
+  display: flex;
+  font-size: 2rem;
+  font-weight: 500;
+  height: 100vh;
+  justify-content: center;
+  letter-spacing: 0.1em;
+  margin: 0 auto;
+  position: fixed;
+  text-transform: uppercase;
+  z-index: 0;
+  width: 100vw;
+}
+
+@media (min-width: $sm) {
+  .title {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: $md) {
+  .title {
+    font-size: 4rem;
+  }
+}
+
+@media (min-width: $xl) {
+  .title {
+    font-size: 8rem;
+  }
+}
+
+@media (min-width: $fhd) {
+  .title {
+    font-size: 12rem;
+  }
+}
+
+@media (min-width: $wqhd) {
+  .title {
+    font-size: 16rem;
+  }
+}
