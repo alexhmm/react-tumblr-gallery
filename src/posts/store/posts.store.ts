@@ -1,18 +1,27 @@
 import create from 'zustand';
 
 import { Post } from '../models/post.interface';
+import { PostsState } from '../models/posts-state.interface';
 import { getPosts } from '../utils/posts.utils';
 
-const usePostsStore = create<{ offset: number; posts: Post[] }>(set => ({
+const usePostsStore = create<PostsState>(set => ({
   offset: 0,
   posts: [],
+  title: '',
   setPosts: async (offset: number, postId: string, tag: string) => {
-    set({ posts: await getPosts(offset, postId, tag) });
+    const fetchPosts: Post[] = await getPosts(offset, postId, tag);
+    if (fetchPosts && fetchPosts.length > 0) {
+      set((state: PostsState) => ({
+        ...state,
+        posts: fetchPosts,
+        title: fetchPosts[0].blog_name
+      }));
+    }
   },
   addPosts: async (offset: number, tag: string) => {
-    const addedPosts = await getPosts(offset, '', tag);
+    const addedPosts: Post[] = await getPosts(offset, '', tag);
     if (addedPosts && addedPosts.length > 0) {
-      set((state: any) => ({
+      set((state: PostsState) => ({
         ...state,
         offset,
         posts: state.posts.concat(addedPosts)

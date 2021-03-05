@@ -1,9 +1,15 @@
 import React, { ReactElement } from 'react';
 
+import { PostsState } from '../../../posts/models/posts-state.interface';
+import usePostsStore from '../../../posts/store/posts.store';
+
 import './title.scss';
 
 const Title = (): ReactElement => {
-  return <header className='title'>Title</header>;
+  // Posts store state
+  const [title] = usePostsStore((state: PostsState) => [state.title]);
+
+  return <header className='title'>{title}</header>;
 };
 
 export default Title;

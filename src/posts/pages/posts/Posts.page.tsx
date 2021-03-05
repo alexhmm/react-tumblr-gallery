@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import './posts.scss';
 import Post from '../../components/Post/Post.component';
+import { PostsState } from '../../models/posts-state.interface';
 import usePostsStore from '../../store/posts.store';
 
 const Posts = (): ReactElement => {
@@ -15,7 +16,12 @@ const Posts = (): ReactElement => {
   const [postElements, setPostElements] = useState<ReactNode[]>([]);
 
   // Posts store state
-  const [offset, posts, setPosts, addPosts] = usePostsStore((state: any) => [
+  const [
+    offset,
+    posts,
+    setPosts,
+    addPosts
+  ] = usePostsStore((state: PostsState) => [
     state.offset,
     state.posts,
     state.setPosts,
@@ -34,6 +40,7 @@ const Posts = (): ReactElement => {
    */
   useEffect(() => {
     const elements: JSX.Element[] = [];
+    // Check if posts were added
     if (posts.length > postElements.length) {
       const startIndex =
         postElements.length - (postElements.length - postElements.length);
