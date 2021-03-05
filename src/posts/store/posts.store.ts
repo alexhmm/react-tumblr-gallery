@@ -8,18 +8,13 @@ const usePostsStore = create<PostsState>(set => ({
   loading: true,
   offset: 0,
   posts: [],
-  title: '',
   setLoading: (loading: boolean) => {
     set({ loading });
   },
   setPosts: async (offset: number, postId: string, tag: string) => {
     const fetchPosts: Post[] = await getPosts(offset, postId, tag);
     if (fetchPosts && fetchPosts.length > 0) {
-      set((state: PostsState) => ({
-        ...state,
-        posts: fetchPosts,
-        title: fetchPosts[0].blog_name
-      }));
+      set({ posts: fetchPosts });
     }
   },
   addPosts: async (offset: number, tag: string) => {

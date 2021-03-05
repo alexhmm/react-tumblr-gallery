@@ -1,15 +1,50 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect, useRef, useState } from 'react';
 
-import { PostsState } from '../../../posts/models/posts-state.interface';
-import usePostsStore from '../../../posts/store/posts.store';
+import { BlogInfo } from '../../models/blog-info.interface';
+import { SharedState } from '../../models/shared-state.interface';
+import useSharedStore from '../../store/shared.store';
+import { getBlogInfo } from '../../utils/shared.utils';
 
 import './title.scss';
 
 const Title = (): ReactElement => {
-  // Posts store state
-  const [title] = usePostsStore((state: PostsState) => [state.title]);
+  // Title element reference
+  const titleElem = useRef<HTMLDivElement>(null);
 
-  return <header className='title'>{title}</header>;
+  // Component state
+  const [mounted, setMounted] = useState<boolean>(false);
+
+  // Shared store state
+  const [title, setTitle] = useSharedStore((state: SharedState) => [
+    state.title,
+    state.setTitle
+  ]);
+
+  /**
+   * Set title on component mount.
+   */
+  useEffect(() => {
+    const getInfo = async () => {
+      const blogInfo: BlogInfo = await getBlogInfo();
+      setTitle(blogInfo.title);
+    };
+    getInfo();
+
+    // Using window.requestAnimationFrame allows an action to be take after the next DOM paint
+    window.requestAnimationFrame(() => setMounted(true));
+  }, []);
+
+  useEffect(() => {
+    if (mounted && title && titleElem.current) {
+      titleElem.current.style.opacity = '1';
+    }
+  }, [title]);
+
+  return (
+    <header ref={titleElem} className='title'>
+      {title}
+    </header>
+  );
 };
 
 export default Title;

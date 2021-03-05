@@ -3,6 +3,7 @@
  * @param offset Offset
  * @param postId Post id
  * @param tag Tag
+ * @returns Tumblr posts
  */
 export const getPosts = (offset: number, postId: string, tag: string) => {
   let url =
