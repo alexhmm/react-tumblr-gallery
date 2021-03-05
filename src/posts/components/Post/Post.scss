@@ -1,9 +1,12 @@
 @import '../../../shared/styles/breakpoints.scss';
+@import '../../../shared/styles/mixins.scss';
 
 .post {
+  @include transition(0.25s, 0s, ease-in, opacity);
   box-sizing: border-box;
   display: flex;
   justify-content: center;
+  opacity: 0;
   padding: 32px 0px;
   width: 100%;
   z-index: 10;

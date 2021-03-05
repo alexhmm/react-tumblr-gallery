@@ -38,3 +38,16 @@ export const getPosts = (offset: number, postId: string, tag: string) => {
       return null;
     });
 };
+
+/**
+ * Wait for x miliseconds to continue.
+ * @param ms Miliseconds
+ * @returns Promise
+ */
+export const wait = (ms: number) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(ms);
+    }, ms);
+  });
+};

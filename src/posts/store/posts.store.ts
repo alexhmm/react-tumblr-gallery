@@ -5,9 +5,13 @@ import { PostsState } from '../models/posts-state.interface';
 import { getPosts } from '../utils/posts.utils';
 
 const usePostsStore = create<PostsState>(set => ({
+  loading: true,
   offset: 0,
   posts: [],
   title: '',
+  setLoading: (loading: boolean) => {
+    set({ loading });
+  },
   setPosts: async (offset: number, postId: string, tag: string) => {
     const fetchPosts: Post[] = await getPosts(offset, postId, tag);
     if (fetchPosts && fetchPosts.length > 0) {
