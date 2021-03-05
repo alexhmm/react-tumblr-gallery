@@ -1,23 +1,15 @@
 /**
  * Get tumblr posts.
- * @param pageNumber Page number
+ * @param offset Offset
  * @param postId Post id
  * @param tag Tag
  */
-export const getPosts = (pageNumber: string, postId: string, tag: string) => {
+export const getPosts = (offset: number, postId: string, tag: string) => {
   let url =
     process.env.REACT_APP_API_URL +
     '/posts?api_key=' +
     process.env.REACT_APP_API_KEY;
 
-  // if (limit) {
-  //   url = url.concat('&limit=' + limit);
-  // }
-  // Calculate offset by pagenumber
-  if (pageNumber) {
-    const offset = (parseInt(pageNumber, 10) - 1) * 20;
-    url = url.concat('&offset=' + offset);
-  }
   // Get posts by a given tag
   if (tag) {
     url = url.concat('&tag=' + tag);
@@ -25,6 +17,10 @@ export const getPosts = (pageNumber: string, postId: string, tag: string) => {
   // Get a single post by a given id
   if (postId) {
     url = url.concat('&id=' + postId + '&notes_info=true');
+  }
+  // Set offset
+  if (offset) {
+    url = url.concat('&offset=' + offset);
   }
 
   return fetch(url)
@@ -35,7 +31,7 @@ export const getPosts = (pageNumber: string, postId: string, tag: string) => {
       return response.json();
     })
     .then(data => {
-      return data;
+      return data.response.posts;
     })
     .catch(error => {
       console.error('Error fetching posts:', error);

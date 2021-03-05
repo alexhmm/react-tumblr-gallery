@@ -2,39 +2,61 @@ import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import './posts.scss';
-import { getPosts } from './posts.utils';
 import Post from '../../components/Post/Post.component';
-import { Post as PostType } from '../../models/post.interface';
+import usePostsStore from '../../store/posts.store';
 
 const Posts = (): ReactElement => {
-  const { pageNumber, postId, tag } = useParams<{
-    pageNumber: string;
+  const { postId, tag } = useParams<{
     postId: string;
     tag: string;
   }>();
 
   // Posts state
-  const [posts, setPosts] = useState<PostType[]>([]);
+  const [postElements, setPostElements] = useState<ReactNode[]>([]);
 
-  // Code to run on component mount
+  // Posts store state
+  const [offset, posts, setPosts, addPosts] = usePostsStore((state: any) => [
+    state.offset,
+    state.posts,
+    state.setPosts,
+    state.addPosts
+  ]);
+
+  /**
+   * Set posts on component mount
+   */
   useEffect(() => {
-    // Set state after fetch success
-    getPosts(pageNumber, postId, tag).then(data => {
-      if (data && data.response && data.response.posts) {
-        setPosts([...data.response.posts]);
+    setPosts(offset, postId, tag);
+  }, []);
+
+  /**
+   * Set post elements on posts change.
+   */
+  useEffect(() => {
+    const elements: JSX.Element[] = [];
+    if (posts.length > postElements.length) {
+      const startIndex =
+        postElements.length - (postElements.length - postElements.length);
+      for (let i = startIndex; i < posts.length; i++) {
+        elements.push(<Post key={posts[i].id} post={posts[i]} />);
       }
-    });
-  }, [pageNumber, postId, tag]);
+      setPostElements(postElements.concat(elements));
+    }
+  }, [posts]);
 
-  // Components array
-  const postElements: ReactNode[] = [];
+  /**
+   * Handler to add posts.
+   */
+  const onAddPosts = () => {
+    addPosts(offset + 20, tag);
+  };
 
-  // Push posts to components array
-  for (let post of posts) {
-    postElements.push(<Post key={post.id} post={post} />);
-  }
-
-  return <section className='posts'>{postElements}</section>;
+  return (
+    <section className='posts'>
+      {postElements}
+      <div onClick={onAddPosts}>more</div>
+    </section>
+  );
 };
 
 export default Posts;
