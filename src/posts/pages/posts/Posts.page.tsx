@@ -21,6 +21,7 @@ const Posts = (): ReactElement => {
     loading,
     offset,
     posts,
+    total,
     setLoading,
     setPosts,
     addPosts
@@ -28,6 +29,7 @@ const Posts = (): ReactElement => {
     state.loading,
     state.offset,
     state.posts,
+    state.total,
     state.setLoading,
     state.setPosts,
     state.addPosts
@@ -77,7 +79,7 @@ const Posts = (): ReactElement => {
   return (
     <section className='posts'>
       {postElements}
-      {!loading && (
+      {!loading && posts.length < total && (
         <div onClick={onAddPosts} className='posts-more'>
           more
         </div>

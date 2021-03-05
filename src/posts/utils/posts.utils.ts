@@ -1,3 +1,5 @@
+import { PostsResponse } from '../models/posts-response.interface';
+
 /**
  * Get tumblr posts.
  * @param offset Offset
@@ -5,7 +7,11 @@
  * @param tag Tag
  * @returns Tumblr posts
  */
-export const getPosts = (offset: number, postId: string, tag: string) => {
+export const getPosts = (
+  offset: number,
+  postId: string,
+  tag: string
+): Promise<PostsResponse> => {
   let url =
     process.env.REACT_APP_API_URL +
     '/posts?api_key=' +
@@ -32,7 +38,7 @@ export const getPosts = (offset: number, postId: string, tag: string) => {
       return response.json();
     })
     .then(data => {
-      return data.response.posts;
+      return data.response;
     })
     .catch(error => {
       console.error('Error fetching posts:', error);
@@ -45,7 +51,7 @@ export const getPosts = (offset: number, postId: string, tag: string) => {
  * @param ms Miliseconds
  * @returns Promise
  */
-export const wait = (ms: number) => {
+export const wait = (ms: number): Promise<any> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(ms);
