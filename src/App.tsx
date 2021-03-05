@@ -2,12 +2,14 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Posts from './posts/pages/posts/Posts.page';
+import Navigation from './shared/components/Navigation/Navigation.component';
 import Title from './shared/components/Title/Title.component';
 
 function App() {
   return (
     <Router>
       <Title />
+      <Navigation />
       <Switch>
         <Route path='/page/:pageNumber'>
           <Posts />
