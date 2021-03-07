@@ -40,6 +40,7 @@ const Posts = (): ReactElement => {
    */
   useEffect(() => {
     setPosts(offset, postId, tag);
+    // eslint-disable-next-line
   }, []);
 
   /**
@@ -64,8 +65,8 @@ const Posts = (): ReactElement => {
         }
       }
     };
-
     setElements();
+    // eslint-disable-next-line
   }, [posts]);
 
   /**

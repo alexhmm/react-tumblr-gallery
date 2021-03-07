@@ -32,12 +32,14 @@ const Title = (): ReactElement => {
 
     // Using window.requestAnimationFrame allows an action to be take after the next DOM paint
     window.requestAnimationFrame(() => setMounted(true));
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     if (mounted && title && titleElem.current) {
       titleElem.current.style.opacity = '1';
     }
+    // eslint-disable-next-line
   }, [title]);
 
   return (
