@@ -1,0 +1,204 @@
+@import '../../styles/breakpoints.scss';
+@import '../../styles/mixins.scss';
+@import '../../styles/theme.scss';
+
+.menu {
+  &-backdrop {
+    height: 100vh;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    z-index: 20;
+  }
+  &-button {
+    align-items: center;
+    display: flex;
+    height: 32px;
+    justify-content: flex-end;
+    position: fixed;
+    right: 16px;
+    top: 16px;
+    z-index: 22;
+  }
+  &-container {
+    @include transition(0.65s, 0s, cubic-bezier(0.76, 0, 0.24, 1), transform);
+    background-color: var(--menu-background-color);
+    height: 100vh;
+    position: fixed;
+    right: 0;
+    top: 0;
+    transform: translateX(100%);
+    width: 100%;
+    z-index: 21;
+    &-content {
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      justify-content: space-between;
+      padding: 64px 16px;
+      width: 100%;
+      &-bottom {
+        &-copyright {
+          font-size: 0.75rem;
+          margin-top: 32px;
+          opacity: 0.5;
+        }
+        &-social {
+          display: flex;
+          flex-wrap: wrap;
+          &-item {
+            padding-bottom: 4px;
+            margin-right: 12px;
+          }
+        }
+      }
+      &-top {
+        &-nav {
+          display: flex;
+          flex-direction: column;
+          font-weight: 500;
+          align-items: flex-end;
+          margin-top: 32px;
+          &-item {
+            font-size: 1.5rem;
+            padding: 8px 0px;
+          }
+        }
+        &-search {
+          align-items: center;
+          border-bottom: 1px solid var(--theme-color);
+          box-sizing: border-box;
+          height: 32px;
+          padding: 4px 0px;
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: $md) {
+  .menu {
+    &-button {
+      font-size: 1.25rem;
+      height: 48px;
+      right: 32px;
+    }
+    &-container {
+      -webkit-box-shadow: -5px 0px 10px 0px rgba(0, 0, 0, 0.05);
+      -moz-box-shadow: -5px 0px 10px 0px rgba(0, 0, 0, 0.05);
+      box-shadow: -5px 0px 10px 0px rgba(0, 0, 0, 0.05);
+      width: 640px;
+      &-content {
+        box-sizing: border-box;
+        height: 100vh;
+        padding: 96px 32px;
+        width: 100%;
+        &-top {
+          &-nav {
+            &-item {
+              font-size: 2rem;
+              padding: 16px 0px;
+            }
+          }
+          &-search {
+            border-bottom: 2px solid var(--theme-color);
+            box-sizing: border-box;
+            font-size: 1.5rem;
+            height: 48px;
+            padding: 4px 0px;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: $xl) {
+  .menu {
+    &-button {
+      right: 48px;
+      top: 32px;
+    }
+    &-container {
+      &-content {
+        &-top {
+          &-nav {
+            &-item {
+              font-size: 2.5rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: $fhd) {
+  .menu {
+    &-button {
+      right: 64px;
+    }
+    &-container {
+      &-content {
+        &-top {
+          &-nav {
+            &-item {
+              font-size: 3rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: $wqhd) {
+  .menu {
+    &-button {
+      font-size: 2rem;
+      height: 64px;
+      right: 96px;
+    }
+  }
+}
+
+@media (hover: hover) {
+  .menu {
+    &-button {
+      @include transition(0.25s, 0s, ease-in, color);
+      cursor: pointer;
+      &:hover {
+        color: var(--theme-color-hover);
+      }
+    }
+    &-container {
+      &-content {
+        &-bottom {
+          &-social {
+            &-item {
+              @include transition(0.25s, 0s, ease-in, color);
+              &:hover {
+                color: var(--theme-color-hover);
+              }
+            }
+          }
+        }
+        &-top {
+          &-nav {
+            &-item {
+              @include transition(0.25s, 0s, ease-in, color);
+              cursor: pointer;
+              &:hover {
+                color: var(--theme-color-hover);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
