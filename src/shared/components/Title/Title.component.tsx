@@ -26,7 +26,9 @@ const Title = (): ReactElement => {
   useEffect(() => {
     const getInfo = async () => {
       const blogInfo: BlogInfo = await getBlogInfo();
-      setTitle(blogInfo.title);
+      if (blogInfo) {
+        setTitle(blogInfo.title);
+      }
     };
     getInfo();
 

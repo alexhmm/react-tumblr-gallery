@@ -3,9 +3,9 @@ import React, { ReactElement, useEffect } from 'react';
 import { SharedState } from '../../models/shared-state.interface';
 import useSharedStore from '../../store/shared.store';
 
-import './navigation.scss';
+import './theme.scss';
 
-const Navigation = (): ReactElement => {
+const Theme = (): ReactElement => {
   // Shared store state
   const [theme, setTheme] = useSharedStore((state: SharedState) => [
     state.theme,
@@ -25,11 +25,10 @@ const Navigation = (): ReactElement => {
   };
 
   return (
-    <nav className='navigation'>
-      {/* <input placeholder='Search' className='navigation-search'></input> */}
-      <section className='navigation-menu'>Menu</section>
-    </nav>
+    <section onClick={onToggleTheme} className='theme'>
+      <div className='theme-container'></div>
+    </section>
   );
 };
 
-export default Navigation;
+export default Theme;
