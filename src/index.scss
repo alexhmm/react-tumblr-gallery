@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
 
+@import 'shared/styles/mixins.scss';
+@import 'shared/styles/theme.scss';
+
 body {
+  @include transition(0.25s, 0s, ease-out, background, color);
+  background: var(--theme-background-color);
+  color: var(--theme-color);
   margin: 0;
   font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -15,9 +21,14 @@ code {
 input {
   background: none;
   border: none;
+  color: var(--theme-color);
   font-family: 'Poppins', sans-serif;
   outline: none;
   &:focus {
     outline: none;
+  }
+  &::placeholder {
+    color: var(--input-placeholder-color);
+    opacity: 1;
   }
 }

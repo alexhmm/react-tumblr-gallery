@@ -55,7 +55,6 @@ const Posts = (): ReactElement => {
           postElements.length - (postElements.length - postElements.length);
         for (let i = startIndex; i < posts.length; i++) {
           await wait(100);
-          // console.log(i);
           elements.push(<Post key={posts[i].id} post={posts[i]} />);
           setPostElements(postElements.concat(elements));
           // Set loading to false after last element is rendered
