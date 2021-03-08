@@ -26,7 +26,7 @@ const Navigation = (): ReactElement => {
 
   return (
     <nav className='navigation'>
-      <input placeholder='Search' className='navigation-search'></input>
+      {/* <input placeholder='Search' className='navigation-search'></input> */}
       <section className='navigation-menu'>Menu</section>
       <section onClick={onToggleTheme} className='navigation-theme'>
         <div className='navigation-theme-container'></div>

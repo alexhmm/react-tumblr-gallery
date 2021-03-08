@@ -5,45 +5,39 @@
   @include transition(0.25s, 0s, ease-in, opacity);
   align-items: center;
   display: flex;
-  font-size: 2rem;
-  font-weight: 500;
-  height: 100vh;
-  justify-content: center;
-  letter-spacing: 0.1em;
-  margin: 0 auto;
+  font-size: 1.5rem;
+  height: 32px;
+  left: 16px;
   opacity: 0;
   position: fixed;
-  text-transform: uppercase;
-  z-index: -1;
-  width: 100vw;
-}
-
-@media (min-width: $sm) {
-  .title {
-    font-size: 3rem;
-  }
+  top: 16px;
+  z-index: 20;
 }
 
 @media (min-width: $md) {
   .title {
-    font-size: 4rem;
+    font-size: 2rem;
+    height: 48px;
+    left: 32px;
   }
 }
 
 @media (min-width: $xl) {
   .title {
-    font-size: 8rem;
+    left: 48px;
+    top: 32px;
   }
 }
-
 @media (min-width: $fhd) {
   .title {
-    font-size: 12rem;
+    left: 64px;
   }
 }
 
 @media (min-width: $wqhd) {
   .title {
-    font-size: 16rem;
+    font-size: 3rem;
+    height: 64px;
+    left: 96px;
   }
 }
