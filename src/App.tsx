@@ -25,7 +25,7 @@ function App() {
         <Route path='/tagged/:tag/page/:pageNumber'>
           <Posts />
         </Route>
-        <Route path='/tagged/:tag'>
+        <Route path='/tagged/:tagged'>
           <Posts />
         </Route>
         <Route path='/'>

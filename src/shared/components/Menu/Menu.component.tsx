@@ -1,15 +1,24 @@
 import { Fragment, ReactElement, useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { PostsState } from '../../../posts/models/posts-state.interface';
+import usePostsStore from '../../../posts/store/posts.store';
 
 import './menu.scss';
 
 const Menu = (): ReactElement => {
-  // Post element reference
+  // React router history
+  const history = useHistory();
+
+  // Menu element reference
   const menuElem = useRef<HTMLDivElement>(null);
 
   // Component state
   const [menu, setMenu] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
+  const [searchValue, setSearchValue] = useState<string>('');
+
+  // Posts store state
+  const [setPosts] = usePostsStore((state: PostsState) => [state.setPosts]);
 
   // Effects on component mount
   useEffect(() => {
@@ -24,6 +33,25 @@ const Menu = (): ReactElement => {
     }
   }, [mounted]);
 
+  /**
+   * Search for tags.
+   */
+  const search = () => {
+    if (searchValue) {
+      let searchVal = searchValue;
+      if (searchVal.charAt(0) === '#') {
+        searchVal = searchVal.substring(1, searchVal.length);
+      }
+      toggleMenu();
+      setSearchValue('');
+      setPosts(0, null, searchVal.toLocaleLowerCase());
+      history.push('/tagged/' + searchVal.toLocaleLowerCase());
+    }
+  };
+
+  /**
+   * Toggles menu.
+   */
   const toggleMenu = () => {
     if (menuElem && menuElem.current) {
       menuElem.current.style.transform = menu
@@ -46,6 +74,13 @@ const Menu = (): ReactElement => {
           <div className='menu-container-content-top'>
             <input
               placeholder='Search'
+              onKeyPress={event => {
+                if (event.key === 'Enter') {
+                  search();
+                }
+              }}
+              onChange={event => setSearchValue(event.target.value)}
+              value={searchValue}
               className='menu-container-content-top-search'
             ></input>
             <nav className='menu-container-content-top-nav'>

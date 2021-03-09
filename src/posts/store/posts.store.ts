@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import create from 'zustand';
 
 import { PostsResponse } from '../models/posts-response.interface';
@@ -8,7 +9,9 @@ const usePostsStore = create<PostsState>(set => ({
   loading: true,
   offset: 0,
   post: null,
+  postElements: [],
   posts: [],
+  tag: null,
   total: 0,
   setLoading: (loading: boolean) => {
     set({ loading });
@@ -19,12 +22,18 @@ const usePostsStore = create<PostsState>(set => ({
       set({ post: fetchPost.posts[0] });
     }
   },
-  setPosts: async (offset: number, postId: string, tag: string) => {
+  setPostElements: (postElements: ReactNode[]) => set({ postElements }),
+  setPosts: async (
+    offset: number | null,
+    postId: string | null,
+    tag: string | null
+  ) => {
     const fetchPosts: PostsResponse = await getPosts(offset, postId, tag);
     if (fetchPosts && fetchPosts.posts.length > 0) {
       set((state: PostsState) => ({
         ...state,
         posts: fetchPosts.posts,
+        tag,
         total: fetchPosts.total_posts
       }));
     }
@@ -38,7 +47,8 @@ const usePostsStore = create<PostsState>(set => ({
         posts: state.posts.concat(addedPosts.posts)
       }));
     }
-  }
+  },
+  setTag: (tag: string) => set({ tag })
 }));
 
 export default usePostsStore;

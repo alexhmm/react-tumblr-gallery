@@ -8,42 +8,36 @@ import usePostsStore from '../../store/posts.store';
 import { wait } from '../../utils/posts.utils';
 
 const Posts = (): ReactElement => {
-  const { postId, tag } = useParams<{
-    postId: string;
-    tag: string;
+  const { tagged } = useParams<{
+    tagged: string;
   }>();
-
-  // Posts state
-  const [postElements, setPostElements] = useState<ReactNode[]>([]);
 
   // Posts store state
   const [
     loading,
     offset,
+    postElements,
     posts,
+    tag,
     total,
     setLoading,
+    setPostElements,
     setPosts,
-    addPosts
+    addPosts,
+    setTag
   ] = usePostsStore((state: PostsState) => [
     state.loading,
     state.offset,
+    state.postElements,
     state.posts,
+    state.tag,
     state.total,
     state.setLoading,
+    state.setPostElements,
     state.setPosts,
-    state.addPosts
+    state.addPosts,
+    state.setTag
   ]);
-
-  /**
-   * Set posts on component mount
-   */
-  useEffect(() => {
-    if (posts && posts.length < 1) {
-      setPosts(offset, postId, tag);
-    }
-    // eslint-disable-next-line
-  }, []);
 
   /**
    * Set post elements on posts change.
@@ -53,6 +47,8 @@ const Posts = (): ReactElement => {
       const elements: JSX.Element[] = [];
       // Check if posts were added
       if (posts.length > postElements.length) {
+        setLoading(true);
+        const elements: JSX.Element[] = [];
         const startIndex =
           postElements.length - (postElements.length - postElements.length);
         for (let i = startIndex; i < posts.length; i++) {
@@ -71,11 +67,24 @@ const Posts = (): ReactElement => {
   }, [posts]);
 
   /**
+   * Check if param tag has changed.
+   */
+  useEffect(() => {
+    // Reset posts
+    if (tagged !== tag) {
+      setLoading(true);
+      setPostElements([]);
+      setPosts(0, null, tagged);
+      setTag(tagged);
+    }
+  }, [tagged]);
+
+  /**
    * Handler to add posts.
    */
   const onAddPosts = () => {
     setLoading(true);
-    addPosts(offset + 20, tag);
+    addPosts(offset + 20, tagged);
   };
 
   return (
