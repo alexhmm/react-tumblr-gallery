@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useRef, useState } from 'react';
+import { ReactElement, useEffect, useRef, useState } from 'react';
 
 import { BlogInfo } from '../../models/blog-info.interface';
 import { SharedState } from '../../models/shared-state.interface';

@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 
 import { SharedState } from '../../models/shared-state.interface';
 import useSharedStore from '../../store/shared.store';
