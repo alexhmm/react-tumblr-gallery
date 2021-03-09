@@ -1,4 +1,5 @@
 import React, { ReactElement, useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Post as PostType } from '../../models/post.interface';
 
 import './post.scss';
@@ -25,12 +26,14 @@ const Post = (props: { post: PostType }): ReactElement => {
 
   return (
     <article ref={postEl} className='post'>
-      {/* <div className='post-title'>{props?.post?.summary}</div> */}
-      <img
-        alt={props?.post?.caption}
-        src={props?.post?.photos[0]?.original_size.url}
-        className='post-src'
-      />
+      <Link to={'/post/' + props.post.id_string} className='post-container'>
+        {/* <div className='post-title'>{props?.post?.summary}</div> */}
+        <img
+          alt={props?.post?.caption}
+          src={props?.post?.photos[0]?.original_size.url}
+          className='post-container-src'
+        />
+      </Link>
     </article>
   );
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
+import PostDetail from './posts/pages/post-detail/post-detail.page';
 import Posts from './posts/pages/posts/Posts.page';
 import Menu from './shared/components/Menu/Menu.component';
 import Theme from './shared/components/Theme/Theme.component';
@@ -17,10 +18,10 @@ function App() {
           <Posts />
         </Route>
         <Route path='/post/:postId/:caption'>
-          <Posts />
+          <PostDetail />
         </Route>
         <Route path='/post/:postId'>
-          <Posts />
+          <PostDetail />
         </Route>
         <Route path='/tagged/:tag/page/:pageNumber'>
           <Posts />

@@ -1,8 +1,8 @@
-import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
+import { ReactElement, ReactNode, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import './posts.scss';
-import Post from '../../components/Post/Post.component';
+import Post from '../../components/post/Post.component';
 import { PostsState } from '../../models/posts-state.interface';
 import usePostsStore from '../../store/posts.store';
 import { wait } from '../../utils/posts.utils';
@@ -39,7 +39,9 @@ const Posts = (): ReactElement => {
    * Set posts on component mount
    */
   useEffect(() => {
-    setPosts(offset, postId, tag);
+    if (posts && posts.length < 1) {
+      setPosts(offset, postId, tag);
+    }
     // eslint-disable-next-line
   }, []);
 

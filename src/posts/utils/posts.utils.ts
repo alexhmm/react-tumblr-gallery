@@ -8,9 +8,9 @@ import { PostsResponse } from '../models/posts-response.interface';
  * @returns Tumblr posts
  */
 export const getPosts = (
-  offset: number,
-  postId: string,
-  tag: string
+  offset: number | null,
+  postId: string | null,
+  tag: string | null
 ): Promise<PostsResponse> => {
   let url =
     process.env.REACT_APP_API_URL +

@@ -10,11 +10,16 @@
   padding: 32px 0px;
   width: 100%;
   z-index: 10;
-  &-src {
-    box-sizing: border-box;
-    object-fit: cover;
-    max-height: 1920px;
-    max-width: 100%;
+  &-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    &-src {
+      box-sizing: border-box;
+      object-fit: cover;
+      max-height: 1920px;
+      max-width: 100%;
+    }
   }
 }
 
