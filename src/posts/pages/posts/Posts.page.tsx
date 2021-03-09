@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useEffect, useState } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import './posts.scss';
@@ -44,7 +44,6 @@ const Posts = (): ReactElement => {
    */
   useEffect(() => {
     const setElements = async () => {
-      const elements: JSX.Element[] = [];
       // Check if posts were added
       if (posts.length > postElements.length) {
         setLoading(true);
@@ -77,6 +76,7 @@ const Posts = (): ReactElement => {
       setPosts(0, null, tagged);
       setTag(tagged);
     }
+    // eslint-disable-next-line
   }, [tagged]);
 
   /**
