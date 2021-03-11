@@ -1,0 +1,21 @@
+@import '../../styles/mixins.scss';
+
+.route {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+.fade-enter {
+  z-index: 1;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit.fade-exit-active {
+  @include transition(0.5s, 0s, ease-in-out, opacity);
+  opacity: 0.01;
+}
