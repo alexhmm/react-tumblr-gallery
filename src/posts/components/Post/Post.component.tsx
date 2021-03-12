@@ -2,7 +2,7 @@ import { ReactElement, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Post as PostType } from '../../models/post.interface';
 
-import './post.scss';
+import './Post.scss';
 
 const Post = (props: { post: PostType }): ReactElement => {
   // Post element reference

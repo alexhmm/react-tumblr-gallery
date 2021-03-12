@@ -4,15 +4,25 @@
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
-  padding: 64px 0px;
+  padding: 64px 2px;
   width: 100%;
   &-more {
     align-items: center;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
-    padding: 32px 0px;
-    width: 100%;
+    padding: 2px;
+    width: 50%;
+  }
+}
+
+@media (min-width: $sm) {
+  .posts {
+    padding: 64px 8px;
+    &-more {
+      padding: 8px;
+      width: 50%;
+    }
   }
 }
 

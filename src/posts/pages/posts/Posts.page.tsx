@@ -1,7 +1,7 @@
 import { ReactElement, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import './posts.scss';
+import './Posts.scss';
 import Post from '../../components/post/Post.component';
 import { PostsState } from '../../models/posts-state.interface';
 import usePostsStore from '../../store/posts.store';
