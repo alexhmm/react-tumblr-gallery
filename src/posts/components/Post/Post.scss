@@ -13,6 +13,7 @@
   &-container {
     display: flex;
     justify-content: center;
+    overflow: hidden;
     width: 100%;
     &-src {
       box-sizing: border-box;
@@ -54,5 +55,22 @@
   .post {
     padding: 48px;
     width: 25%;
+  }
+}
+
+@media (hover: hover) {
+  .post {
+    &-container {
+      @include transition(0.1s, 0s, ease-in-out, box-shadow, transform);
+      &:hover {
+        transform: scale(1.01);
+      }
+      &-src {
+        @include transition(0.2s, 0s, ease-in-out, transform);
+        &:hover {
+          transform: scale(1.02);
+        }
+      }
+    }
   }
 }
