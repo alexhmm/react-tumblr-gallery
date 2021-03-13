@@ -84,10 +84,18 @@ const Menu = (): ReactElement => {
               className='menu-container-content-top-search'
             ></input>
             <nav className='menu-container-content-top-nav'>
-              <Link to='/' className='menu-container-content-top-nav-item'>
+              <Link
+                to='/'
+                onClick={toggleMenu}
+                className='menu-container-content-top-nav-item'
+              >
                 Home
               </Link>
-              <Link to='/about' className='menu-container-content-top-nav-item'>
+              <Link
+                to='/about'
+                onClick={toggleMenu}
+                className='menu-container-content-top-nav-item'
+              >
                 About
               </Link>
             </nav>
