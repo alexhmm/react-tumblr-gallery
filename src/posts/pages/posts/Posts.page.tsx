@@ -8,6 +8,7 @@ import usePostsStore from '../../store/posts.store';
 import { wait } from '../../utils/posts.utils';
 
 const Posts = (): ReactElement => {
+  // Tagged route param
   const { tagged } = useParams<{
     tagged: string;
   }>();
