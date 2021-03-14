@@ -1,5 +1,6 @@
 @import '../../../shared/styles/breakpoints.scss';
 @import '../../../shared/styles/mixins.scss';
+@import '../../../shared/styles/theme.scss';
 
 .post {
   @include transition(0.25s, 0s, ease-in, opacity);
@@ -11,15 +12,60 @@
   width: 50%;
   z-index: 10;
   &-container {
-    display: flex;
-    justify-content: center;
-    overflow: hidden;
+    position: relative;
     width: 100%;
-    &-src {
-      box-sizing: border-box;
-      object-fit: cover;
-      max-height: 1920px;
-      max-width: 100%;
+    &-caption {
+      @include transition(0.2s, 0s, cubic-bezier(0.76, 0, 0.24, 1), opacity);
+      display: none;
+      left: 0;
+      opacity: 0;
+      position: absolute;
+      z-index: -1;
+      &-content {
+        @include transition(
+          0.2s,
+          0s,
+          cubic-bezier(0.76, 0, 0.24, 1),
+          transform
+        );
+        display: flex;
+        flex-wrap: wrap;
+        overflow: hidden;
+        &-tag {
+          color: var(--tag-color);
+          margin-left: 4px;
+          // opacity: 0.75;
+          overflow: hidden;
+          text-overflow: clip;
+          white-space: nowrap;
+          &:visited {
+            color: var(--tag-color);
+          }
+          &:nth-of-type(1) {
+            margin-left: 0px;
+          }
+        }
+        &-title {
+          margin-right: 12px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          text-transform: uppercase;
+          white-space: nowrap;
+        }
+      }
+    }
+    &-photo {
+      display: flex;
+      justify-content: center;
+      overflow: hidden;
+      z-index: 11;
+      &-src {
+        box-sizing: border-box;
+        object-fit: cover;
+        overflow: hidden;
+        max-height: 1920px;
+        max-width: 100%;
+      }
     }
   }
 }
@@ -55,20 +101,124 @@
   .post {
     padding: 48px;
     width: 25%;
+    &-container {
+      &-caption {
+        &-content {
+          font-size: 1.25rem;
+          height: 28px;
+        }
+      }
+    }
   }
 }
 
 @media (hover: hover) {
   .post {
     &-container {
-      @include transition(0.1s, 0s, ease-in-out, box-shadow, transform);
       &:hover {
-        transform: scale(1.01);
+        & .post-container-caption {
+          opacity: 1;
+        }
+        & .post-container-caption-content {
+          transform: translateY(0);
+        }
       }
-      &-src {
-        @include transition(0.2s, 0s, ease-in-out, transform);
+      &-caption {
+        &-content {
+          &-tag {
+            &:hover {
+              color: var(--tag-color);
+            }
+            &:visited {
+              &:hover {
+                color: var(--tag-color);
+              }
+            }
+          }
+        }
+      }
+      &-photo {
+        @include transition(
+          0.1s,
+          0s,
+          cubic-bezier(0.76, 0, 0.24, 1),
+          transform
+        );
         &:hover {
-          transform: scale(1.02);
+          transform: scale(1.005);
+        }
+        &-src {
+          @include transition(
+            0.2s,
+            0s,
+            cubic-bezier(0.76, 0, 0.24, 1),
+            transform
+          );
+          &:hover {
+            transform: scale(1.01);
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: $xl) and (hover: hover) {
+  .post {
+    &-container {
+      &-caption {
+        display: block;
+        height: 20px;
+        padding: 8px;
+        top: -36px;
+        width: calc(100% - 16px);
+        &-content {
+          height: 20px;
+          transform: translateY(32px);
+        }
+      }
+      &-photo {
+        &:hover {
+          transform: scale(1.01);
+        }
+        &-src {
+          &:hover {
+            transform: scale(1.02);
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: $fhd) and (hover: hover) {
+  .post {
+    &-container {
+      &-caption {
+        display: block;
+        padding: 12px;
+        top: -44px;
+        width: calc(100% - 24px);
+        &-content {
+          transform: translateY(40px);
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: $wqhd) and (hover: hover) {
+  .post {
+    &-container {
+      &-caption {
+        display: block;
+        height: 24px;
+        padding: 16px;
+        top: -56px;
+        width: calc(100% - 32px);
+        &-content {
+          height: 24px;
+          transform: translateY(48px);
         }
       }
     }

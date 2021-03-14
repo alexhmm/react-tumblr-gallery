@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useRef, useState } from 'react';
+import { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import useDimensions from '../../../shared/hooks/useDimensions.hook';
@@ -18,6 +18,7 @@ const Post = (props: { post: PostType }): ReactElement => {
   const [imgWidth, setImgWidth] = useState<number>(0);
   const [imgSrc, setImgSrc] = useState<string | undefined>(undefined);
   const [mounted, setMounted] = useState<boolean>(false);
+  const [tags, setTags] = useState<ReactNode[]>([]);
 
   // Effects on component mount
   useEffect(() => {
@@ -45,15 +46,46 @@ const Post = (props: { post: PostType }): ReactElement => {
     }
   }, [imgSrc, imgWidth, mounted]);
 
+  /**
+   * Set tags
+   */
+  useEffect(() => {
+    // TODO: Warning: validateDOMNesting(...): <a> cannot appear as a descendant of <a>.
+    const tagElements: ReactNode[] = [];
+    for (const tag of props?.post?.tags) {
+      tagElements.push(
+        <Link
+          key={tag}
+          to={'/tagged/' + tag}
+          className='post-container-caption-content-tag'
+        >
+          {'#' + tag}
+        </Link>
+      );
+    }
+    setTags(tagElements);
+  }, [props.post, setTags]);
+
   return (
     <article ref={postEl} className='post'>
       <Link to={'/post/' + props.post.id_string} className='post-container'>
-        {/* <div className='post-title'>{props?.post?.summary}</div> */}
-        <img
-          alt={props?.post?.caption}
-          src={imgSrc}
-          className='post-container-src'
-        />
+        <div className='post-container-caption'>
+          <div className='post-container-caption-content'>
+            {props?.post?.summary && (
+              <div className='post-container-caption-content-title'>
+                {props?.post?.summary}
+              </div>
+            )}
+            {tags && tags}
+          </div>
+        </div>
+        <div className='post-container-photo'>
+          <img
+            alt={props?.post?.caption}
+            src={imgSrc}
+            className='post-container-photo-src'
+          />
+        </div>
       </Link>
     </article>
   );

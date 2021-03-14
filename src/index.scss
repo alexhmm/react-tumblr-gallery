@@ -15,10 +15,14 @@ a {
   color: inherit;
   text-decoration: none;
   &:hover {
+    color: inherit;
     text-decoration: none;
   }
   &:visited {
     color: inherit;
+    &:hover {
+      color: inherit;
+    }
   }
 }
 
