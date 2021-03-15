@@ -1,4 +1,5 @@
 import { ReactElement, useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { BlogInfo } from '../../models/blog-info.interface';
 import { SharedState } from '../../models/shared-state.interface';
@@ -45,9 +46,11 @@ const Title = (): ReactElement => {
   }, [title]);
 
   return (
-    <header ref={titleElem} className='title'>
-      {title}
-    </header>
+    <Link to='/'>
+      <header ref={titleElem} className='title'>
+        {title}
+      </header>
+    </Link>
   );
 };
 
