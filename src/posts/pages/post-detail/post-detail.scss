@@ -1,5 +1,6 @@
 @import '../../../shared/styles/breakpoints.scss';
 @import '../../../shared/styles/mixins.scss';
+@import '../../../shared/styles/theme.scss';
 
 .post-detail {
   @include transition(0.25s, 0s, ease-in, opacity);
@@ -12,32 +13,129 @@
   position: fixed;
   top: 0;
   width: 100vw;
-  &-src {
-    max-height: 60%;
+  &-container {
+    position: relative;
+    max-height: 60vh;
     max-width: 100%;
+    &-caption {
+      display: flex;
+      flex-wrap: wrap;
+      height: 20px;
+      left: 12px;
+      overflow: hidden;
+      position: absolute;
+      top: -32px;
+      width: calc(100% - 24px);
+      &-tag {
+        color: var(--tag-color);
+        margin-left: 4px;
+        overflow: hidden;
+        text-overflow: clip;
+        white-space: nowrap;
+        &:nth-of-type(1) {
+          margin-left: 0px;
+        }
+        &:visited {
+          color: var(--tag-color);
+        }
+      }
+      &-title {
+        height: 100%;
+        margin-right: 12px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+    }
+    &-src {
+      max-height: 60vh;
+      max-width: 100%;
+    }
   }
 }
 
 @media (min-width: $xs) {
   .post-detail {
-    &-src {
-      max-height: 65%;
+    &-container {
+      max-height: 65vh;
+      max-width: 100%;
+      &-src {
+        max-height: 65vh;
+        max-width: 100%;
+      }
     }
   }
 }
 
 @media (min-width: $md) {
   .post-detail {
-    &-src {
-      max-height: 70%;
+    &-container {
+      max-height: 70vh;
+      max-width: 100%;
+      &-src {
+        max-height: 70vh;
+        max-width: 100%;
+      }
     }
   }
 }
 
 @media (min-width: $xl) {
   .post-detail {
-    &-src {
-      max-height: 80%;
+    &-container {
+      max-height: 80vh;
+      max-width: 100%;
+      &-src {
+        max-height: 80vh;
+        max-width: 100%;
+      }
+    }
+  }
+}
+
+@media (min-width: $fhd) {
+  .post-detail {
+    &-container {
+      &-caption {
+        left: 16px;
+        top: -36px;
+        width: calc(100% - 36px);
+      }
+    }
+  }
+}
+
+@media (min-width: $wqhd) {
+  .post-detail {
+    &-container {
+      &-caption {
+        font-size: 1.25rem;
+        height: 24px;
+        left: 24px;
+        top: -48px;
+        width: calc(100% - 48px);
+      }
+    }
+  }
+}
+
+@media (hover: hover) {
+  .post-detail {
+    &-container {
+      &-caption {
+        &-tag {
+          @include transition(0.25s, 0s, ease-in-out, color);
+          &:hover {
+            color: var(--theme-color-hover);
+          }
+          &:visited {
+            &:hover {
+              color: var(--theme-color-hover);
+            }
+          }
+        }
+      }
     }
   }
 }

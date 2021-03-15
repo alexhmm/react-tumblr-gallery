@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import useDimensions from '../../../shared/hooks/useDimensions.hook';
 
@@ -45,9 +45,7 @@ const PostDetail = (): ReactElement => {
     };
   }, [postId, setPost]);
 
-  /**
-   * Reset post source on resize.
-   */
+  // Reset post source on resize.
   useEffect(() => {
     const img = setPostSourceDetail(imgWidth, post?.photos[0]?.alt_sizes);
     setImgSrc(img.imgSrc);
@@ -60,17 +58,36 @@ const PostDetail = (): ReactElement => {
     if (mounted && loaded && postElem?.current && post?.id_string === postId) {
       postElem.current.style.opacity = '1';
     }
-  }, [mounted, post?.id_string, postId, loaded]);
+    // eslint-disable-next-line
+  }, [mounted, loaded]);
 
   return (
     <div ref={postElem} className='post-detail'>
       {post && post.id_string === postId && (
-        <img
-          alt={post?.caption}
-          src={imgSrc}
-          onLoad={() => setLoaded(true)}
-          className='post-detail-src'
-        />
+        <div className='post-detail-container'>
+          <div className='post-detail-container-caption'>
+            {post.summary && (
+              <div className='post-detail-container-caption-title'>
+                {post.summary}
+              </div>
+            )}
+            {post.tags.map((tag: string) => (
+              <Link
+                key={tag}
+                to={'/tagged/' + tag}
+                className='post-detail-container-caption-tag'
+              >
+                {'#' + tag}
+              </Link>
+            ))}
+          </div>
+          <img
+            alt={post?.caption}
+            src={imgSrc}
+            onLoad={() => setLoaded(true)}
+            className='post-detail-container-src'
+          />
+        </div>
       )}
     </div>
   );

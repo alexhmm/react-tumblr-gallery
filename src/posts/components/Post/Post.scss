@@ -34,15 +34,14 @@
         &-tag {
           color: var(--tag-color);
           margin-left: 4px;
-          // opacity: 0.75;
           overflow: hidden;
           text-overflow: clip;
           white-space: nowrap;
-          &:visited {
-            color: var(--tag-color);
-          }
           &:nth-of-type(1) {
             margin-left: 0px;
+          }
+          &:visited {
+            color: var(--tag-color);
           }
         }
         &-title {
@@ -126,12 +125,13 @@
       &-caption {
         &-content {
           &-tag {
+            @include transition(0.25s, 0s, ease-in-out, color);
             &:hover {
-              color: var(--tag-color);
+              color: var(--theme-color-hover);
             }
             &:visited {
               &:hover {
-                color: var(--tag-color);
+                color: var(--theme-color-hover);
               }
             }
           }
