@@ -28,6 +28,7 @@ const PostDetail = (): ReactElement => {
   // Component state
   const [imgWidth, setImgWidth] = useState<number>(0);
   const [imgSrc, setImgSrc] = useState<string | undefined>(undefined);
+  const [loaded, setLoaded] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
 
   /**
@@ -37,8 +38,12 @@ const PostDetail = (): ReactElement => {
     setPost(postId);
     // Using window.requestAnimationFrame allows an action to be take after the next DOM paint
     window.requestAnimationFrame(() => setMounted(true));
-    // eslint-disable-next-line
-  }, []);
+    // Cleanup on unmount component
+    return () => {
+      setLoaded(false);
+      setPost(null);
+    };
+  }, [postId, setPost]);
 
   /**
    * Reset post source on resize.
@@ -52,16 +57,20 @@ const PostDetail = (): ReactElement => {
 
   // Set opacity on mounted state
   useEffect(() => {
-    if (mounted && postElem.current && post?.id_string === postId) {
+    if (mounted && loaded && postElem?.current && post?.id_string === postId) {
       postElem.current.style.opacity = '1';
     }
-    // eslint-disable-next-line
-  }, [mounted, post]);
+  }, [mounted, post?.id_string, postId, loaded]);
 
   return (
     <div ref={postElem} className='post-detail'>
       {post && post.id_string === postId && (
-        <img alt={post?.caption} src={imgSrc} className='post-detail-src' />
+        <img
+          alt={post?.caption}
+          src={imgSrc}
+          onLoad={() => setLoaded(true)}
+          className='post-detail-src'
+        />
       )}
     </div>
   );

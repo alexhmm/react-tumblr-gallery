@@ -16,10 +16,14 @@ const usePostsStore = create<PostsState>(set => ({
   setLoading: (loading: boolean) => {
     set({ loading });
   },
-  setPost: async (postId: string) => {
-    const fetchPost: PostsResponse = await getPosts(null, postId, null);
-    if (fetchPost && fetchPost.posts.length > 0) {
-      set({ post: fetchPost.posts[0] });
+  setPost: async (postId: string | null) => {
+    if (postId) {
+      const fetchPost: PostsResponse = await getPosts(null, postId, null);
+      if (fetchPost && fetchPost.posts.length > 0) {
+        set({ post: fetchPost.posts[0] });
+      }
+    } else {
+      set({ post: null });
     }
   },
   setPostElements: (postElements: ReactNode[]) => set({ postElements }),

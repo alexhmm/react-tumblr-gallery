@@ -12,7 +12,7 @@ export interface PostsState extends State {
   tag: string | null;
   total: number;
   setLoading: (loading: boolean) => void;
-  setPost: (postId: string) => void;
+  setPost: (postId: string | null) => void;
   setPostElements: (postElements: ReactNode[]) => void;
   setPosts: (
     offset: number | null,
