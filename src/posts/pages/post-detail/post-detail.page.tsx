@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useRef, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 
 import useDimensions from '../../../shared/hooks/useDimensions.hook';
 
@@ -10,6 +10,7 @@ import { setPostSourceDetail } from '../../utils/posts.utils';
 
 const PostDetail = (): ReactElement => {
   const dimensions = useDimensions();
+  const history = useHistory();
 
   // Post element reference
   const postElem = useRef<HTMLDivElement>(null);
@@ -61,8 +62,16 @@ const PostDetail = (): ReactElement => {
     // eslint-disable-next-line
   }, [mounted, loaded]);
 
+  /**
+   * Handler on backdrop click to navigate back to gallery.
+   */
+  const onBackdropClick = () => {
+    history.goBack();
+  };
+
   return (
     <div ref={postElem} className='post-detail'>
+      <div onClick={onBackdropClick} className='post-detail-backdrop'></div>
       {post && post.id_string === postId && (
         <div className='post-detail-container'>
           <div className='post-detail-container-caption'>

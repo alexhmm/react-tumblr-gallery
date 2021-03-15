@@ -13,10 +13,19 @@
   position: fixed;
   top: 0;
   width: 100vw;
+  &-backdrop {
+    height: 100vh;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    z-index: 10;
+  }
   &-container {
     position: relative;
     max-height: 60vh;
     max-width: 100%;
+    z-index: 11;
     &-caption {
       display: flex;
       flex-wrap: wrap;
