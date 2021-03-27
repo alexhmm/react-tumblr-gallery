@@ -15,19 +15,12 @@
     position: relative;
     width: 100%;
     &-caption {
-      @include transition(0.2s, 0s, cubic-bezier(0.76, 0, 0.24, 1), opacity);
       display: none;
       left: 0;
       opacity: 0;
       position: absolute;
       z-index: -1;
       &-content {
-        @include transition(
-          0.2s,
-          0s,
-          cubic-bezier(0.76, 0, 0.24, 1),
-          transform
-        );
         display: flex;
         flex-wrap: wrap;
         overflow: hidden;
@@ -114,6 +107,7 @@
 @media (hover: hover) {
   .post {
     &-container {
+      @include transition(0.33s, 0s, cubic-bezier(0.76, 0, 0.24, 1), filter);
       &:hover {
         & .post-container-caption {
           opacity: 1;
@@ -123,7 +117,14 @@
         }
       }
       &-caption {
+        @include transition(0.33s, 0s, cubic-bezier(0.76, 0, 0.24, 1), opacity);
         &-content {
+          @include transition(
+            0.33s,
+            0s,
+            cubic-bezier(0.76, 0, 0.24, 1),
+            transform
+          );
           &-tag {
             @include transition(0.25s, 0s, ease-in-out, color);
             &:hover {
@@ -134,28 +135,6 @@
                 color: var(--theme-color-hover);
               }
             }
-          }
-        }
-      }
-      &-photo {
-        @include transition(
-          0.1s,
-          0s,
-          cubic-bezier(0.76, 0, 0.24, 1),
-          transform
-        );
-        &:hover {
-          transform: scale(1.005);
-        }
-        &-src {
-          @include transition(
-            0.2s,
-            0s,
-            cubic-bezier(0.76, 0, 0.24, 1),
-            transform
-          );
-          &:hover {
-            transform: scale(1.01);
           }
         }
       }
@@ -175,16 +154,6 @@
         &-content {
           height: 20px;
           transform: translateY(32px);
-        }
-      }
-      &-photo {
-        &:hover {
-          transform: scale(1.01);
-        }
-        &-src {
-          &:hover {
-            transform: scale(1.02);
-          }
         }
       }
     }

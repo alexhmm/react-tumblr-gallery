@@ -30,6 +30,7 @@ const Posts = (): ReactElement => {
     tag,
     total,
     setLoading,
+    setPostHover,
     setPostElements,
     setPosts,
     addPosts,
@@ -43,6 +44,7 @@ const Posts = (): ReactElement => {
     state.tag,
     state.total,
     state.setLoading,
+    state.setPostHover,
     state.setPostElements,
     state.setPosts,
     state.addPosts,
@@ -55,14 +57,17 @@ const Posts = (): ReactElement => {
   // Component state
   const [mounted, setMounted] = useState<boolean>(false);
 
-  /**
-   * Set post on component mount
-   */
+  // Effect on component mount
   useEffect(() => {
     // Using window.requestAnimationFrame allows an action to be take after the next DOM paint
     window.requestAnimationFrame(() => setMounted(true));
+    // Cleanup on component unmount
+    return () => {
+      setPostHover(null);
+    };
   }, []);
 
+  // Effect on loading and mounted state change
   useEffect(() => {
     if (loading && mounted && postsLoadingElem.current) {
       postsLoadingElem.current.style.opacity = '1';
@@ -71,9 +76,7 @@ const Posts = (): ReactElement => {
     }
   }, [loading, mounted]);
 
-  /**
-   * Set post elements on posts change.
-   */
+  // Effect on posts state change
   useEffect(() => {
     const setElements = async () => {
       // Check if posts were added
@@ -97,17 +100,15 @@ const Posts = (): ReactElement => {
     // eslint-disable-next-line
   }, [posts]);
 
-  /**
-   * Check if param tag has changed.
-   */
+  // Effect on tagged param state change.
   useEffect(() => {
     // Reset posts
-    if (tagged && tagged !== tag) {
+    if (tagged !== tag) {
       setTag(tagged);
+      setLoading(true);
+      setPostElements([]);
+      setPosts(limit, 0, tagged);
     }
-    setLoading(true);
-    setPostElements([]);
-    setPosts(limit, 0, tagged);
     // eslint-disable-next-line
   }, [tagged]);
 

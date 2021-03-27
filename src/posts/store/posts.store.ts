@@ -10,6 +10,7 @@ const usePostsStore = create<PostsState>(set => ({
   loading: true,
   offset: 0,
   post: null,
+  postHover: null,
   postElements: [],
   posts: [],
   tag: null,
@@ -26,6 +27,9 @@ const usePostsStore = create<PostsState>(set => ({
     } else {
       set({ post: null });
     }
+  },
+  setPostHover: (postId: number | null) => {
+    set({ postHover: postId });
   },
   setPostElements: (postElements: ReactNode[]) => set({ postElements }),
   setPosts: async (
