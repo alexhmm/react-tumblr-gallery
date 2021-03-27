@@ -66,19 +66,6 @@ export const getPostById = (postId: string): Promise<PostsResponse> => {
 };
 
 /**
- * Wait for x miliseconds to continue.
- * @param ms Miliseconds
- * @returns Promise
- */
-export const wait = (ms: number): Promise<any> => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(ms);
-    }, ms);
-  });
-};
-
-/**
  * Calculates image source by current dimensions.
  * @param currentImgWidth Current image width
  * @param innerWidth Inner width

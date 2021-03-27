@@ -14,9 +14,6 @@ import usePostsStore from '../../store/posts.store';
 // Styles
 import './Posts.scss';
 
-// Utils
-import { wait } from '../../utils/posts.utils';
-
 const Posts = (): ReactElement => {
   // Tagged route param
   const { tagged } = useParams<{
@@ -64,10 +61,6 @@ const Posts = (): ReactElement => {
   useEffect(() => {
     // Using window.requestAnimationFrame allows an action to be take after the next DOM paint
     window.requestAnimationFrame(() => setMounted(true));
-    // Cleanup on unmount component
-    return () => {
-      setLoading(false);
-    };
   }, []);
 
   useEffect(() => {
@@ -84,13 +77,11 @@ const Posts = (): ReactElement => {
   useEffect(() => {
     const setElements = async () => {
       // Check if posts were added
-      if (posts.length > postElements.length) {
+      if (posts?.length > postElements.length) {
         setLoading(true);
         const elements: JSX.Element[] = [];
-        const startIndex =
-          postElements.length - (postElements.length - postElements.length);
-        for (let i = startIndex; i < posts.length; i++) {
-          await wait(100);
+        const startIndex = posts.length - limit;
+        for (let i = startIndex > -1 ? startIndex : 0; i < posts.length; i++) {
           if (posts[i].type === 'photo') {
             elements.push(<Post key={posts[i].id} post={posts[i]} />);
             setPostElements(postElements.concat(elements));
@@ -111,12 +102,12 @@ const Posts = (): ReactElement => {
    */
   useEffect(() => {
     // Reset posts
-    if (tagged !== tag) {
-      setLoading(true);
-      setPostElements([]);
-      setPosts(limit, 0, tagged);
+    if (tagged && tagged !== tag) {
       setTag(tagged);
     }
+    setLoading(true);
+    setPostElements([]);
+    setPosts(limit, 0, tagged);
     // eslint-disable-next-line
   }, [tagged]);
 
