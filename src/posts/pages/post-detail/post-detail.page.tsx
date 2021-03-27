@@ -1,19 +1,29 @@
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
 
+// Components
+import Spinner from '../../../shared/components/spinner/spinner';
+
+// Hooks
 import useDimensions from '../../../shared/hooks/useDimensions.hook';
 
-import './post-detail.scss';
+// Models
 import { PostsState } from '../../models/posts-state.interface';
+
+// Stores
 import usePostsStore from '../../store/posts.store';
+
+// Styles
+import './post-detail.scss';
+
+// Utils
 import { setPostSourceDetail } from '../../utils/posts.utils';
-import Spinner from '../../../shared/components/spinner/spinner';
 
 const PostDetail = (): ReactElement => {
   const dimensions = useDimensions();
   const history = useHistory();
 
-  // Post element reference
+  // Post detail element references
   const postDetailContainerElem = useRef<HTMLDivElement>(null);
   const postDetailLoadingElem = useRef<HTMLDivElement>(null);
 

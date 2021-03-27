@@ -1,10 +1,20 @@
-import { ReactElement, useEffect } from 'react';
+import { ReactElement, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import './Posts.scss';
+// Components
 import Post from '../../components/post/Post.component';
+import Spinner from '../../../shared/components/spinner/spinner';
+
+// Models
 import { PostsState } from '../../models/posts-state.interface';
+
+// Stores
 import usePostsStore from '../../store/posts.store';
+
+// Styles
+import './Posts.scss';
+
+// Utils
 import { wait } from '../../utils/posts.utils';
 
 const Posts = (): ReactElement => {
@@ -41,6 +51,32 @@ const Posts = (): ReactElement => {
     state.addPosts,
     state.setTag
   ]);
+
+  // Posts element references
+  const postsLoadingElem = useRef<HTMLDivElement>(null);
+
+  // Component state
+  const [mounted, setMounted] = useState<boolean>(false);
+
+  /**
+   * Set post on component mount
+   */
+  useEffect(() => {
+    // Using window.requestAnimationFrame allows an action to be take after the next DOM paint
+    window.requestAnimationFrame(() => setMounted(true));
+    // Cleanup on unmount component
+    return () => {
+      setLoading(false);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (loading && mounted && postsLoadingElem.current) {
+      postsLoadingElem.current.style.opacity = '1';
+    } else if (!loading && mounted && postsLoadingElem.current) {
+      postsLoadingElem.current.style.opacity = '0';
+    }
+  }, [loading, mounted]);
 
   /**
    * Set post elements on posts change.
@@ -94,6 +130,9 @@ const Posts = (): ReactElement => {
 
   return (
     <section className='posts'>
+      <div ref={postsLoadingElem} className='posts-loading'>
+        <Spinner size={10} />
+      </div>
       {postElements}
       {!loading && offset + limit < total && (
         <div onClick={onAddPosts} className='posts-more'>

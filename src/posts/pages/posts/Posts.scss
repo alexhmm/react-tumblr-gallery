@@ -6,6 +6,12 @@
   flex-wrap: wrap;
   padding: 64px 2px;
   width: 100%;
+  &-loading {
+    bottom: 32px;
+    left: 50%;
+    position: fixed;
+    transform: translateX(-50%);
+  }
   &-more {
     align-items: center;
     box-sizing: border-box;
@@ -39,6 +45,9 @@
 @media (min-width: $xl) {
   .posts {
     padding: 120px 24px;
+    &-loading {
+      bottom: 48px;
+    }
     &-more {
       padding: 24px;
       width: 33.3333%;
@@ -49,6 +58,9 @@
 @media (min-width: $fhd) {
   .posts {
     padding: 132px 32px;
+    &-loading {
+      bottom: 64px;
+    }
     &-more {
       padding: 32px;
     }
