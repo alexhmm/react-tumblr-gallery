@@ -4,6 +4,7 @@ import { State } from 'zustand';
 import { Post } from './post.interface';
 
 export interface PostsState extends State {
+  limit: number;
   loading: boolean;
   offset: number;
   post: Post | null;
@@ -14,11 +15,7 @@ export interface PostsState extends State {
   setLoading: (loading: boolean) => void;
   setPost: (postId: string | null) => void;
   setPostElements: (postElements: ReactNode[]) => void;
-  setPosts: (
-    offset: number | null,
-    postId: string | null,
-    tag: string | null
-  ) => void;
-  addPosts: (offset: number, tag: string) => void;
+  setPosts: (limit: number, offset: number | null, tag: string | null) => void;
+  addPosts: (limit: number, offset: number, tag: string) => void;
   setTag: (tag: string) => void;
 }

@@ -18,7 +18,10 @@ const Menu = (): ReactElement => {
   const [searchValue, setSearchValue] = useState<string>('');
 
   // Posts store state
-  const [setPosts] = usePostsStore((state: PostsState) => [state.setPosts]);
+  const [limit, setPosts] = usePostsStore((state: PostsState) => [
+    state.limit,
+    state.setPosts
+  ]);
 
   // Effects on component mount
   useEffect(() => {
@@ -44,7 +47,7 @@ const Menu = (): ReactElement => {
       }
       toggleMenu();
       setSearchValue('');
-      setPosts(0, null, searchVal.toLocaleLowerCase());
+      setPosts(limit, 0, searchVal.toLocaleLowerCase());
       history.push('/tagged/' + searchVal.toLocaleLowerCase());
     }
   };

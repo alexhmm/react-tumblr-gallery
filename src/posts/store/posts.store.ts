@@ -3,9 +3,10 @@ import create from 'zustand';
 
 import { PostsResponse } from '../models/posts-response.interface';
 import { PostsState } from '../models/posts-state.interface';
-import { getPosts } from '../utils/posts.utils';
+import { getPostById, getPosts } from '../utils/posts.utils';
 
 const usePostsStore = create<PostsState>(set => ({
+  limit: parseInt(process.env.REACT_APP_API_LIMIT!, 10) | 20,
   loading: true,
   offset: 0,
   post: null,
@@ -18,7 +19,7 @@ const usePostsStore = create<PostsState>(set => ({
   },
   setPost: async (postId: string | null) => {
     if (postId) {
-      const fetchPost: PostsResponse = await getPosts(null, postId, null);
+      const fetchPost: PostsResponse = await getPostById(postId);
       if (fetchPost && fetchPost.posts.length > 0) {
         set({ post: fetchPost.posts[0] });
       }
@@ -28,11 +29,11 @@ const usePostsStore = create<PostsState>(set => ({
   },
   setPostElements: (postElements: ReactNode[]) => set({ postElements }),
   setPosts: async (
+    limit: number,
     offset: number | null,
-    postId: string | null,
     tag: string | null
   ) => {
-    const fetchPosts: PostsResponse = await getPosts(offset, postId, tag);
+    const fetchPosts: PostsResponse = await getPosts(limit, offset, tag);
     if (fetchPosts && fetchPosts.posts.length > 0) {
       set((state: PostsState) => ({
         ...state,
@@ -42,8 +43,8 @@ const usePostsStore = create<PostsState>(set => ({
       }));
     }
   },
-  addPosts: async (offset: number, tag: string) => {
-    const addedPosts: PostsResponse = await getPosts(offset, '', tag);
+  addPosts: async (limit: number, offset: number, tag: string) => {
+    const addedPosts: PostsResponse = await getPosts(limit, offset, tag);
     if (addedPosts && addedPosts.posts.length > 0) {
       set((state: PostsState) => ({
         ...state,

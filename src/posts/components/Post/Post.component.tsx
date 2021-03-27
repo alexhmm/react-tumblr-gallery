@@ -17,6 +17,7 @@ const Post = (props: { post: PostType }): ReactElement => {
   // Component state
   const [imgWidth, setImgWidth] = useState<number>(0);
   const [imgSrc, setImgSrc] = useState<string | undefined>(undefined);
+  const [loaded, setLoaded] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
   const [tags, setTags] = useState<ReactNode[]>([]);
 
@@ -39,12 +40,12 @@ const Post = (props: { post: PostType }): ReactElement => {
     // eslint-disable-next-line
   }, [dimensions]);
 
-  // Set opacity on mounted state
+  // Set opacity on loaded & mounted state
   useEffect(() => {
-    if (imgSrc && imgWidth && mounted && postEl.current) {
+    if (imgSrc && imgWidth && loaded && mounted && postEl.current) {
       postEl.current.style.opacity = '1';
     }
-  }, [imgSrc, imgWidth, mounted]);
+  }, [imgSrc, imgWidth, loaded, mounted]);
 
   /**
    * Set tags
@@ -83,6 +84,7 @@ const Post = (props: { post: PostType }): ReactElement => {
           <img
             alt={props?.post?.caption}
             src={imgSrc}
+            onLoad={() => setLoaded(true)}
             className='post-container-photo-src'
           />
         </div>

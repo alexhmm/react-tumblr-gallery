@@ -15,6 +15,7 @@ const Posts = (): ReactElement => {
 
   // Posts store state
   const [
+    limit,
     loading,
     offset,
     postElements,
@@ -27,6 +28,7 @@ const Posts = (): ReactElement => {
     addPosts,
     setTag
   ] = usePostsStore((state: PostsState) => [
+    state.limit,
     state.loading,
     state.offset,
     state.postElements,
@@ -53,11 +55,13 @@ const Posts = (): ReactElement => {
           postElements.length - (postElements.length - postElements.length);
         for (let i = startIndex; i < posts.length; i++) {
           await wait(100);
-          elements.push(<Post key={posts[i].id} post={posts[i]} />);
-          setPostElements(postElements.concat(elements));
-          // Set loading to false after last element is rendered
-          if (i === posts.length - 1) {
-            setLoading(false);
+          if (posts[i].type === 'photo') {
+            elements.push(<Post key={posts[i].id} post={posts[i]} />);
+            setPostElements(postElements.concat(elements));
+            // Set loading to false after last element is rendered
+            if (i === posts.length - 1) {
+              setLoading(false);
+            }
           }
         }
       }
@@ -74,7 +78,7 @@ const Posts = (): ReactElement => {
     if (tagged !== tag) {
       setLoading(true);
       setPostElements([]);
-      setPosts(0, null, tagged);
+      setPosts(limit, 0, tagged);
       setTag(tagged);
     }
     // eslint-disable-next-line
@@ -85,13 +89,13 @@ const Posts = (): ReactElement => {
    */
   const onAddPosts = () => {
     setLoading(true);
-    addPosts(offset + 20, tagged);
+    addPosts(limit, offset + limit, tagged);
   };
 
   return (
     <section className='posts'>
       {postElements}
-      {!loading && posts.length < total && (
+      {!loading && offset + limit < total && (
         <div onClick={onAddPosts} className='posts-more'>
           more
         </div>

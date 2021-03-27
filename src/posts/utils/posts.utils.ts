@@ -6,27 +6,19 @@ import { PostsResponse } from '../models/posts-response.interface';
 /**
  * Get tumblr posts.
  * @param offset Offset
- * @param postId Post id
  * @param tag Tag
  * @returns Tumblr posts
  */
 export const getPosts = (
+  limit: number,
   offset: number | null,
-  postId: string | null,
   tag: string | null
 ): Promise<PostsResponse> => {
-  let url =
-    process.env.REACT_APP_API_URL +
-    '/posts?api_key=' +
-    process.env.REACT_APP_API_KEY;
+  let url = `${process.env.REACT_APP_API_URL}/posts/?api_key=${process.env.REACT_APP_API_KEY}&limit=${limit}`;
 
   // Get posts by a given tag
   if (tag) {
     url = url.concat('&tag=' + tag);
-  }
-  // Get a single post by a given id
-  if (postId) {
-    url = url.concat('&id=' + postId + '&notes_info=true');
   }
   // Set offset
   if (offset) {
@@ -45,6 +37,30 @@ export const getPosts = (
     })
     .catch(error => {
       console.error('Error fetching posts:', error);
+      return null;
+    });
+};
+
+/**
+ * Get tumblr post by id.
+ * @param postId Post id
+ * @returns Post
+ */
+export const getPostById = (postId: string): Promise<PostsResponse> => {
+  let url = `${process.env.REACT_APP_API_URL}/posts/?api_key=${process.env.REACT_APP_API_KEY}&id=${postId}&notes_info=true`;
+
+  return fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      return data.response;
+    })
+    .catch(error => {
+      console.error('Error fetching post:', error);
       return null;
     });
 };

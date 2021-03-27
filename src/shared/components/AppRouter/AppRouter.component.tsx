@@ -23,7 +23,7 @@ const AppRouter = () => {
   return (
     <TransitionGroup>
       <CSSTransition
-        timeout={500}
+        timeout={250}
         classNames='fade'
         key={location.key}
         unmountOnExit={true}

@@ -16,6 +16,6 @@
 }
 
 .fade-exit.fade-exit-active {
-  @include transition(0.5s, 0s, ease-in-out, opacity);
+  @include transition(0.25s, 0s, ease-in-out, opacity);
   opacity: 0.01;
 }
