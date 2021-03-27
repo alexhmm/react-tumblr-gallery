@@ -7,13 +7,15 @@ import './post-detail.scss';
 import { PostsState } from '../../models/posts-state.interface';
 import usePostsStore from '../../store/posts.store';
 import { setPostSourceDetail } from '../../utils/posts.utils';
+import Spinner from '../../../shared/components/spinner/spinner';
 
 const PostDetail = (): ReactElement => {
   const dimensions = useDimensions();
   const history = useHistory();
 
   // Post element reference
-  const postElem = useRef<HTMLDivElement>(null);
+  const postDetailContainerElem = useRef<HTMLDivElement>(null);
+  const postDetailLoadingElem = useRef<HTMLDivElement>(null);
 
   // Post id route param
   const { postId } = useParams<{
@@ -31,6 +33,12 @@ const PostDetail = (): ReactElement => {
   const [imgSrc, setImgSrc] = useState<string | undefined>(undefined);
   const [loaded, setLoaded] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (mounted && postDetailLoadingElem.current) {
+      postDetailLoadingElem.current.style.opacity = '1';
+    }
+  }, [mounted]);
 
   /**
    * Set post on component mount
@@ -56,8 +64,15 @@ const PostDetail = (): ReactElement => {
 
   // Set opacity on mounted state
   useEffect(() => {
-    if (mounted && loaded && postElem?.current && post?.id_string === postId) {
-      postElem.current.style.opacity = '1';
+    if (
+      mounted &&
+      loaded &&
+      postDetailContainerElem?.current &&
+      postDetailLoadingElem.current &&
+      post?.id_string === postId
+    ) {
+      postDetailContainerElem.current.style.opacity = '1';
+      postDetailLoadingElem.current.style.opacity = '0';
     }
     // eslint-disable-next-line
   }, [mounted, loaded]);
@@ -70,10 +85,13 @@ const PostDetail = (): ReactElement => {
   };
 
   return (
-    <div ref={postElem} className='post-detail'>
+    <div className='post-detail'>
+      <div ref={postDetailLoadingElem} className='post-detail-loading'>
+        <Spinner size={10} />
+      </div>
       <div onClick={onBackdropClick} className='post-detail-backdrop'></div>
       {post && post.id_string === postId && (
-        <div className='post-detail-container'>
+        <div ref={postDetailContainerElem} className='post-detail-container'>
           <div className='post-detail-container-caption'>
             {post.summary && (
               <div className='post-detail-container-caption-title'>

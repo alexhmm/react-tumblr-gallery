@@ -3,13 +3,11 @@
 @import '../../../shared/styles/theme.scss';
 
 .post-detail {
-  @include transition(0.25s, 0s, ease-in, opacity);
   align-items: center;
   display: flex;
   height: 100vh;
   justify-content: center;
   left: 0;
-  opacity: 0;
   position: fixed;
   top: 0;
   width: 100vw;
@@ -22,9 +20,11 @@
     z-index: 10;
   }
   &-container {
+    @include transition(0.25s, 0s, ease-in, opacity);
     position: relative;
     max-height: 60vh;
     max-width: 100%;
+    opacity: 0;
     z-index: 11;
     &-caption {
       display: flex;
@@ -61,6 +61,11 @@
       max-height: 60vh;
       max-width: 100%;
     }
+  }
+  &-loading {
+    @include transition(0.25s, 0s, ease-in, opacity);
+    opacity: 0;
+    position: fixed;
   }
 }
 
