@@ -83,7 +83,8 @@ const Posts = (): ReactElement => {
       if (posts?.length > postElements.length) {
         setLoading(true);
         const elements: JSX.Element[] = [];
-        const startIndex = posts.length - limit;
+        // Set start index to push new react elements (posts) into view
+        const startIndex = posts.length - (posts.length - postElements.length);
         for (let i = startIndex > -1 ? startIndex : 0; i < posts.length; i++) {
           if (posts[i].type === 'photo') {
             elements.push(<Post key={posts[i].id} post={posts[i]} />);
