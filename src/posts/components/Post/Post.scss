@@ -8,7 +8,7 @@
   display: flex;
   justify-content: center;
   opacity: 0;
-  padding: 2px;
+  padding: 4px;
   width: 50%;
   z-index: 10;
   &-container {
@@ -65,14 +65,12 @@
 @media (min-width: $sm) {
   .post {
     padding: 8px;
-    width: 50%;
   }
 }
 
 @media (min-width: $md) {
   .post {
     padding: 16px;
-    width: 50%;
   }
 }
 

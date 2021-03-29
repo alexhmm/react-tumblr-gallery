@@ -4,7 +4,7 @@
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
-  padding: 64px 2px;
+  padding: 64px 4px;
   width: 100%;
   &-loading {
     bottom: 32px;
@@ -17,7 +17,7 @@
     box-sizing: border-box;
     display: flex;
     justify-content: center;
-    padding: 2px;
+    padding: 4px;
     width: 50%;
   }
 }
@@ -25,10 +25,6 @@
 @media (min-width: $sm) {
   .posts {
     padding: 64px 8px;
-    &-more {
-      padding: 8px;
-      width: 50%;
-    }
   }
 }
 
