@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 
 // Components
 import Post from '../../components/post/Post.component';
+import PostsTag from '../../components/posts-tag/posts-tag.component';
 import Spinner from '../../../shared/components/spinner/spinner';
 
 // Models
@@ -126,6 +127,11 @@ const Posts = (): ReactElement => {
       <div ref={postsLoadingElem} className='posts-loading'>
         <Spinner size={10} />
       </div>
+      {tag && (
+        <div className='posts-tag'>
+          <PostsTag />
+        </div>
+      )}
       {postElements}
       {!loading && offset + limit < total && (
         <div onClick={onAddPosts} className='posts-more'>

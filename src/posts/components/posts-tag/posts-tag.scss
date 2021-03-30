@@ -1,0 +1,51 @@
+@import '../../../shared/styles/mixins.scss';
+@import '../../../shared/styles/theme.scss';
+
+.posts-tag-container {
+  @include transition(0.25s, 0s, ease-out, opacity);
+  align-items: center;
+  display: flex;
+  opacity: 0;
+  &-button {
+    align-items: center;
+    display: flex;
+    height: 24px;
+    padding: 8px;
+    margin-left: 4px;
+    width: 24px;
+    &-line-1 {
+      background-color: var(--theme-color);
+      position: absolute;
+      height: 2px;
+      transform: rotate(45deg);
+      width: 24px;
+    }
+    &-line-2 {
+      background-color: var(--theme-color);
+      position: absolute;
+      height: 2px;
+      transform: rotate(-45deg);
+      width: 24px;
+    }
+  }
+}
+
+@media (hover: hover) {
+  .posts-tag-container {
+    &-button {
+      &-line-1,
+      &-line-2 {
+        @include transition(0.25s, 0s, ease-out, background-color, transform);
+      }
+      &:hover {
+        cursor: pointer;
+        & .posts-tag-container-button {
+          &-line-1,
+          &-line-2 {
+            background-color: var(--theme-color-hover);
+          }
+        }
+      }
+    }
+  }
+}
