@@ -134,8 +134,11 @@ const Posts = (): ReactElement => {
       )}
       {postElements}
       {!loading && offset + limit < total && (
-        <div onClick={onAddPosts} className='posts-more'>
-          more
+        <div className='posts-add'>
+          <div onClick={onAddPosts} className='posts-add-button'>
+            <div className='posts-add-button-line-1'></div>
+            <div className='posts-add-button-line-2'></div>
+          </div>
         </div>
       )}
     </section>

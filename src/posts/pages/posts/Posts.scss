@@ -1,4 +1,6 @@
 @import '../../../shared/styles/breakpoints.scss';
+@import '../../../shared/styles/mixins.scss';
+@import '../../../shared/styles/theme.scss';
 
 .posts {
   box-sizing: border-box;
@@ -6,19 +8,42 @@
   flex-wrap: wrap;
   padding: 64px 4px;
   width: 100%;
+  &-add {
+    @include highlight-disabled();
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    min-height: 120px;
+    padding: 8px;
+    width: 50%;
+    &-button {
+      align-items: center;
+      display: flex;
+      height: 24px;
+      padding: 8px;
+      width: 24px;
+      &-line-1 {
+        background-color: var(--theme-color);
+        position: absolute;
+        height: 2px;
+        transform: rotate(180deg);
+        width: 24px;
+      }
+      &-line-2 {
+        background-color: var(--theme-color);
+        position: absolute;
+        height: 2px;
+        transform: rotate(-90deg);
+        width: 24px;
+      }
+    }
+  }
   &-loading {
     bottom: 32px;
     left: 50%;
     position: fixed;
     transform: translateX(-50%);
-  }
-  &-more {
-    align-items: center;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    padding: 4px;
-    width: 50%;
   }
   &-tag {
     position: fixed;
@@ -37,7 +62,7 @@
 @media (min-width: $md) {
   .posts {
     padding: 96px 16px;
-    &-more {
+    &-add {
       padding: 16px;
       width: 50%;
     }
@@ -47,12 +72,12 @@
 @media (min-width: $xl) {
   .posts {
     padding: 120px 24px;
-    &-loading {
-      bottom: 48px;
-    }
-    &-more {
+    &-add {
       padding: 24px;
       width: 33.3333%;
+    }
+    &-loading {
+      bottom: 48px;
     }
     &-tag {
       bottom: 32px;
@@ -64,11 +89,11 @@
 @media (min-width: $fhd) {
   .posts {
     padding: 132px 32px;
+    &-add {
+      padding: 32px;
+    }
     &-loading {
       bottom: 64px;
-    }
-    &-more {
-      padding: 32px;
     }
     &-tag {
       bottom: 48px;
@@ -80,9 +105,32 @@
 @media (min-width: $wqhd) {
   .posts {
     padding: 132px 48px;
-    &-more {
+    &-add {
       padding: 48px;
       width: 25%;
+    }
+  }
+}
+
+@media (hover: hover) {
+  .posts {
+    &-add {
+      &-button {
+        @include transition(0.25s, 0s, ease-out, color);
+        &-line-1,
+        &-line-2 {
+          @include transition(0.25s, 0s, ease-out, background-color, transform);
+        }
+        &:hover {
+          cursor: pointer;
+          & .posts-add-button {
+            &-line-1,
+            &-line-2 {
+              background-color: var(--theme-color-hover);
+            }
+          }
+        }
+      }
     }
   }
 }
