@@ -7,6 +7,7 @@
   display: flex;
   opacity: 0;
   &-button {
+    @include highlight-disabled();
     align-items: center;
     display: flex;
     height: 24px;

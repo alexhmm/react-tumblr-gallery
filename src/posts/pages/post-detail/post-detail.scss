@@ -36,6 +36,7 @@
       top: -32px;
       width: calc(100% - 24px);
       &-tag {
+        @include highlight-disabled();
         color: var(--tag-color);
         margin-left: 4px;
         overflow: hidden;

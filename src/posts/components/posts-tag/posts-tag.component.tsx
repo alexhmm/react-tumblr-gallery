@@ -26,7 +26,6 @@ const PostsTag = () => {
 
   // Effect on mounted and tag state change
   useEffect(() => {
-    console.log('tag', tag);
     if (mounted && tag && postsTagElem.current) {
       postsTagElem.current.style.opacity = '1';
     }

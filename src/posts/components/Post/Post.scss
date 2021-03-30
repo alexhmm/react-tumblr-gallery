@@ -3,6 +3,7 @@
 @import '../../../shared/styles/theme.scss';
 
 .post {
+  @include highlight-disabled();
   @include transition(0.25s, 0s, ease-in, opacity);
   box-sizing: border-box;
   display: flex;
