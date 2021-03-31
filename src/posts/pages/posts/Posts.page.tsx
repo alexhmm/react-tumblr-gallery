@@ -53,6 +53,7 @@ const Posts = (): ReactElement => {
   ]);
 
   // Posts element references
+  const postsEmptyElem = useRef<HTMLDivElement>(null);
   const postsLoadingElem = useRef<HTMLDivElement>(null);
 
   // Component state
@@ -98,6 +99,12 @@ const Posts = (): ReactElement => {
         }
       }
     };
+    if (posts?.length < 1) {
+      // Set no result feedback visible
+      if (!loading && mounted && postsEmptyElem.current) {
+        postsEmptyElem.current.style.opacity = '1';
+      }
+    }
     setElements();
     // eslint-disable-next-line
   }, [posts]);
@@ -133,6 +140,9 @@ const Posts = (): ReactElement => {
         </div>
       )}
       {postElements}
+      <div ref={postsEmptyElem} className='posts-empty'>
+        No results {tagged && `with hashtag #${tagged} found.`}
+      </div>
       {!loading && offset + limit < total && (
         <div className='posts-add'>
           <div onClick={onAddPosts} className='posts-add-button'>

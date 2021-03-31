@@ -41,9 +41,18 @@ const usePostsStore = create<PostsState>(set => ({
     if (fetchPosts && fetchPosts.posts.length > 0) {
       set((state: PostsState) => ({
         ...state,
+        loading: false,
         posts: fetchPosts.posts,
         tag,
         total: fetchPosts.total_posts
+      }));
+    } else {
+      set((state: PostsState) => ({
+        ...state,
+        loading: false,
+        posts: [],
+        tag,
+        total: 0
       }));
     }
   },
