@@ -94,15 +94,13 @@ const Posts = (): ReactElement => {
         setLoading(true);
         const elements: JSX.Element[] = [];
         // Set start index to push new react elements (posts) into view
-        const startIndex = posts.length - (posts.length - postElements.length);
+        const startIndex = postElements.length;
         for (let i = startIndex > -1 ? startIndex : 0; i < posts.length; i++) {
-          if (posts[i].type === 'photo') {
-            elements.push(<Post key={posts[i].id} post={posts[i]} />);
-            setPostElements(postElements.concat(elements));
-            // Set loading to false after last element is rendered
-            if (i === posts.length - 1) {
-              setLoading(false);
-            }
+          elements.push(<Post key={i} post={posts[i]} />);
+          setPostElements(postElements.concat(elements));
+          // Set loading to false after last element is rendered
+          if (i === posts.length - 1) {
+            setLoading(false);
           }
         }
       }

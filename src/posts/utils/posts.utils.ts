@@ -14,7 +14,7 @@ export const getPosts = (
   offset: number | null,
   tag: string | null
 ): Promise<PostsResponse> => {
-  let url = `${process.env.REACT_APP_API_URL}/posts/?api_key=${process.env.REACT_APP_API_KEY}&limit=${limit}`;
+  let url = `${process.env.REACT_APP_API_URL}/posts/?api_key=${process.env.REACT_APP_API_KEY}&type=photo&limit=${limit}`;
 
   // Get posts by a given tag
   if (tag) {
