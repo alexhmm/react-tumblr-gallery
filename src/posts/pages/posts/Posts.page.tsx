@@ -8,14 +8,21 @@ import Spinner from '../../../shared/components/spinner/spinner';
 
 // Models
 import { PostsState } from '../../models/posts-state.interface';
+import { SharedState } from '../../../shared/models/shared-state.interface';
 
 // Stores
 import usePostsStore from '../../store/posts.store';
+import useSharedStore from '../../../shared/store/shared.store';
 
 // Styles
 import './Posts.scss';
 
 const Posts = (): ReactElement => {
+  // Settings store state
+  const [setSubtitle] = useSharedStore((state: SharedState) => [
+    state.setSubtitle
+  ]);
+
   // Tagged route param
   const { tagged } = useParams<{
     tagged: string;
@@ -67,6 +74,7 @@ const Posts = (): ReactElement => {
     return () => {
       setPostHover(null);
     };
+    // eslint-disable-next-line
   }, []);
 
   // Effect on loading and mounted state change
@@ -109,7 +117,7 @@ const Posts = (): ReactElement => {
     // eslint-disable-next-line
   }, [posts]);
 
-  // Effect on tagged param state change.
+  // Effect on tagged param state change
   useEffect(() => {
     // Reset posts
     if (tagged !== tag) {
@@ -118,6 +126,9 @@ const Posts = (): ReactElement => {
       setPostElements([]);
       setPosts(limit, 0, tagged);
     }
+    // Set document title based on tag
+    !tagged && setSubtitle('');
+    tagged && setSubtitle(` • #${tagged}`);
     // eslint-disable-next-line
   }, [tagged]);
 
@@ -141,7 +152,7 @@ const Posts = (): ReactElement => {
       )}
       {postElements}
       <div ref={postsEmptyElem} className='posts-empty'>
-        No results {tagged && `with hashtag #${tagged} found.`}
+        No results found {tagged && `with hashtag #${tagged}.`}
       </div>
       {!loading && offset + limit < total && (
         <div className='posts-add'>

@@ -5,10 +5,10 @@ import { setAppTheme } from '../utils/shared.utils';
 
 const useSharedStore = create<SharedState>(set => ({
   theme: 'light',
+  subtitle: '',
   title: '',
-  setTitle: (title: string) => {
-    set({ title });
-  },
+  setSubtitle: (subtitle: string) => set({ subtitle }),
+  setTitle: (title: string) => set({ title }),
   setTheme: (theme: string) => {
     set({ theme });
     setAppTheme(theme);

@@ -72,7 +72,7 @@ const Post = (props: { post: PostType }): ReactElement => {
       // Colorize all post elements on non hover
       postContainerElem.current.style.filter = 'grayscale(0)';
     }
-  }, [postHover]);
+  }, [postHover, props.post.id]);
 
   // Effect on post change
   useEffect(() => {

@@ -9,9 +9,11 @@ import useDimensions from '../../../shared/hooks/useDimensions.hook';
 
 // Models
 import { PostsState } from '../../models/posts-state.interface';
+import { SharedState } from '../../../shared/models/shared-state.interface';
 
 // Stores
 import usePostsStore from '../../store/posts.store';
+import useSharedStore from '../../../shared/store/shared.store';
 
 // Styles
 import './post-detail.scss';
@@ -27,16 +29,21 @@ const PostDetail = (): ReactElement => {
   const postDetailContainerElem = useRef<HTMLDivElement>(null);
   const postDetailLoadingElem = useRef<HTMLDivElement>(null);
 
-  // Post id route param
-  const { postId } = useParams<{
-    postId: string;
-  }>();
+  // Settings store state
+  const [setSubtitle] = useSharedStore((state: SharedState) => [
+    state.setSubtitle
+  ]);
 
   // Posts store state
   const [post, setPost] = usePostsStore((state: PostsState) => [
     state.post,
     state.setPost
   ]);
+
+  // Post id route param
+  const { postId } = useParams<{
+    postId: string;
+  }>();
 
   // Component state
   const [imgWidth, setImgWidth] = useState<number>(0);
@@ -69,6 +76,9 @@ const PostDetail = (): ReactElement => {
     const img = setPostSourceDetail(imgWidth, post?.photos[0]?.alt_sizes);
     setImgSrc(img.imgSrc);
     setImgWidth(img.imgWidth);
+
+    // Set document title based on post
+    post && setSubtitle(` • ${post?.summary.toUpperCase()}`);
     // eslint-disable-next-line
   }, [dimensions, post]);
 

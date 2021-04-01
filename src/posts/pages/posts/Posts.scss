@@ -16,7 +16,8 @@
     justify-content: center;
     min-height: 120px;
     padding: 8px;
-    width: 50%;
+    width: 100%;
+    z-index: 13;
     &-button {
       align-items: center;
       display: flex;
@@ -54,6 +55,7 @@
     text-align: center;
     top: 0%;
     width: 100%;
+    z-index: 11;
   }
   &-loading {
     @include transition(0.25s, 0s, ease-out, opacity);
@@ -66,7 +68,7 @@
     position: fixed;
     bottom: 16px;
     right: 16px;
-    z-index: 11;
+    z-index: 14;
   }
 }
 
@@ -81,7 +83,6 @@
     padding: 96px 16px;
     &-add {
       padding: 16px;
-      width: 50%;
     }
     &-empty {
       font-size: 1.75rem;
@@ -95,7 +96,6 @@
     padding: 120px 24px;
     &-add {
       padding: 24px;
-      width: 33.3333%;
     }
     &-empty {
       font-size: 2rem;
@@ -132,7 +132,6 @@
     padding: 132px 48px;
     &-add {
       padding: 48px;
-      width: 25%;
     }
   }
 }

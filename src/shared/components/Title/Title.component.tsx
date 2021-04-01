@@ -16,14 +16,13 @@ const Title = (): ReactElement => {
   const [mounted, setMounted] = useState<boolean>(false);
 
   // Shared store state
-  const [title, setTitle] = useSharedStore((state: SharedState) => [
+  const [subtitle, title, setTitle] = useSharedStore((state: SharedState) => [
+    state.subtitle,
     state.title,
     state.setTitle
   ]);
 
-  /**
-   * Set title on component mount.
-   */
+  // Effect on component mount
   useEffect(() => {
     const getInfo = async () => {
       const blogInfo: BlogInfo = await getBlogInfo();
@@ -38,12 +37,17 @@ const Title = (): ReactElement => {
     // eslint-disable-next-line
   }, []);
 
+  // Effect on title / subtitle change
   useEffect(() => {
     if (mounted && title && titleElem.current) {
       titleElem.current.style.opacity = '1';
     }
+    // Set document title
+    if (title) {
+      document.title = title ? (subtitle ? title + subtitle : title) : '';
+    }
     // eslint-disable-next-line
-  }, [title]);
+  }, [title, subtitle]);
 
   return (
     <Link to='/'>
