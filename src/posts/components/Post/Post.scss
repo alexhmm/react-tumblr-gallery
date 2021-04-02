@@ -5,6 +5,7 @@
 .post {
   @include highlight-disabled();
   @include transition(0.25s, 0s, ease-in, opacity);
+  align-items: center;
   box-sizing: border-box;
   display: flex;
   justify-content: center;

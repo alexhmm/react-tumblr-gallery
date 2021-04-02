@@ -24,6 +24,13 @@ const Title = (): ReactElement => {
 
   // Effect on component mount
   useEffect(() => {
+    // Set favicon
+    const favicon = document.getElementById('favicon');
+    if (favicon && process.env.REACT_APP_FAVICON) {
+      favicon.setAttribute('href', process.env.REACT_APP_FAVICON);
+    }
+
+    // Get tumblr blog info
     const getInfo = async () => {
       const blogInfo: BlogInfo = await getBlogInfo();
       if (blogInfo) {
