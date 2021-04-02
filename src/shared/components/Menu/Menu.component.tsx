@@ -1,5 +1,6 @@
 import { Fragment, ReactElement, useEffect, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+
 import { PostsState } from '../../../posts/models/posts-state.interface';
 import usePostsStore from '../../../posts/store/posts.store';
 
@@ -9,8 +10,9 @@ const Menu = (): ReactElement => {
   // React router history
   const history = useHistory();
 
-  // Menu element reference
-  const menuElem = useRef<HTMLDivElement>(null);
+  // Menu element references
+  const menuBtnElem = useRef<HTMLDivElement>(null);
+  const menuContainerElem = useRef<HTMLDivElement>(null);
 
   // Component state
   const [menu, setMenu] = useState<boolean>(false);
@@ -31,8 +33,8 @@ const Menu = (): ReactElement => {
 
   // Set opacity on mounted state
   useEffect(() => {
-    if (mounted && menuElem.current) {
-      // menuElem.current.style.opacity = '1';
+    if (mounted && menuBtnElem.current) {
+      menuBtnElem.current.style.opacity = '1';
     }
   }, [mounted]);
 
@@ -56,8 +58,8 @@ const Menu = (): ReactElement => {
    * Toggles menu.
    */
   const toggleMenu = () => {
-    if (menuElem && menuElem.current) {
-      menuElem.current.style.transform = menu
+    if (menuContainerElem && menuContainerElem.current) {
+      menuContainerElem.current.style.transform = menu
         ? 'translateX(100%)'
         : 'translateX(0%)';
       setMenu(!menu);
@@ -66,13 +68,13 @@ const Menu = (): ReactElement => {
 
   return (
     <Fragment>
-      <section onClick={toggleMenu} className='menu-button'>
+      <section ref={menuBtnElem} onClick={toggleMenu} className='menu-button'>
         {menu ? 'Close' : 'Menu'}
       </section>
       {menu && (
         <section onClick={toggleMenu} className='menu-backdrop'></section>
       )}
-      <section ref={menuElem} className='menu-container'>
+      <section ref={menuContainerElem} className='menu-container'>
         <div className='menu-container-content'>
           <div className='menu-container-content-top'>
             <input

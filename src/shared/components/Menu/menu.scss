@@ -12,10 +12,12 @@
     z-index: 20;
   }
   &-button {
+    @include transition(0.25s, 0s, ease-in, color, opacity);
     align-items: center;
     display: flex;
     height: 32px;
     justify-content: flex-end;
+    opacity: 0;
     position: fixed;
     right: 16px;
     top: 16px;
@@ -169,7 +171,6 @@
 @media (hover: hover) {
   .menu {
     &-button {
-      @include transition(0.25s, 0s, ease-in, color);
       cursor: pointer;
       &:hover {
         color: var(--theme-color-hover);

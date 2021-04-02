@@ -2,7 +2,7 @@
 @import '../../styles/mixins.scss';
 
 .title {
-  @include transition(0.25s, 0s, ease-in, opacity);
+  @include transition(0.25s, 0s, ease-in, color, opacity);
   align-items: center;
   display: flex;
   font-size: 1.5rem;
@@ -44,7 +44,6 @@
 
 @media (hover: hover) {
   .title {
-    @include transition(0.25s, 0s, ease-in-out, color);
     &:hover {
       color: var(--theme-color-hover);
     }

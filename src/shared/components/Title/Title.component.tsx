@@ -24,23 +24,20 @@ const Title = (): ReactElement => {
 
   // Effect on component mount
   useEffect(() => {
-    // Set favicon
-    const favicon = document.getElementById('favicon');
-    if (favicon && process.env.REACT_APP_FAVICON) {
-      favicon.setAttribute('href', process.env.REACT_APP_FAVICON);
+    if (!process.env.REACT_APP_TITLE) {
+      // Get title from tumblr blog info
+      const getInfo = async () => {
+        const blogInfo: BlogInfo = await getBlogInfo();
+        if (blogInfo) {
+          setTitle(blogInfo.title);
+        }
+      };
+      getInfo();
     }
-
-    // Get tumblr blog info
-    const getInfo = async () => {
-      const blogInfo: BlogInfo = await getBlogInfo();
-      if (blogInfo) {
-        setTitle(blogInfo.title);
-      }
-    };
-    getInfo();
 
     // Using window.requestAnimationFrame allows an action to be take after the next DOM paint
     window.requestAnimationFrame(() => setMounted(true));
+
     // eslint-disable-next-line
   }, []);
 
@@ -49,12 +46,13 @@ const Title = (): ReactElement => {
     if (mounted && title && titleElem.current) {
       titleElem.current.style.opacity = '1';
     }
+
     // Set document title
     if (title) {
       document.title = title ? (subtitle ? title + subtitle : title) : '';
     }
     // eslint-disable-next-line
-  }, [title, subtitle]);
+  }, [mounted, title, subtitle]);
 
   return (
     <Link to='/'>

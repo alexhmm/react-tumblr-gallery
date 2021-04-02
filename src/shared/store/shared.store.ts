@@ -6,7 +6,7 @@ import { setAppTheme } from '../utils/shared.utils';
 const useSharedStore = create<SharedState>(set => ({
   theme: 'light',
   subtitle: '',
-  title: '',
+  title: process.env.REACT_APP_TITLE ? process.env.REACT_APP_TITLE : '',
   setSubtitle: (subtitle: string) => set({ subtitle }),
   setTitle: (title: string) => set({ title }),
   setTheme: (theme: string) => {
