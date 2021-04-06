@@ -1,5 +1,6 @@
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 // Components
 import Post from '../../components/post/Post.component';
@@ -84,6 +85,14 @@ const Posts = (): ReactElement => {
     } else if (!loading && mounted && postsLoadingElem.current) {
       postsLoadingElem.current.style.opacity = '0';
     }
+
+    if (posts?.length < 1) {
+      // Set no result feedback visible
+      if (!loading && mounted && postsEmptyElem.current) {
+        postsEmptyElem.current.style.opacity = '1';
+      }
+    }
+    // eslint-disable-next-line
   }, [loading, mounted]);
 
   // Effect on posts state change
@@ -96,21 +105,17 @@ const Posts = (): ReactElement => {
         // Set start index to push new react elements (posts) into view
         const startIndex = postElements.length;
         for (let i = startIndex > -1 ? startIndex : 0; i < posts.length; i++) {
-          elements.push(<Post key={i} post={posts[i]} />);
-          setPostElements(postElements.concat(elements));
-          // Set loading to false after last element is rendered
+          if (posts[i].type === 'photo') {
+            elements.push(<Post key={i} post={posts[i]} />);
+            setPostElements(postElements.concat(elements));
+            // Set loading to false after last element is rendered
+          }
           if (i === posts.length - 1) {
             setLoading(false);
           }
         }
       }
     };
-    if (posts?.length < 1) {
-      // Set no result feedback visible
-      if (!loading && mounted && postsEmptyElem.current) {
-        postsEmptyElem.current.style.opacity = '1';
-      }
-    }
     setElements();
     // eslint-disable-next-line
   }, [posts]);
@@ -134,12 +139,21 @@ const Posts = (): ReactElement => {
    * Handler to add posts.
    */
   const onAddPosts = () => {
-    setLoading(true);
-    addPosts(limit, offset + limit, tagged);
+    if (total >= offset + limit) {
+      setLoading(true);
+      addPosts(limit, offset + limit, tagged);
+    }
   };
 
   return (
-    <section className='posts'>
+    <InfiniteScroll
+      dataLength={postElements.length}
+      hasMore
+      loader={null}
+      next={onAddPosts}
+      scrollThreshold={1}
+      className='posts'
+    >
       <div ref={postsLoadingElem} className='posts-loading'>
         <Spinner size={10} />
       </div>
@@ -152,15 +166,7 @@ const Posts = (): ReactElement => {
       <div ref={postsEmptyElem} className='posts-empty'>
         No results found {tagged && `with hashtag #${tagged}.`}
       </div>
-      {!loading && offset + limit < total && (
-        <div className='posts-add'>
-          <div onClick={onAddPosts} className='posts-add-button'>
-            <div className='posts-add-button-line-1'></div>
-            <div className='posts-add-button-line-2'></div>
-          </div>
-        </div>
-      )}
-    </section>
+    </InfiniteScroll>
   );
 };
 

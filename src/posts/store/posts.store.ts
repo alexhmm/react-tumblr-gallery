@@ -6,7 +6,9 @@ import { PostsState } from '../models/posts-state.interface';
 import { getPostById, getPosts } from '../utils/posts.utils';
 
 const usePostsStore = create<PostsState>(set => ({
-  limit: parseInt(process.env.REACT_APP_API_LIMIT!, 10) | 20,
+  limit: process.env.REACT_APP_API_LIMIT
+    ? parseInt(process.env.REACT_APP_API_LIMIT, 10)
+    : 20,
   loading: true,
   offset: 0,
   post: null,
@@ -37,6 +39,15 @@ const usePostsStore = create<PostsState>(set => ({
     offset: number | null,
     tag: string | null
   ) => {
+    // Reset state
+    set((state: PostsState) => ({
+      ...state,
+      offset: 0,
+      posts: [],
+      total: 0
+    }));
+
+    // Fetch tumblr posts
     const fetchPosts: PostsResponse = await getPosts(limit, offset, tag);
     if (fetchPosts && fetchPosts.posts.length > 0) {
       set((state: PostsState) => ({
@@ -50,9 +61,7 @@ const usePostsStore = create<PostsState>(set => ({
       set((state: PostsState) => ({
         ...state,
         loading: false,
-        posts: [],
-        tag,
-        total: 0
+        tag
       }));
     }
   },
