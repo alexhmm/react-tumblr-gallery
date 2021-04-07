@@ -3,6 +3,7 @@ import { Link, useHistory, useParams } from 'react-router-dom';
 
 // Components
 import Spinner from '../../../shared/components/spinner/spinner';
+import Zoomable from 'react-instagram-zoom';
 
 // Hooks
 import useDimensions from '../../../shared/hooks/useDimensions.hook';
@@ -26,6 +27,8 @@ const PostDetail = (): ReactElement => {
   const history = useHistory();
 
   // Post detail element references
+  const postDetailElem = useRef<HTMLDivElement>(null);
+  const postDetailBackdropElem = useRef<HTMLDivElement>(null);
   const postDetailContainerElem = useRef<HTMLDivElement>(null);
   const postDetailLoadingElem = useRef<HTMLDivElement>(null);
 
@@ -104,12 +107,44 @@ const PostDetail = (): ReactElement => {
     history.goBack();
   };
 
+  /**
+   * Handler when pinch zoom starts.
+   */
+  const onTouchStart = () => {
+    if (postDetailElem.current) {
+      postDetailElem.current.style.zIndex = '31';
+    }
+    if (postDetailBackdropElem.current) {
+      postDetailBackdropElem.current.classList.add(
+        'post-detail-backdrop-pinch-active'
+      );
+    }
+  };
+
+  /**
+   * Handler when pinch zoom ends.
+   */
+  const onTouchEnd = () => {
+    if (postDetailElem.current) {
+      postDetailElem.current.style.zIndex = 'initial';
+    }
+    if (postDetailBackdropElem.current) {
+      postDetailBackdropElem.current.classList.remove(
+        'post-detail-backdrop-pinch-active'
+      );
+    }
+  };
+
   return (
-    <div className='post-detail'>
+    <div ref={postDetailElem} className='post-detail'>
       <div ref={postDetailLoadingElem} className='post-detail-loading'>
         <Spinner size={10} />
       </div>
-      <div onClick={onBackdropClick} className='post-detail-backdrop'></div>
+      <div
+        ref={postDetailBackdropElem}
+        onClick={onBackdropClick}
+        className='post-detail-backdrop'
+      ></div>
       {post && post.id_string === postId && (
         <div ref={postDetailContainerElem} className='post-detail-container'>
           <div className='post-detail-container-caption'>
@@ -128,12 +163,19 @@ const PostDetail = (): ReactElement => {
               </Link>
             ))}
           </div>
-          <img
-            alt={post?.caption}
-            src={imgSrc}
-            onLoad={() => setLoaded(true)}
+          <Zoomable
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
+            releaseAnimationTimeout={250}
             className='post-detail-container-src'
-          />
+          >
+            <img
+              alt={post?.caption}
+              src={imgSrc}
+              onLoad={() => setLoaded(true)}
+              className='post-detail-container-src'
+            />
+          </Zoomable>
         </div>
       )}
     </div>

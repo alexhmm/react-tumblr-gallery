@@ -3,6 +3,7 @@ html {
 }
 
 html[theme='light'] {
+  --detail-pinch-bg-color: rgba(0, 0, 0, 0.5);
   --input-placeholder-color: #b6b6b6;
   --menu-background-color: #f8f8f8;
   --spinner-color: rgba(0, 0, 0, 0.5);
@@ -13,6 +14,7 @@ html[theme='light'] {
 }
 
 html[theme='dark'] {
+  --detail-pinch-bg-color: rgba(255, 255, 255, 0.25);
   --input-placeholder-color: #5c5c5c;
   --menu-background-color: #252525;
   --spinner-color: rgba(255, 255, 255, 0.5);
