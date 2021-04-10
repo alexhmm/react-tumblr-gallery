@@ -2,6 +2,7 @@ import { ReactElement, useEffect, useRef, useState } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
 
 // Components
+import IconPhoto from '../../../shared/components/icons/icon-photo/icon-photo.component';
 import Spinner from '../../../shared/components/spinner/spinner';
 import Zoomable from 'react-instagram-zoom';
 
@@ -9,6 +10,7 @@ import Zoomable from 'react-instagram-zoom';
 import useDimensions from '../../../shared/hooks/useDimensions.hook';
 
 // Models
+import { Contributor } from '../../../shared/models/contributor.interface';
 import { PostsState } from '../../models/posts-state.interface';
 import { SharedState } from '../../../shared/models/shared-state.interface';
 
@@ -30,6 +32,7 @@ const PostDetail = (): ReactElement => {
   const postDetailElem = useRef<HTMLDivElement>(null);
   const postDetailBackdropElem = useRef<HTMLDivElement>(null);
   const postDetailContainerElem = useRef<HTMLDivElement>(null);
+  const postDetailContributorElem = useRef<HTMLAnchorElement>(null);
   const postDetailLoadingElem = useRef<HTMLDivElement>(null);
 
   // Settings store state
@@ -49,11 +52,13 @@ const PostDetail = (): ReactElement => {
   }>();
 
   // Component state
+  const [contributor, setContributor] = useState<Contributor | null>(null);
   const [imgWidth, setImgWidth] = useState<number>(0);
   const [imgSrc, setImgSrc] = useState<string | undefined>(undefined);
   const [loaded, setLoaded] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
 
+  // Effect on moonted
   useEffect(() => {
     if (mounted && postDetailLoadingElem.current) {
       postDetailLoadingElem.current.style.opacity = '1';
@@ -67,8 +72,10 @@ const PostDetail = (): ReactElement => {
     setPost(postId);
     // Using window.requestAnimationFrame allows an action to be take after the next DOM paint
     window.requestAnimationFrame(() => setMounted(true));
+
     // Cleanup on unmount component
     return () => {
+      setContributor(null);
       setLoaded(false);
       setPost(null);
     };
@@ -82,6 +89,25 @@ const PostDetail = (): ReactElement => {
 
     // Set document title based on post
     post && setSubtitle(` • ${post?.summary.toUpperCase()}`);
+
+    // Get photo contributor
+    if (process.env.REACT_APP_CONTRIBUTOR && post?.tags) {
+      const contributors: Contributor[] = JSON.parse(
+        process.env.REACT_APP_CONTRIBUTOR
+      );
+      // Iterate through contributor array
+      for (const contributor of contributors) {
+        const matchedTag = post.tags.find(
+          (tag: string) => tag === contributor.tag
+        );
+        if (matchedTag) {
+          // Set contributor on matched tumblr post tag
+          setContributor(contributor);
+          break;
+        }
+      }
+    }
+
     // eslint-disable-next-line
   }, [dimensions, post]);
 
@@ -97,8 +123,19 @@ const PostDetail = (): ReactElement => {
       postDetailContainerElem.current.style.opacity = '1';
       postDetailLoadingElem.current.style.opacity = '0';
     }
+
+    if (
+      contributor &&
+      loaded &&
+      mounted &&
+      postDetailContributorElem.current &&
+      process.env.REACT_APP_CONTRIBUTOR
+    ) {
+      console.log('go', contributor);
+      postDetailContributorElem.current.style.opacity = '1';
+    }
     // eslint-disable-next-line
-  }, [mounted, loaded]);
+  }, [contributor, mounted, loaded]);
 
   /**
    * Handler on backdrop click to navigate back to gallery.
@@ -178,6 +215,18 @@ const PostDetail = (): ReactElement => {
           </Zoomable>
         </div>
       )}
+      <a
+        ref={postDetailContributorElem}
+        href={contributor?.href}
+        className='post-detail-contributor'
+        rel='noreferrer'
+        target='_blank'
+      >
+        <IconPhoto size={24} />
+        <span className='post-detail-contributor-text'>
+          {contributor?.name}
+        </span>
+      </a>
     </div>
   );
 };

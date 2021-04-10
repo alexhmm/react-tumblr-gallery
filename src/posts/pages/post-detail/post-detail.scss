@@ -67,6 +67,20 @@
       max-width: 100%;
     }
   }
+  &-contributor {
+    @include transition(0.25s, 0s, ease-out, opacity);
+    align-items: center;
+    bottom: 16px;
+    display: flex;
+    opacity: 0;
+    padding: 4px;
+    position: fixed;
+    right: 16px;
+    z-index: 14;
+    &-text {
+      margin-left: 8px;
+    }
+  }
   &-loading {
     @include transition(0.25s, 0s, ease-in, opacity);
     opacity: 0;
@@ -110,6 +124,10 @@
         max-width: 100%;
       }
     }
+    &-contributor {
+      bottom: 32px;
+      right: 32px;
+    }
   }
 }
 
@@ -121,6 +139,11 @@
         top: -36px;
         width: calc(100% - 36px);
       }
+    }
+    &-contributor {
+      bottom: 48px;
+      padding: 8px;
+      right: 48px;
     }
   }
 }
@@ -153,6 +176,17 @@
               color: var(--theme-color-hover);
             }
           }
+        }
+      }
+    }
+    &-contributor {
+      @include transition(0.25s, 0s, ease-in-out, color);
+      &:hover {
+        color: var(--theme-color-hover);
+      }
+      &:visited {
+        &:hover {
+          color: var(--theme-color-hover);
         }
       }
     }
