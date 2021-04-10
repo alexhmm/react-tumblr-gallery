@@ -1,5 +1,7 @@
-import { ReactElement, useEffect, useRef, useState } from 'react';
+import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
+import * as dayjs from 'dayjs';
+import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 
 // Components
 import IconPhoto from '../../../shared/components/icons/icon-photo/icon-photo.component';
@@ -53,21 +55,25 @@ const PostDetail = (): ReactElement => {
 
   // Component state
   const [contributor, setContributor] = useState<Contributor | null>(null);
+  const [date, setDate] = useState<string | null>('');
   const [imgWidth, setImgWidth] = useState<number>(0);
   const [imgSrc, setImgSrc] = useState<string | undefined>(undefined);
   const [loaded, setLoaded] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
 
-  // Effect on moonted
+  // Effect on component mount
+  useEffect(() => {
+    dayjs.extend(LocalizedFormat);
+  }, []);
+
+  // Effect on mounted
   useEffect(() => {
     if (mounted && postDetailLoadingElem.current) {
       postDetailLoadingElem.current.style.opacity = '1';
     }
   }, [mounted]);
 
-  /**
-   * Set post on component mount
-   */
+  // Effect on postId param
   useEffect(() => {
     setPost(postId);
     // Using window.requestAnimationFrame allows an action to be take after the next DOM paint
@@ -81,35 +87,59 @@ const PostDetail = (): ReactElement => {
     };
   }, [postId, setPost]);
 
-  // Reset post source on resize.
+  // Effect on dimensions and post
   useEffect(() => {
-    const img = setPostSourceDetail(imgWidth, post?.photos[0]?.alt_sizes);
-    setImgSrc(img.imgSrc);
-    setImgWidth(img.imgWidth);
+    // Reset post source on resize
+    if (dimensions && post) {
+      const img = setPostSourceDetail(imgWidth, post?.photos[0]?.alt_sizes);
+      setImgSrc(img.imgSrc);
+      setImgWidth(img.imgWidth);
+    }
 
-    // Set document title based on post
-    post && setSubtitle(` • ${post?.summary.toUpperCase()}`);
+    // Cleanup function
+    return () => {
+      setImgSrc(undefined);
+      setImgWidth(0);
+    };
 
-    // Get photo contributor
-    if (process.env.REACT_APP_CONTRIBUTOR && post?.tags) {
-      const contributors: Contributor[] = JSON.parse(
-        process.env.REACT_APP_CONTRIBUTOR
-      );
-      // Iterate through contributor array
-      for (const contributor of contributors) {
-        const matchedTag = post.tags.find(
-          (tag: string) => tag === contributor.tag
+    // eslint-disable-next-line
+  }, [dimensions, post]);
+
+  // Effect on post
+  useEffect(() => {
+    if (post) {
+      // Set document title
+      setSubtitle(` • ${post?.summary.toUpperCase()}`);
+
+      // Set post date
+      setDate(dayjs.unix(post.timestamp).format('LL'));
+
+      // Get post contributor
+      if (process.env.REACT_APP_CONTRIBUTOR && post?.tags) {
+        const contributors: Contributor[] = JSON.parse(
+          process.env.REACT_APP_CONTRIBUTOR
         );
-        if (matchedTag) {
-          // Set contributor on matched tumblr post tag
-          setContributor(contributor);
-          break;
+        // Iterate through contributor array
+        for (const contributor of contributors) {
+          const matchedTag = post.tags.find(
+            (tag: string) => tag === contributor.tag
+          );
+          if (matchedTag) {
+            // Set contributor on matched tumblr post tag
+            setContributor(contributor);
+            break;
+          }
         }
       }
     }
 
-    // eslint-disable-next-line
-  }, [dimensions, post]);
+    // Cleanup function
+    return () => {
+      setContributor(null);
+      setDate(null);
+      setSubtitle('');
+    };
+  }, [post, setSubtitle]);
 
   // Set opacity on mounted state
   useEffect(() => {
@@ -131,7 +161,6 @@ const PostDetail = (): ReactElement => {
       postDetailContributorElem.current &&
       process.env.REACT_APP_CONTRIBUTOR
     ) {
-      console.log('go', contributor);
       postDetailContributorElem.current.style.opacity = '1';
     }
     // eslint-disable-next-line
@@ -147,7 +176,7 @@ const PostDetail = (): ReactElement => {
   /**
    * Handler when pinch zoom starts.
    */
-  const onTouchStart = () => {
+  const onTouchStart = useCallback(() => {
     if (postDetailElem.current) {
       postDetailElem.current.style.zIndex = '31';
     }
@@ -156,12 +185,12 @@ const PostDetail = (): ReactElement => {
         'post-detail-backdrop-pinch-active'
       );
     }
-  };
+  }, []);
 
   /**
    * Handler when pinch zoom ends.
    */
-  const onTouchEnd = () => {
+  const onTouchEnd = useCallback(() => {
     if (postDetailElem.current) {
       postDetailElem.current.style.zIndex = 'initial';
     }
@@ -170,7 +199,7 @@ const PostDetail = (): ReactElement => {
         'post-detail-backdrop-pinch-active'
       );
     }
-  };
+  }, []);
 
   return (
     <div ref={postDetailElem} className='post-detail'>
@@ -183,8 +212,11 @@ const PostDetail = (): ReactElement => {
         className='post-detail-backdrop'
       ></div>
       {post && post.id_string === postId && (
-        <div ref={postDetailContainerElem} className='post-detail-container'>
-          <div className='post-detail-container-caption'>
+        <article
+          ref={postDetailContainerElem}
+          className='post-detail-container'
+        >
+          <section className='post-detail-container-caption'>
             {post.summary && (
               <div className='post-detail-container-caption-title'>
                 {post.summary}
@@ -199,7 +231,7 @@ const PostDetail = (): ReactElement => {
                 {'#' + tag}
               </Link>
             ))}
-          </div>
+          </section>
           <Zoomable
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
@@ -213,7 +245,10 @@ const PostDetail = (): ReactElement => {
               className='post-detail-container-src'
             />
           </Zoomable>
-        </div>
+          <section className='post-detail-container-date'>
+            {date && <span>{date}</span>}
+          </section>
+        </article>
       )}
       <a
         ref={postDetailContributorElem}
