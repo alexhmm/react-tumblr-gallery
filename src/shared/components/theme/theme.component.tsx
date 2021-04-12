@@ -3,7 +3,7 @@ import { ReactElement, useEffect } from 'react';
 import { SharedState } from '../../models/shared-state.interface';
 import useSharedStore from '../../store/shared.store';
 
-import './theme2.scss';
+import './theme.scss';
 
 const Theme = (): ReactElement => {
   // Shared store state

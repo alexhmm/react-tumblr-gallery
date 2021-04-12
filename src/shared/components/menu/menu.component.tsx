@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { PostsState } from '../../../posts/models/posts-state.interface';
 import usePostsStore from '../../../posts/store/posts.store';
 
-import './menu2.scss';
+import './menu.scss';
 
 const Menu = (): ReactElement => {
   // React router history

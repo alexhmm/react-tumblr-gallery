@@ -8,7 +8,7 @@ import { PostsState } from '../../models/posts-state.interface';
 import usePostsStore from '../../store/posts.store';
 import { setPostSourceGallery } from '../../utils/posts.utils';
 
-import './Post2.scss';
+import './post.scss';
 
 const Post = (props: { post: PostType }): ReactElement => {
   const dimensions = useDimensions();
