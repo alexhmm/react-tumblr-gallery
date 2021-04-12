@@ -5,13 +5,27 @@
   @include transition(0.25s, 0s, ease-in, color, opacity);
   align-items: center;
   display: flex;
-  font-size: 1.5rem;
   height: 32px;
   left: 16px;
+  max-width: calc(100% - 90px);
   opacity: 0;
+  overflow: hidden;
   position: fixed;
   top: 16px;
+  white-space: nowrap;
   z-index: 22;
+  &-home {
+    font-size: 1.5rem;
+  }
+  &-sub {
+    &-text {
+      font-size: 1.25rem;
+      margin-left: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
 }
 
 @media (min-width: $md) {
@@ -19,18 +33,30 @@
     font-size: 2rem;
     height: 48px;
     left: 32px;
+    max-width: calc(100% - 160px);
+    &-home {
+      font-size: 2rem;
+    }
+    &-sub {
+      &-text {
+        font-size: 1.5rem;
+        margin-left: 16px;
+      }
+    }
   }
 }
 
 @media (min-width: $xl) {
   .title {
     left: 48px;
+    max-width: calc(100% - 200px);
     top: 32px;
   }
 }
 @media (min-width: $fhd) {
   .title {
     left: 64px;
+    max-width: calc(100% - 240px);
   }
 }
 
@@ -39,13 +65,25 @@
     font-size: 3rem;
     height: 64px;
     left: 96px;
+    &-home {
+      font-size: 3rem;
+    }
+    &-sub {
+      &-text {
+        font-size: 2rem;
+      }
+    }
   }
 }
 
 @media (hover: hover) {
   .title {
     &:hover {
+      cursor: pointer;
       color: var(--theme-color-hover);
+      & .icon {
+        color: var(--theme-color-hover);
+      }
     }
   }
 }

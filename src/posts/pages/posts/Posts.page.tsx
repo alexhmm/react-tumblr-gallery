@@ -130,8 +130,8 @@ const Posts = (): ReactElement => {
       setPosts(limit, 0, tagged);
     }
     // Set document title based on tag
-    !tagged && setSubtitle('');
-    tagged && setSubtitle(` • #${tagged}`);
+    !tagged && setSubtitle(null);
+    tagged && setSubtitle(`#${tagged}`);
     // eslint-disable-next-line
   }, [tagged]);
 

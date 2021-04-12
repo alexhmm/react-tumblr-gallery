@@ -1,0 +1,18 @@
+@import '../../styles/mixins.scss';
+@import '../../styles/theme.scss';
+
+.icon {
+  color: var(--theme-color);
+}
+
+@media (hover: hover) {
+  .icon {
+    &-button {
+      @include transition(0.25s, 0s, ease-out, color);
+      cursor: pointer;
+      &:hover {
+        color: var(--theme-color-hover);
+      }
+    }
+  }
+}

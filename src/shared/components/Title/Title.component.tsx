@@ -1,14 +1,24 @@
-import { ReactElement, useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Fragment, ReactElement, useEffect, useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
+// Components
+import Icon from '../icon/icon.component';
+
+// Models
 import { BlogInfo } from '../../models/blog-info.interface';
 import { SharedState } from '../../models/shared-state.interface';
+
+// Stores
 import useSharedStore from '../../store/shared.store';
+
+// Utils
 import { getBlogInfo } from '../../utils/shared.utils';
 
 import './title.scss';
 
 const Title = (): ReactElement => {
+  const history = useHistory();
+
   // Title element reference
   const titleElem = useRef<HTMLDivElement>(null);
 
@@ -49,17 +59,69 @@ const Title = (): ReactElement => {
 
     // Set document title
     if (title) {
-      document.title = title ? (subtitle ? title + subtitle : title) : '';
+      document.title = title
+        ? subtitle
+          ? `${title} •  ${subtitle}`
+          : title
+        : '';
     }
+
     // eslint-disable-next-line
   }, [mounted, title, subtitle]);
 
+  /**
+   * Handler on backdrop click to navigate back to gallery.
+   */
+  const onClickBack = () => {
+    if (history.length > 2) {
+      history.goBack();
+    } else {
+      onClickHome();
+    }
+  };
+
+  /**
+   * Handler on backdrop click to navigate back to gallery.
+   */
+  const onClickHome = () => {
+    history.push('/');
+  };
+
   return (
-    <Link to='/'>
-      <header ref={titleElem} className='title'>
-        {title}
-      </header>
-    </Link>
+    <header
+      ref={titleElem}
+      onClick={subtitle ? onClickBack : onClickHome}
+      className={`title ${subtitle ? 'title-sub' : 'title-home'}`}
+    >
+      {subtitle ? (
+        <Fragment>
+          <Icon button classes='fas fa-chevron-left' size={16} />
+          <span className='title-sub-text'>{subtitle}</span>
+        </Fragment>
+      ) : (
+        <Fragment>{title}</Fragment>
+      )}
+    </header>
+    // <Fragment>
+    //   {subtitle ? (
+    //     <header
+    //       ref={titleElem}
+    //       onClick={onClickBack}
+    //       className='title title-sub'
+    //     >
+    //       <Icon button classes='fas fa-chevron-left' size={16} />
+    //       <span className='title-sub-text'>{subtitle}</span>
+    //     </header>
+    //   ) : (
+    //     <header
+    //       ref={titleElem}
+    //       onClick={onClickHome}
+    //       className='title title-home'
+    //     >
+    //       {title}
+    //     </header>
+    //   )}
+    // </Fragment>
   );
 };
 

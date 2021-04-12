@@ -109,7 +109,7 @@ const PostDetail = (): ReactElement => {
   useEffect(() => {
     if (post) {
       // Set document title
-      setSubtitle(` • ${post?.summary.toUpperCase()}`);
+      setSubtitle(post?.summary.toUpperCase());
 
       // Set post date
       setDate(dayjs.unix(post.timestamp).format('LL'));
@@ -137,7 +137,6 @@ const PostDetail = (): ReactElement => {
     return () => {
       setContributor(null);
       setDate(null);
-      setSubtitle('');
     };
   }, [post, setSubtitle]);
 
@@ -217,11 +216,11 @@ const PostDetail = (): ReactElement => {
           className='post-detail-container'
         >
           <section className='post-detail-container-caption'>
-            {post.summary && (
+            {/* {post.summary && (
               <div className='post-detail-container-caption-title'>
                 {post.summary}
               </div>
-            )}
+            )} */}
             {post.tags.map((tag: string) => (
               <Link
                 key={tag}
