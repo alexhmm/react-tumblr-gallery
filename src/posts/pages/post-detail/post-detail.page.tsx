@@ -5,11 +5,11 @@ import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 
 // Components
 import Icon from '../../../shared/components/icon/icon.component';
-import Spinner from '../../../shared/components/spinner/spinner';
+import Spinner from '../../../shared/components/spinner/spinner.component';
 import Zoomable from 'react-instagram-zoom';
 
 // Hooks
-import useDimensions from '../../../shared/hooks/useDimensions.hook';
+import useDimensions from '../../../shared/hooks/use-dimensions.hook';
 
 // Models
 import { Contributor } from '../../../shared/models/contributor.interface';

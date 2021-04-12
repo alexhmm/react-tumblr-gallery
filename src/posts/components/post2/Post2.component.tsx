@@ -1,14 +1,14 @@
 import { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import useDimensions from '../../../shared/hooks/useDimensions.hook';
+import useDimensions from '../../../shared/hooks/use-dimensions.hook';
 
 import { Post as PostType } from '../../models/post.interface';
 import { PostsState } from '../../models/posts-state.interface';
 import usePostsStore from '../../store/posts.store';
 import { setPostSourceGallery } from '../../utils/posts.utils';
 
-import './Post.scss';
+import './Post2.scss';
 
 const Post = (props: { post: PostType }): ReactElement => {
   const dimensions = useDimensions();

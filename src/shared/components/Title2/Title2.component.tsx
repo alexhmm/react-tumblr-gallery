@@ -14,7 +14,7 @@ import useSharedStore from '../../store/shared.store';
 // Utils
 import { getBlogInfo } from '../../utils/shared.utils';
 
-import './title.scss';
+import './title2.scss';
 
 const Title = (): ReactElement => {
   const history = useHistory();

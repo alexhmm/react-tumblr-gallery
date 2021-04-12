@@ -3,9 +3,9 @@ import { Switch, Route, useLocation } from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import PostDetail from '../../../posts/pages/post-detail/post-detail.page';
-import Posts from '../../../posts/pages/posts/Posts.page';
+import Posts from '../../../posts/pages/posts2/Posts2.page';
 
-import './AppRouter.scss';
+import './app-router.scss';
 
 /**
  * Application routes

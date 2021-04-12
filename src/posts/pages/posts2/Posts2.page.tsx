@@ -3,9 +3,9 @@ import { useParams } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 // Components
-import Post from '../../components/post/Post.component';
+import Post from '../../components/post2/Post2.component';
 import PostsTag from '../../components/posts-tag/posts-tag.component';
-import Spinner from '../../../shared/components/spinner/spinner';
+import Spinner from '../../../shared/components/spinner/spinner.component';
 
 // Models
 import { PostsState } from '../../models/posts-state.interface';
@@ -16,7 +16,7 @@ import usePostsStore from '../../store/posts.store';
 import useSharedStore from '../../../shared/store/shared.store';
 
 // Styles
-import './Posts.scss';
+import './Posts2.scss';
 
 const Posts = (): ReactElement => {
   // Settings store state
