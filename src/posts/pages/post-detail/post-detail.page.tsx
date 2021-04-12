@@ -4,7 +4,7 @@ import * as dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 
 // Components
-import IconPhoto from '../../../shared/components/icons/icon-photo/icon-photo.component';
+import Icon from '../../../shared/components/icon/icon.component';
 import Spinner from '../../../shared/components/spinner/spinner';
 import Zoomable from 'react-instagram-zoom';
 
@@ -216,11 +216,6 @@ const PostDetail = (): ReactElement => {
           className='post-detail-container'
         >
           <section className='post-detail-container-caption'>
-            {/* {post.summary && (
-              <div className='post-detail-container-caption-title'>
-                {post.summary}
-              </div>
-            )} */}
             {post.tags.map((tag: string) => (
               <Link
                 key={tag}
@@ -256,7 +251,7 @@ const PostDetail = (): ReactElement => {
         rel='noreferrer'
         target='_blank'
       >
-        <IconPhoto size={24} />
+        <Icon classes='fas fa-camera' size={18} />
         <span className='post-detail-contributor-text'>
           {contributor?.name}
         </span>

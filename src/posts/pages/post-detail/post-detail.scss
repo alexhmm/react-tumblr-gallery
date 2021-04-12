@@ -53,14 +53,6 @@
           color: var(--tag-color);
         }
       }
-      &-title {
-        height: 100%;
-        margin-right: 12px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        text-transform: uppercase;
-        white-space: nowrap;
-      }
     }
     &-date {
       color: var(--tag-color);
@@ -202,8 +194,14 @@
     }
     &-contributor {
       @include transition(0.25s, 0s, ease-in-out, color);
+      & .icon {
+        @include transition(0.25s, 0s, ease-in-out, color);
+      }
       &:hover {
         color: var(--theme-color-hover);
+        & .icon {
+          color: var(--theme-color-hover);
+        }
       }
       &:visited {
         &:hover {
