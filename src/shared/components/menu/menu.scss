@@ -24,7 +24,13 @@
     z-index: 22;
   }
   &-container {
-    @include transition(0.65s, 0s, cubic-bezier(0.76, 0, 0.24, 1), transform);
+    @include transition(
+      0.65s,
+      0s,
+      cubic-bezier(0.76, 0, 0.24, 1),
+      background-color,
+      transform
+    );
     background-color: var(--menu-background-color);
     height: 100vh;
     position: fixed;
@@ -40,6 +46,7 @@
       height: 100vh;
       justify-content: space-between;
       padding: 64px 16px;
+      position: relative;
       width: 100%;
       &-bottom {
         &-copyright {
@@ -76,6 +83,15 @@
           padding: 4px 0px;
           width: 100%;
         }
+      }
+      &-theme {
+        align-items: center;
+        display: flex;
+        justify-content: flex-end;
+        position: absolute;
+        left: 8px;
+        top: 16px;
+        z-index: 22;
       }
     }
   }
@@ -114,6 +130,10 @@
             width: 100%;
           }
         }
+        &-theme {
+          left: 24px;
+          top: 24px;
+        }
       }
     }
   }
@@ -133,6 +153,9 @@
               font-size: 2.5rem;
             }
           }
+        }
+        &-theme {
+          top: 40px;
         }
       }
     }

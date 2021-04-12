@@ -2,7 +2,7 @@
 @import 'shared/styles/theme.scss';
 
 body {
-  @include transition(0.25s, 0s, ease-out, background, color);
+  @include transition(0.65s, 0s, cubic-bezier(0.76, 0, 0.24, 1), background);
   background: var(--theme-background-color);
   color: var(--theme-color);
   margin: 0;

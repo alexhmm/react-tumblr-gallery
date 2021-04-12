@@ -1,8 +1,16 @@
 import { Fragment, ReactElement, useEffect, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
+// Components
+import Icon from '../icon/icon.component';
+
+// Models
 import { PostsState } from '../../../posts/models/posts-state.interface';
+import { SharedState } from '../../models/shared-state.interface';
+
+// Stores
 import usePostsStore from '../../../posts/store/posts.store';
+import useSharedStore from '../../store/shared.store';
 
 import './menu.scss';
 
@@ -14,10 +22,11 @@ const Menu = (): ReactElement => {
   const menuBtnElem = useRef<HTMLDivElement>(null);
   const menuContainerElem = useRef<HTMLDivElement>(null);
 
-  // Component state
-  const [menu, setMenu] = useState<boolean>(false);
-  const [mounted, setMounted] = useState<boolean>(false);
-  const [searchValue, setSearchValue] = useState<string>('');
+  // Shared store state
+  const [theme, setTheme] = useSharedStore((state: SharedState) => [
+    state.theme,
+    state.setTheme
+  ]);
 
   // Posts store state
   const [limit, setPosts] = usePostsStore((state: PostsState) => [
@@ -25,10 +34,18 @@ const Menu = (): ReactElement => {
     state.setPosts
   ]);
 
+  // Component state
+  const [menu, setMenu] = useState<boolean>(false);
+  const [mounted, setMounted] = useState<boolean>(false);
+  const [searchValue, setSearchValue] = useState<string>('');
+
   // Effects on component mount
   useEffect(() => {
     // Using window.requestAnimationFrame allows an action to be take after the next DOM paint
     window.requestAnimationFrame(() => setMounted(true));
+
+    // Set application theme on mount
+    // setTheme(localStorage.getItem('theme') || 'light');
   }, []);
 
   // Set opacity on mounted state
@@ -37,6 +54,11 @@ const Menu = (): ReactElement => {
       menuBtnElem.current.style.opacity = '1';
     }
   }, [mounted]);
+
+  // Set application theme on mount)
+  useEffect(() => {
+    setTheme(localStorage.getItem('theme') || 'light');
+  }, [setTheme]);
 
   /**
    * Search for tags.
@@ -66,6 +88,13 @@ const Menu = (): ReactElement => {
     }
   };
 
+  /**
+   * Toggles theme.
+   */
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
+
   return (
     <Fragment>
       <section ref={menuBtnElem} onClick={toggleMenu} className='menu-button'>
@@ -76,6 +105,15 @@ const Menu = (): ReactElement => {
       )}
       <section ref={menuContainerElem} className='menu-container'>
         <div className='menu-container-content'>
+          <div className='menu-container-content-theme'>
+            <Icon
+              button
+              size={18}
+              onClick={toggleTheme}
+              style={{ padding: 8 }}
+              classes={theme === 'light' ? 'fas fa-moon' : 'fas fa-sun'}
+            />
+          </div>
           <div className='menu-container-content-top'>
             <input
               placeholder='Search'
