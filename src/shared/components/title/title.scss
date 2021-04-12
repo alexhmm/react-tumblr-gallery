@@ -2,11 +2,11 @@
 @import '../../styles/mixins.scss';
 
 .title {
+  @include highlight-disabled();
   @include transition(0.25s, 0s, ease-in, color, opacity);
   align-items: center;
   display: flex;
   height: 32px;
-  left: 16px;
   max-width: calc(100% - 90px);
   opacity: 0;
   overflow: hidden;
@@ -16,8 +16,10 @@
   z-index: 20;
   &-home {
     font-size: 1.5rem;
+    left: 16px;
   }
   &-sub {
+    left: 8px;
     &-text {
       font-size: 1.25rem;
       margin-left: 12px;
@@ -32,12 +34,13 @@
   .title {
     font-size: 2rem;
     height: 48px;
-    left: 32px;
     max-width: calc(100% - 160px);
     &-home {
       font-size: 2rem;
+      left: 32px;
     }
     &-sub {
+      left: 24px;
       &-text {
         font-size: 1.5rem;
         margin-left: 16px;
@@ -48,15 +51,25 @@
 
 @media (min-width: $xl) {
   .title {
-    left: 48px;
     max-width: calc(100% - 200px);
     top: 32px;
+    &-home {
+      left: 48px;
+    }
+    &-sub {
+      left: 40px;
+    }
   }
 }
 @media (min-width: $fhd) {
   .title {
-    left: 64px;
     max-width: calc(100% - 240px);
+    &-home {
+      left: 64px;
+    }
+    &-sub {
+      left: 56px;
+    }
   }
 }
 
@@ -64,13 +77,14 @@
   .title {
     font-size: 3rem;
     height: 64px;
-    left: 96px;
     &-home {
       font-size: 3rem;
+      left: 96px;
     }
     &-sub {
       &-text {
         font-size: 2rem;
+        left: 88px;
       }
     }
   }

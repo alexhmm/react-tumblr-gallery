@@ -58,6 +58,7 @@
           display: flex;
           flex-wrap: wrap;
           &-item {
+            @include highlight-disabled();
             padding-bottom: 4px;
             margin-right: 12px;
           }
@@ -71,6 +72,7 @@
           align-items: flex-end;
           margin-top: 32px;
           &-item {
+            @include highlight-disabled();
             font-size: 1.5rem;
             padding: 8px 0px;
           }

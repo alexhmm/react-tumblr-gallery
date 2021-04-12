@@ -166,13 +166,6 @@ const PostDetail = (): ReactElement => {
   }, [contributor, mounted, loaded]);
 
   /**
-   * Handler on backdrop click to navigate back to gallery.
-   */
-  const onBackdropClick = () => {
-    history.goBack();
-  };
-
-  /**
    * Handler when pinch zoom starts.
    */
   const onTouchStart = useCallback(() => {
@@ -205,11 +198,7 @@ const PostDetail = (): ReactElement => {
       <div ref={postDetailLoadingElem} className='post-detail-loading'>
         <Spinner size={10} />
       </div>
-      <div
-        ref={postDetailBackdropElem}
-        onClick={onBackdropClick}
-        className='post-detail-backdrop'
-      ></div>
+      <div ref={postDetailBackdropElem} className='post-detail-backdrop'></div>
       {post && post.id_string === postId && (
         <article
           ref={postDetailContainerElem}

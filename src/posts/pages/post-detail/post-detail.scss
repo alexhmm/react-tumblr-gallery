@@ -74,10 +74,10 @@
     align-items: center;
     bottom: 16px;
     display: flex;
+    left: 16px;
     opacity: 0;
     padding: 4px;
     position: fixed;
-    right: 16px;
     z-index: 14;
     &-text {
       margin-left: 8px;
@@ -128,7 +128,7 @@
     }
     &-contributor {
       bottom: 32px;
-      right: 32px;
+      left: 32px;
     }
   }
 }
@@ -148,8 +148,8 @@
     }
     &-contributor {
       bottom: 48px;
+      left: 48px;
       padding: 8px;
-      right: 48px;
     }
   }
 }

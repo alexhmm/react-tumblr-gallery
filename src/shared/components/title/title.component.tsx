@@ -95,33 +95,18 @@ const Title = (): ReactElement => {
     >
       {subtitle ? (
         <Fragment>
-          <Icon button classes='fas fa-chevron-left' size={16} />
+          <Icon
+            button
+            classes='fas fa-arrow-left'
+            size={16}
+            style={{ padding: 8 }}
+          />
           <span className='title-sub-text'>{subtitle}</span>
         </Fragment>
       ) : (
         <Fragment>{title}</Fragment>
       )}
     </header>
-    // <Fragment>
-    //   {subtitle ? (
-    //     <header
-    //       ref={titleElem}
-    //       onClick={onClickBack}
-    //       className='title title-sub'
-    //     >
-    //       <Icon button classes='fas fa-chevron-left' size={16} />
-    //       <span className='title-sub-text'>{subtitle}</span>
-    //     </header>
-    //   ) : (
-    //     <header
-    //       ref={titleElem}
-    //       onClick={onClickHome}
-    //       className='title title-home'
-    //     >
-    //       {title}
-    //     </header>
-    //   )}
-    // </Fragment>
   );
 };
 

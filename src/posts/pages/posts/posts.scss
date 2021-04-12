@@ -32,12 +32,6 @@
     position: fixed;
     transform: translateX(-50%);
   }
-  &-tag {
-    position: fixed;
-    bottom: 16px;
-    right: 16px;
-    z-index: 14;
-  }
 }
 
 @media (min-width: $sm) {
@@ -66,10 +60,6 @@
     &-loading {
       bottom: 48px;
     }
-    &-tag {
-      bottom: 32px;
-      right: 32px;
-    }
   }
 }
 
@@ -78,10 +68,6 @@
     padding: 132px 32px;
     &-loading {
       bottom: 64px;
-    }
-    &-tag {
-      bottom: 48px;
-      right: 48px;
     }
   }
 }
