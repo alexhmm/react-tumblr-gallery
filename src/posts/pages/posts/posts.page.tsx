@@ -4,7 +4,6 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 // Components
 import Post from '../../components/post/post.component';
-import PostsTag from '../../components/posts-tag/posts-tag.component';
 import Spinner from '../../../shared/components/spinner/spinner.component';
 
 // Models
@@ -157,14 +156,9 @@ const Posts = (): ReactElement => {
       <div ref={postsLoadingElem} className='posts-loading'>
         <Spinner size={10} />
       </div>
-      {tag && (
-        <div className='posts-tag'>
-          <PostsTag />
-        </div>
-      )}
       {postElements}
       <div ref={postsEmptyElem} className='posts-empty'>
-        No results found {tagged && `with hashtag #${tagged}.`}
+        No results found{tagged && `: #${tagged}.`}
       </div>
     </InfiniteScroll>
   );
