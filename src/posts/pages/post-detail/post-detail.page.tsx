@@ -114,9 +114,9 @@ const PostDetail = (): ReactElement => {
       setDate(dayjs.unix(post.timestamp).format('LL'));
 
       // Get post contributor
-      if (process.env.REACT_APP_CONTRIBUTOR && post?.tags) {
+      if (process.env.REACT_APP_CONTRIBUTORS && post?.tags) {
         const contributors: Contributor[] = JSON.parse(
-          process.env.REACT_APP_CONTRIBUTOR
+          process.env.REACT_APP_CONTRIBUTORS
         );
         // Iterate through contributor array
         for (const contributor of contributors) {
@@ -157,7 +157,7 @@ const PostDetail = (): ReactElement => {
       loaded &&
       mounted &&
       postDetailContributorElem.current &&
-      process.env.REACT_APP_CONTRIBUTOR
+      process.env.REACT_APP_CONTRIBUTORS
     ) {
       postDetailContributorElem.current.style.opacity = '1';
     }

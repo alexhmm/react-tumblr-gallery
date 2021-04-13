@@ -3,21 +3,20 @@ import { Switch, Route, useLocation } from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 // Pages
+import About from '../../pages/about/about.page';
 import Contributors from '../../pages/contributors/contributors.page';
 import PostDetail from '../../../posts/pages/post-detail/post-detail.page';
 import Posts from '../../../posts/pages/posts/posts.page';
 
 import './app-router.scss';
 
-/**
- * Application routes
- */
 const routes = [
   { path: '/', name: 'Home', Component: Posts },
+  { path: '/about', name: 'About', Component: About },
   { path: '/contributors', name: 'Contributors', Component: Contributors },
   { path: '/post/:postId', name: 'PostDetail', Component: PostDetail },
-  { path: '/post/:postId/:caption', name: 'Contact', Component: PostDetail },
-  { path: '/tagged/:tagged', name: 'Contact', Component: Posts }
+  { path: '/post/:postId/:caption', name: 'PostDetail', Component: PostDetail },
+  { path: '/tagged/:tagged', name: 'Posts', Component: Posts }
 ];
 
 const AppRouter = () => {

@@ -1,0 +1,57 @@
+@import '../../styles/breakpoints.scss';
+@import '../../styles/mixins.scss';
+@import '../../styles/theme.scss';
+
+.about {
+  @include transition(0.25s, 0s, ease-in, color, opacity);
+  align-items: center;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  opacity: 0;
+  width: 100%;
+  &-container {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+    padding: 32px 16px;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+@media (min-width: $md) {
+  .about {
+    &-container {
+      padding: 64px 32px;
+    }
+  }
+}
+
+@media (min-width: $xl) {
+  .about {
+    &-container {
+      padding: 96px 0px;
+      width: 960px;
+    }
+  }
+}
+
+@media (min-width: $fhd) {
+  .about {
+    &-container {
+      padding: 128px 0px;
+    }
+  }
+}
+
+@media (min-width: $wqhd) {
+  .about {
+    &-container {
+      padding: 160px 0px;
+    }
+  }
+}

@@ -17,6 +17,7 @@
     height: 100vh;
     justify-content: center;
     opacity: 0;
+    padding: 32px 16px;
     width: 100%;
     &-item {
       align-items: center;
@@ -47,11 +48,20 @@
   }
 }
 
+@media (min-width: $md) {
+  .contributors {
+    &-container {
+      padding: 64px 32px;
+    }
+  }
+}
+
 @media (min-width: $xl) {
   .contributors {
     &-container {
       flex-direction: row;
       flex-wrap: wrap;
+      padding: 96px 0px;
       width: 960px;
       &-item {
         padding: 32px;
@@ -62,6 +72,22 @@
           font-size: 1rem;
         }
       }
+    }
+  }
+}
+
+@media (min-width: $fhd) {
+  .contributors {
+    &-container {
+      padding: 128px 0px;
+    }
+  }
+}
+
+@media (min-width: $wqhd) {
+  .contributors {
+    &-container {
+      padding: 160px 0px;
     }
   }
 }

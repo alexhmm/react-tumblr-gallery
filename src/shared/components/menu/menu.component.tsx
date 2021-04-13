@@ -142,7 +142,7 @@ const Menu = (): ReactElement => {
               >
                 About
               </Link>
-              {process.env.REACT_APP_CONTRIBUTOR && (
+              {process.env.REACT_APP_CONTRIBUTORS && (
                 <Link
                   to='/contributors'
                   onClick={toggleMenu}

@@ -30,8 +30,8 @@ const Contributors = (): ReactElement => {
   const [loaded, setLoaded] = useState<boolean>(false);
 
   useEffect(() => {
-    if (process.env.REACT_APP_CONTRIBUTOR) {
-      setContributors(JSON.parse(process.env.REACT_APP_CONTRIBUTOR));
+    if (process.env.REACT_APP_CONTRIBUTORS) {
+      setContributors(JSON.parse(process.env.REACT_APP_CONTRIBUTORS));
     }
 
     setSubtitle('Contributors');
