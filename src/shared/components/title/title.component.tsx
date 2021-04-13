@@ -93,7 +93,7 @@ const Title = (): ReactElement => {
       onClick={subtitle ? onClickBack : onClickHome}
       className={`title ${subtitle ? 'title-sub' : 'title-home'}`}
     >
-      {subtitle ? (
+      {typeof subtitle === 'string' ? (
         <Fragment>
           <Icon
             button

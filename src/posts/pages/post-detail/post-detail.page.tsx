@@ -109,7 +109,7 @@ const PostDetail = (): ReactElement => {
   useEffect(() => {
     if (post) {
       // Set document title
-      setSubtitle(post?.summary.toUpperCase());
+      setSubtitle(post?.summary.toUpperCase() || '');
 
       // Set post date
       setDate(dayjs.unix(post.timestamp).format('LL'));
