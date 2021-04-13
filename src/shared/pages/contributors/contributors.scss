@@ -1,0 +1,100 @@
+@import '../../styles/breakpoints.scss';
+@import '../../styles/mixins.scss';
+@import '../../styles/theme.scss';
+
+.contributors {
+  align-items: center;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  width: 100%;
+  &-container {
+    @include transition(0.25s, 0s, ease-in, opacity);
+    box-sizing: border-box;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+    opacity: 0;
+    width: 100%;
+    &-item {
+      align-items: center;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      padding: 12px 0px;
+      &-title {
+        font-size: 1.5rem;
+        padding-bottom: 8px;
+        &:visited {
+          color: var(--theme-color);
+        }
+      }
+      &-total {
+        color: var(--tag-color);
+        font-size: 0.875rem;
+        &:visited {
+          color: var(--tag-color);
+        }
+      }
+    }
+  }
+  &-loading {
+    @include transition(0.25s, 0s, ease-in, opacity);
+    opacity: 1;
+    position: fixed;
+  }
+}
+
+@media (min-width: $xl) {
+  .contributors {
+    &-container {
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: 960px;
+      &-item {
+        padding: 32px;
+        &-title {
+          font-size: 2rem;
+        }
+        &-total {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}
+
+@media (hover: hover) {
+  .contributors {
+    &-container {
+      &-item {
+        &-title {
+          @include transition(0.25s, 0s, ease-in, color);
+          cursor: pointer;
+          &:hover {
+            color: var(--theme-color-hover);
+          }
+          &:visited {
+            &:hover {
+              color: var(--theme-color-hover);
+            }
+          }
+        }
+        &-total {
+          @include transition(0.25s, 0s, ease-in, color);
+          cursor: pointer;
+          &:hover {
+            color: var(--theme-color-hover);
+          }
+          &:visited {
+            &:hover {
+              color: var(--theme-color-hover);
+            }
+          }
+        }
+      }
+    }
+  }
+}

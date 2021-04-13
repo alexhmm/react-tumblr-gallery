@@ -2,6 +2,8 @@ import { FunctionComponent } from 'react';
 import { Switch, Route, useLocation } from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
+// Pages
+import Contributors from '../../pages/contributors/contributors.page';
 import PostDetail from '../../../posts/pages/post-detail/post-detail.page';
 import Posts from '../../../posts/pages/posts/posts.page';
 
@@ -12,7 +14,8 @@ import './app-router.scss';
  */
 const routes = [
   { path: '/', name: 'Home', Component: Posts },
-  { path: '/post/:postId', name: 'About', Component: PostDetail },
+  { path: '/contributors', name: 'Contributors', Component: Contributors },
+  { path: '/post/:postId', name: 'PostDetail', Component: PostDetail },
   { path: '/post/:postId/:caption', name: 'Contact', Component: PostDetail },
   { path: '/tagged/:tagged', name: 'Contact', Component: Posts }
 ];

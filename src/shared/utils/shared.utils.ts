@@ -1,3 +1,4 @@
+import { PostsResponse } from '../../posts/models/posts-response.interface';
 import { BlogInfo } from '../models/blog-info.interface';
 
 /**
@@ -19,6 +20,30 @@ export const getBlogInfo = (): Promise<BlogInfo> => {
     })
     .then(data => {
       return data.response.blog;
+    })
+    .catch(error => {
+      console.error('Error fetching posts:', error);
+      return null;
+    });
+};
+
+/**
+ * Get contributor meta data.
+ * @param tag Tag
+ * @returns Contributor meta data
+ */
+export const getContributor = (tag: string): Promise<PostsResponse> => {
+  let url = `${process.env.REACT_APP_API_URL}/posts/?api_key=${process.env.REACT_APP_API_KEY}&type=photo&limit=1&tag=${tag}`;
+
+  return fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      return data.response;
     })
     .catch(error => {
       console.error('Error fetching posts:', error);

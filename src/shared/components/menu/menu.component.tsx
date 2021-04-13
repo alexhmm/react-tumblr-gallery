@@ -46,7 +46,8 @@ const Menu = (): ReactElement => {
     window.requestAnimationFrame(() => setMounted(true));
 
     // Set application theme on mount
-    // setTheme(localStorage.getItem('theme') || 'light');
+    setTheme(localStorage.getItem('theme') || 'light');
+    // eslint-disable-next-line
   }, []);
 
   // Set opacity on mounted state
@@ -55,11 +56,6 @@ const Menu = (): ReactElement => {
       menuBtnElem.current.style.opacity = '1';
     }
   }, [mounted]);
-
-  // Set application theme on mount)
-  useEffect(() => {
-    setTheme(localStorage.getItem('theme') || 'light');
-  }, [setTheme]);
 
   /**
    * Search for tags.
@@ -146,6 +142,15 @@ const Menu = (): ReactElement => {
               >
                 About
               </Link>
+              {process.env.REACT_APP_CONTRIBUTOR && (
+                <Link
+                  to='/contributors'
+                  onClick={toggleMenu}
+                  className='menu-container-content-top-nav-item'
+                >
+                  Contributors
+                </Link>
+              )}
             </nav>
           </div>
           <div className='menu-container-content-bottom'>
