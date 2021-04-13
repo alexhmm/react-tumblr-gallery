@@ -21,6 +21,7 @@ const Menu = (): ReactElement => {
   // Menu element references
   const menuBtnElem = useRef<HTMLDivElement>(null);
   const menuContainerElem = useRef<HTMLDivElement>(null);
+  const menuSearchElem = useRef<HTMLInputElement>(null);
 
   // Shared store state
   const [theme, setTheme] = useSharedStore((state: SharedState) => [
@@ -70,6 +71,9 @@ const Menu = (): ReactElement => {
         searchVal = searchVal.substring(1, searchVal.length);
       }
       toggleMenu();
+      if (menuSearchElem.current) {
+        menuSearchElem.current.blur();
+      }
       setSearchValue('');
       setPosts(limit, 0, searchVal.toLocaleLowerCase());
       history.push('/tagged/' + searchVal.toLocaleLowerCase());
@@ -116,6 +120,7 @@ const Menu = (): ReactElement => {
           </div>
           <div className='menu-container-content-top'>
             <input
+              ref={menuSearchElem}
               placeholder='Search'
               onKeyPress={event => {
                 if (event.key === 'Enter') {
