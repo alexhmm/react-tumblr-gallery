@@ -27,8 +27,9 @@ const useOnScreen = <T extends Element>(
       if (ref.current) {
         observer.observe(ref.current);
       }
+      const currentRef = ref.current;
       return () => {
-        observer.unobserve(ref.current);
+        currentRef && observer.unobserve(currentRef);
       };
     }
   }, [ref, rootMargin]); // Empty array ensures that effect is only run on mount and unmount
