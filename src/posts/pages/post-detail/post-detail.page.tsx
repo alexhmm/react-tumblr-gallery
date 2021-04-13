@@ -1,5 +1,5 @@
 import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import * as dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 
@@ -28,7 +28,6 @@ import { setPostSourceDetail } from '../../utils/posts.utils';
 
 const PostDetail = (): ReactElement => {
   const dimensions = useDimensions();
-  const history = useHistory();
 
   // Post detail element references
   const postDetailElem = useRef<HTMLDivElement>(null);

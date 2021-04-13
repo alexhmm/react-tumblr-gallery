@@ -2,6 +2,7 @@ import { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import useDimensions from '../../../shared/hooks/use-dimensions.hook';
+import useOnScreen from '../../../shared/hooks/use-on-screen.hook';
 
 import { Post as PostType } from '../../models/post.interface';
 import { PostsState } from '../../models/posts-state.interface';
@@ -20,8 +21,10 @@ const Post = (props: { post: PostType }): ReactElement => {
   ]);
 
   // Post element references
-  const postElem = useRef<HTMLDivElement>(null);
+  const postElem: any = useRef<HTMLDivElement>(null);
   const postContainerElem = useRef<HTMLAnchorElement>(null);
+
+  const onScreen = useOnScreen(postElem, '300px');
 
   // Component state
   const [imgWidth, setImgWidth] = useState<number>(0);
@@ -56,23 +59,32 @@ const Post = (props: { post: PostType }): ReactElement => {
     }
   }, [imgSrc, imgWidth, loaded, mounted]);
 
-  // Effect on post hover change
+  // Grayscale photo posts if on screen
   useEffect(() => {
-    if (postContainerElem.current && postHover && postHover === props.post.id) {
-      // Colorize hovered post element
-      postContainerElem.current.style.filter = 'grayscale(0)';
-    } else if (
-      postContainerElem.current &&
-      postHover &&
-      postHover !== props.post.id
-    ) {
-      // Grayscale all post elements instead of hovered one
-      postContainerElem.current.style.filter = 'grayscale(1)';
-    } else if (postContainerElem.current && !postHover) {
-      // Colorize all post elements on non hover
-      postContainerElem.current.style.filter = 'grayscale(0)';
+    if (onScreen) {
+      if (
+        postContainerElem.current &&
+        postHover &&
+        postHover === props.post.id
+      ) {
+        postContainerElem.current.style.filter = 'grayscale(0)';
+      } else if (
+        postContainerElem.current &&
+        postHover &&
+        postHover !== props.post.id
+      ) {
+        // Grayscale all post elements instead of hovered one
+        postContainerElem.current.style.filter = 'grayscale(1)';
+      } else if (
+        postContainerElem.current &&
+        !postHover &&
+        postContainerElem.current.style.filter !== 'grayscale(0)'
+      ) {
+        // Colorize all post elements on non hover
+        postContainerElem.current.style.filter = 'grayscale(0)';
+      }
     }
-  }, [postHover, props.post.id]);
+  }, [postHover, props.post.id, onScreen]);
 
   // Effect on post change
   useEffect(() => {
