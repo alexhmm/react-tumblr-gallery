@@ -2,17 +2,17 @@ import { ReactElement, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 // Components
-import Spinner from '../../components/spinner/spinner.component';
+import Spinner from '../../../shared/components/spinner/spinner.component';
 
 // Models
-import { Contributor } from '../../models/contributor.interface';
-import { SharedState } from '../../models/shared-state.interface';
+import { Contributor } from '../../../shared/models/contributor.interface';
+import { SharedState } from '../../../shared/models/shared-state.interface';
 
 // Stores
-import useSharedStore from '../../store/shared.store';
+import useSharedStore from '../../../shared/store/shared.store';
 
 // Utils
-import { getContributor } from '../../utils/shared.utils';
+import { getContributor } from '../../../shared/utils/shared.utils';
 
 import './contributors.scss';
 

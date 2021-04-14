@@ -1,7 +1,7 @@
 import { Fragment, ReactElement, useEffect, useRef } from 'react';
 
-import { SharedState } from '../../models/shared-state.interface';
-import useSharedStore from '../../store/shared.store';
+import { SharedState } from '../../../shared/models/shared-state.interface';
+import useSharedStore from '../../../shared/store/shared.store';
 
 import './about.scss';
 

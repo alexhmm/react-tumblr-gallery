@@ -1,6 +1,6 @@
-@import '../../styles/breakpoints.scss';
-@import '../../styles/mixins.scss';
-@import '../../styles/theme.scss';
+@import '../../../shared/styles/breakpoints.scss';
+@import '../../../shared/styles/mixins.scss';
+@import '../../../shared/styles/theme.scss';
 
 .about {
   @include transition(0.25s, 0s, ease-in, color, opacity);

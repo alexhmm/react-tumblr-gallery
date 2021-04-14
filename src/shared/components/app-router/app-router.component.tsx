@@ -3,8 +3,8 @@ import { Switch, Route, useLocation } from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 // Pages
-import About from '../../pages/about/about.page';
-import Contributors from '../../pages/contributors/contributors.page';
+import About from '../../../info/pages/about/about.page';
+import Contributors from '../../../info/pages/contributors/contributors.page';
 import PostDetail from '../../../posts/pages/post-detail/post-detail.page';
 import Posts from '../../../posts/pages/posts/posts.page';
 
