@@ -13,6 +13,7 @@ import useDimensions from '../../../shared/hooks/use-dimensions.hook';
 
 // Models
 import { Contributor } from '../../../shared/models/contributor.interface';
+import { Post } from '../../models/post.interface';
 import { PostsState } from '../../models/posts-state.interface';
 import { SharedState } from '../../../shared/models/shared-state.interface';
 
@@ -36,14 +37,15 @@ const PostDetail = (): ReactElement => {
   const postDetailContributorElem = useRef<HTMLAnchorElement>(null);
   const postDetailLoadingElem = useRef<HTMLDivElement>(null);
 
-  // Settings store state
+  // Shared store state
   const [setSubtitle] = useSharedStore((state: SharedState) => [
     state.setSubtitle
   ]);
 
   // Posts store state
-  const [post, setPost] = usePostsStore((state: PostsState) => [
+  const [post, posts, setPost] = usePostsStore((state: PostsState) => [
     state.post,
+    state.posts,
     state.setPost
   ]);
 
@@ -59,9 +61,14 @@ const PostDetail = (): ReactElement => {
   const [imgSrc, setImgSrc] = useState<string | undefined>(undefined);
   const [loaded, setLoaded] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
+  const [postNext, setPostNext] = useState<string | null>(null);
+  const [postPrev, setPostPrev] = useState<string | null>(null);
 
   // Effect on component mount
   useEffect(() => {
+    // Using window.requestAnimationFrame allows an action to be take after the next DOM paint
+    window.requestAnimationFrame(() => setMounted(true));
+
     dayjs.extend(LocalizedFormat);
   }, []);
 
@@ -74,17 +81,18 @@ const PostDetail = (): ReactElement => {
 
   // Effect on postId param
   useEffect(() => {
-    setPost(postId);
-    // Using window.requestAnimationFrame allows an action to be take after the next DOM paint
-    window.requestAnimationFrame(() => setMounted(true));
+    if (postId) {
+      setPost(postId);
+    }
 
     // Cleanup on unmount component
     return () => {
       setContributor(null);
       setLoaded(false);
-      setPost(null);
+      // setPost(null);
     };
-  }, [postId, setPost]);
+    // eslint-disable-next-line
+  }, [postId]);
 
   // Effect on dimensions and post
   useEffect(() => {
@@ -106,7 +114,7 @@ const PostDetail = (): ReactElement => {
 
   // Effect on post
   useEffect(() => {
-    if (post) {
+    if (post?.id_string === postId) {
       // Set document title
       setSubtitle(post?.summary.toUpperCase() || '');
 
@@ -137,7 +145,24 @@ const PostDetail = (): ReactElement => {
       setContributor(null);
       setDate(null);
     };
-  }, [post, setSubtitle]);
+    // eslint-disable-next-line
+  }, [post, postId]);
+
+  // Set prev and next post ids
+  useEffect(() => {
+    if (post?.id_string === postId && posts?.length > 0) {
+      const index = posts.findIndex(
+        (singlePost: Post) => singlePost.id_string === post?.id_string
+      );
+      index > 0 && setPostPrev(posts[index - 1].id_string);
+      index < posts.length - 1 && setPostNext(posts[index + 1].id_string);
+    }
+    // eslint-disable-next-line
+  }, [post, postId, posts]);
+
+  // useEffect(() => {
+  //   console.log('prev next', post?.summary, postPrev, postNext);
+  // }, [postNext, postPrev]);
 
   // Set opacity on mounted state
   useEffect(() => {
@@ -227,6 +252,34 @@ const PostDetail = (): ReactElement => {
               className='post-detail-container-src'
             />
           </Zoomable>
+          {postPrev && (
+            <Link
+              replace
+              to={`/post/${postPrev}`}
+              className='post-detail-container-prev'
+            >
+              <div className='post-detail-container-prev-button'>
+                <Icon
+                  classes='fas fa-chevron-left'
+                  style={{ color: 'white' }}
+                />
+              </div>
+            </Link>
+          )}
+          {postNext && (
+            <Link
+              replace
+              to={`/post/${postNext}`}
+              className='post-detail-container-next'
+            >
+              <div className='post-detail-container-next-button'>
+                <Icon
+                  classes='fas fa-chevron-right'
+                  style={{ color: 'white' }}
+                />
+              </div>
+            </Link>
+          )}
           <section className='post-detail-container-date'>
             {date && <span>{date}</span>}
           </section>

@@ -38,6 +38,7 @@ const Posts = (): ReactElement => {
     tag,
     total,
     setLoading,
+    setPost,
     setPostHover,
     setPostElements,
     setPosts,
@@ -52,6 +53,7 @@ const Posts = (): ReactElement => {
     state.tag,
     state.total,
     state.setLoading,
+    state.setPost,
     state.setPostHover,
     state.setPostElements,
     state.setPosts,
@@ -70,6 +72,10 @@ const Posts = (): ReactElement => {
   useEffect(() => {
     // Using window.requestAnimationFrame allows an action to be take after the next DOM paint
     window.requestAnimationFrame(() => setMounted(true));
+
+    // Reset post
+    setPost(null);
+
     // Cleanup on component unmount
     return () => {
       setPostHover(null);
