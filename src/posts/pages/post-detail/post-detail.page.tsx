@@ -43,9 +43,23 @@ const PostDetail = (): ReactElement => {
   ]);
 
   // Posts store state
-  const [post, posts, setPost] = usePostsStore((state: PostsState) => [
+  const [
+    limit,
+    offset,
+    post,
+    posts,
+    tag,
+    total,
+    addPosts,
+    setPost
+  ] = usePostsStore((state: PostsState) => [
+    state.limit,
+    state.offset,
     state.post,
     state.posts,
+    state.tag,
+    state.total,
+    state.addPosts,
     state.setPost
   ]);
 
@@ -156,13 +170,14 @@ const PostDetail = (): ReactElement => {
       );
       index > 0 && setPostPrev(posts[index - 1].id_string);
       index < posts.length - 1 && setPostNext(posts[index + 1].id_string);
+
+      // Add more posts on last posts item
+      index === posts.length - 1 &&
+        total >= offset + limit &&
+        addPosts(limit, offset + limit, tag ? tag : '');
     }
     // eslint-disable-next-line
   }, [post, postId, posts]);
-
-  // useEffect(() => {
-  //   console.log('prev next', post?.summary, postPrev, postNext);
-  // }, [postNext, postPrev]);
 
   // Set opacity on mounted state
   useEffect(() => {
