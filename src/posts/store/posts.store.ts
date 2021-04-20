@@ -5,7 +5,7 @@ import { PostsResponse } from '../models/posts-response.interface';
 import { PostsState } from '../models/posts-state.interface';
 import { getPostById, getPosts } from '../utils/posts.utils';
 
-const usePostsStore = create<PostsState>(set => ({
+const usePostsStore = create<PostsState>((set, get) => ({
   limit: process.env.REACT_APP_API_LIMIT
     ? parseInt(process.env.REACT_APP_API_LIMIT, 10)
     : 20,
@@ -22,9 +22,18 @@ const usePostsStore = create<PostsState>(set => ({
   },
   setPost: async (postId: string | null) => {
     if (postId) {
-      const fetchPost: PostsResponse = await getPostById(postId);
-      if (fetchPost && fetchPost.posts.length > 0) {
-        set({ post: fetchPost.posts[0] });
+      // Get store posts
+      const posts = get().posts;
+      const post = posts.find(post => post.id_string === postId);
+      if (post) {
+        // Set post by posts match
+        set({ post });
+      } else {
+        // Get post from Tumblr API
+        const fetchPost: PostsResponse = await getPostById(postId);
+        if (fetchPost && fetchPost.posts.length > 0) {
+          set({ post: fetchPost.posts[0] });
+        }
       }
     } else {
       set({ post: null });

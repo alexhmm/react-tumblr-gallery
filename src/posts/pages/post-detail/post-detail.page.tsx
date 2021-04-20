@@ -117,10 +117,9 @@ const PostDetail = (): ReactElement => {
     return () => {
       setContributor(null);
       setLoaded(false);
-      // setPost(null);
     };
     // eslint-disable-next-line
-  }, [postId]);
+  }, [postId, posts]);
 
   // Effect on dimensions and post
   useEffect(() => {
