@@ -12,6 +12,7 @@
   top: 0;
   width: 100vw;
   &-backdrop {
+    @include transition(0.25s, 0s, ease-in, background-color);
     height: 100vh;
     left: 0;
     position: fixed;

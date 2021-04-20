@@ -328,69 +328,74 @@ const PostDetail = (): ReactElement => {
   }, []);
 
   return (
-    <div ref={postDetailElem} className='post-detail'>
-      <div ref={postDetailLoadingElem} className='post-detail-loading'>
-        <Spinner size={10} />
-      </div>
-      <div ref={postDetailBackdropElem} className='post-detail-backdrop'></div>
-      {post && post.id_string === postId && (
-        <article
-          ref={postDetailContainerElem}
-          className='post-detail-container'
-        >
-          <section className='post-detail-container-caption'>
-            {post.tags.map((tag: string) => (
-              <Link
-                key={tag}
-                to={'/tagged/' + tag}
-                className='post-detail-container-caption-tag'
-              >
-                {'#' + tag}
-              </Link>
-            ))}
-          </section>
-          <Zoomable
-            onTouchStart={onTouchStart}
-            onTouchEnd={onTouchEnd}
-            releaseAnimationTimeout={250}
-            className='post-detail-container-src'
+    <Fragment>
+      <div ref={postDetailElem} className='post-detail'>
+        <div ref={postDetailLoadingElem} className='post-detail-loading'>
+          <Spinner size={10} />
+        </div>
+        <div
+          ref={postDetailBackdropElem}
+          className='post-detail-backdrop'
+        ></div>
+        {post && post.id_string === postId && (
+          <article
+            ref={postDetailContainerElem}
+            className='post-detail-container'
           >
-            <img
-              {...onImgSwipeHandlers}
-              alt={post?.caption}
-              src={imgSrc}
-              onClick={event => onImgClick(event)}
-              onLoad={() => setLoaded(true)}
-              onMouseMove={event => onImgMouseMove(event)}
-              onMouseOut={onImgMouseOut}
+            <section className='post-detail-container-caption'>
+              {post.tags.map((tag: string) => (
+                <Link
+                  key={tag}
+                  to={'/tagged/' + tag}
+                  className='post-detail-container-caption-tag'
+                >
+                  {'#' + tag}
+                </Link>
+              ))}
+            </section>
+            <Zoomable
+              onTouchStart={onTouchStart}
+              onTouchEnd={onTouchEnd}
+              releaseAnimationTimeout={250}
               className='post-detail-container-src'
-            />
-            <Fragment>
-              <div
-                ref={postDetailContainerPrevElem}
-                className='post-detail-container-src-prev'
-              >
-                <Icon
-                  classes='fas fa-chevron-left'
-                  style={{ color: 'white' }}
-                />
-              </div>
-              <div
-                ref={postDetailContainerNextElem}
-                className='post-detail-container-src-next'
-              >
-                <Icon
-                  classes='fas fa-chevron-right'
-                  style={{ color: 'white' }}
-                />
-              </div>
-            </Fragment>
-          </Zoomable>
-          <section className='post-detail-container-date'>
-            {date && <span>{date}</span>}
-          </section>
-        </article>
-      )}
+            >
+              <img
+                {...onImgSwipeHandlers}
+                alt={post?.caption}
+                src={imgSrc}
+                onClick={event => onImgClick(event)}
+                onLoad={() => setLoaded(true)}
+                onMouseMove={event => onImgMouseMove(event)}
+                onMouseOut={onImgMouseOut}
+                className='post-detail-container-src'
+              />
+              <Fragment>
+                <div
+                  ref={postDetailContainerPrevElem}
+                  className='post-detail-container-src-prev'
+                >
+                  <Icon
+                    classes='fas fa-chevron-left'
+                    style={{ color: 'white' }}
+                  />
+                </div>
+                <div
+                  ref={postDetailContainerNextElem}
+                  className='post-detail-container-src-next'
+                >
+                  <Icon
+                    classes='fas fa-chevron-right'
+                    style={{ color: 'white' }}
+                  />
+                </div>
+              </Fragment>
+            </Zoomable>
+            <section className='post-detail-container-date'>
+              {date && <span>{date}</span>}
+            </section>
+          </article>
+        )}
+      </div>
       <a
         ref={postDetailContributorElem}
         href={contributor?.href}
@@ -403,7 +408,7 @@ const PostDetail = (): ReactElement => {
           {contributor?.name}
         </span>
       </a>
-    </div>
+    </Fragment>
   );
 };
 
