@@ -4,6 +4,41 @@ import { PhotoSource } from '../models/photo-source.interface';
 import { PostsResponse } from '../models/posts-response.interface';
 
 /**
+ * Calculates image source by current dimensions.
+ * @param currentImgWidth Current image width
+ * @param innerWidth Inner width
+ * @param photos Photos
+ * @returns Image source
+ */
+const getImageSource = (
+  currentImgWidth: number,
+  innerWidth: number,
+  photos: PhotoSource[]
+): { imgSrc: string | undefined; imgWidth: number } => {
+  // Get all image urls
+  let imgSrc;
+  let imgWidth = 0;
+
+  for (let i = photos?.length - 1; i > -1; i--) {
+    if (photos[i].width >= innerWidth) {
+      // Set source if image width is bigger than window width
+      imgSrc = photos[i].url;
+      imgWidth = photos[i].width;
+      break;
+    }
+    if (i === 0 && !imgSrc) {
+      // If no match set biggest possible image width
+      imgSrc = photos[i].url;
+      imgWidth = photos[i].width;
+    }
+  }
+  return {
+    imgSrc,
+    imgWidth
+  };
+};
+
+/**
  * Get tumblr posts.
  * @param offset Offset
  * @param tag Tag
@@ -66,38 +101,16 @@ export const getPostById = (postId: string): Promise<PostsResponse> => {
 };
 
 /**
- * Calculates image source by current dimensions.
- * @param currentImgWidth Current image width
- * @param innerWidth Inner width
- * @param photos Photos
- * @returns Image source
+ * Returns prev or next state based on mouse position on x axis.
+ * @param clientX Client X
+ * @returns Prev / next state
  */
-const getImageSource = (
-  currentImgWidth: number,
-  innerWidth: number,
-  photos: PhotoSource[]
-): { imgSrc: string | undefined; imgWidth: number } => {
-  // Get all image urls
-  let imgSrc;
-  let imgWidth = 0;
-
-  for (let i = photos?.length - 1; i > -1; i--) {
-    if (photos[i].width >= innerWidth) {
-      // Set source if image width is bigger than window width
-      imgSrc = photos[i].url;
-      imgWidth = photos[i].width;
-      break;
-    }
-    if (i === 0 && !imgSrc) {
-      // If no match set biggest possible image width
-      imgSrc = photos[i].url;
-      imgWidth = photos[i].width;
-    }
+export const getPrevNextPost = (clientX: number): string => {
+  if (window.innerWidth / 2 >= clientX) {
+    return 'prev';
+  } else {
+    return 'next';
   }
-  return {
-    imgSrc,
-    imgWidth
-  };
 };
 
 /**

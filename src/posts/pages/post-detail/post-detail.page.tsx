@@ -1,7 +1,16 @@
-import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import {
+  Fragment,
+  MouseEvent,
+  ReactElement,
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import * as dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
+import { useSwipeable } from 'react-swipeable';
 
 // Components
 import Icon from '../../../shared/components/icon/icon.component';
@@ -25,15 +34,20 @@ import useSharedStore from '../../../shared/store/shared.store';
 import './post-detail.scss';
 
 // Utils
-import { setPostSourceDetail } from '../../utils/posts.utils';
+import { getPrevNextPost, setPostSourceDetail } from '../../utils/posts.utils';
 
 const PostDetail = (): ReactElement => {
   const dimensions = useDimensions();
+
+  // React router history
+  const history = useHistory();
 
   // Post detail element references
   const postDetailElem = useRef<HTMLDivElement>(null);
   const postDetailBackdropElem = useRef<HTMLDivElement>(null);
   const postDetailContainerElem = useRef<HTMLDivElement>(null);
+  const postDetailContainerNextElem = useRef<HTMLDivElement>(null);
+  const postDetailContainerPrevElem = useRef<HTMLDivElement>(null);
   const postDetailContributorElem = useRef<HTMLAnchorElement>(null);
   const postDetailLoadingElem = useRef<HTMLDivElement>(null);
 
@@ -205,6 +219,87 @@ const PostDetail = (): ReactElement => {
   }, [contributor, mounted, loaded]);
 
   /**
+   * Handler on image click.
+   * Navigates to previous or next post.
+   */
+  const onImgClick = useCallback(
+    (event: MouseEvent) => {
+      if (getPrevNextPost(event.clientX) === 'next' && postNext) {
+        onPostNext();
+      }
+      if (getPrevNextPost(event.clientX) === 'prev' && postPrev) {
+        onPostPrev();
+      }
+    },
+    // eslint-disable-next-line
+    [postNext, postPrev]
+  );
+
+  /**
+   * Handler on image mouse move.
+   * Shows or hides post navigation buttons.
+   */
+  const onImgMouseMove = useCallback(
+    (event: MouseEvent) => {
+      if (
+        postDetailContainerPrevElem.current &&
+        postDetailContainerNextElem.current
+      ) {
+        if (getPrevNextPost(event.clientX) === 'prev' && postPrev) {
+          postDetailContainerPrevElem.current.style.opacity = '1';
+          postDetailContainerNextElem.current.style.opacity = '0';
+        }
+        if (getPrevNextPost(event.clientX) === 'next' && postNext) {
+          postDetailContainerPrevElem.current.style.opacity = '0';
+          postDetailContainerNextElem.current.style.opacity = '1';
+        }
+      }
+    },
+    [postPrev, postNext]
+  );
+
+  /**
+   * Handler on image mouse out.
+   * Hides post navigation buttons.
+   */
+  const onImgMouseOut = useCallback(() => {
+    if (
+      postDetailContainerPrevElem.current &&
+      postDetailContainerNextElem.current
+    ) {
+      postDetailContainerPrevElem.current.style.opacity = '0';
+      postDetailContainerNextElem.current.style.opacity = '0';
+    }
+  }, []);
+
+  /**
+   * Handler on next post navigation.
+   */
+  const onPostNext = useCallback(() => {
+    if (postNext) {
+      history.replace(`/post/${postNext}`);
+    }
+  }, [history, postNext]);
+
+  /**
+   * Handler on previous post navigation.
+   */
+  const onPostPrev = useCallback(() => {
+    if (postPrev) {
+      history.replace(`/post/${postPrev}`);
+    }
+  }, [history, postPrev]);
+
+  /**
+   * Handlers on image swipe.
+   * Navigates to previous or next post.
+   */
+  const onImgSwipeHandlers = useSwipeable({
+    onSwipedLeft: () => onPostNext(),
+    onSwipedRight: () => onPostPrev()
+  });
+
+  /**
    * Handler when pinch zoom starts.
    */
   const onTouchStart = useCallback(() => {
@@ -261,40 +356,36 @@ const PostDetail = (): ReactElement => {
             className='post-detail-container-src'
           >
             <img
+              {...onImgSwipeHandlers}
               alt={post?.caption}
               src={imgSrc}
+              onClick={event => onImgClick(event)}
               onLoad={() => setLoaded(true)}
+              onMouseMove={event => onImgMouseMove(event)}
+              onMouseOut={onImgMouseOut}
               className='post-detail-container-src'
             />
-          </Zoomable>
-          {postPrev && (
-            <Link
-              replace
-              to={`/post/${postPrev}`}
-              className='post-detail-container-prev'
-            >
-              <div className='post-detail-container-prev-button'>
+            <Fragment>
+              <div
+                ref={postDetailContainerPrevElem}
+                className='post-detail-container-src-prev'
+              >
                 <Icon
                   classes='fas fa-chevron-left'
                   style={{ color: 'white' }}
                 />
               </div>
-            </Link>
-          )}
-          {postNext && (
-            <Link
-              replace
-              to={`/post/${postNext}`}
-              className='post-detail-container-next'
-            >
-              <div className='post-detail-container-next-button'>
+              <div
+                ref={postDetailContainerNextElem}
+                className='post-detail-container-src-next'
+              >
                 <Icon
                   classes='fas fa-chevron-right'
                   style={{ color: 'white' }}
                 />
               </div>
-            </Link>
-          )}
+            </Fragment>
+          </Zoomable>
           <section className='post-detail-container-date'>
             {date && <span>{date}</span>}
           </section>
