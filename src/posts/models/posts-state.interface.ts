@@ -4,6 +4,7 @@ import { State } from 'zustand';
 import { Post } from './post.interface';
 
 export interface PostsState extends State {
+  keyUsed: boolean;
   limit: number;
   loading: boolean;
   offset: number;
@@ -13,6 +14,8 @@ export interface PostsState extends State {
   posts: Post[];
   tag: string | null;
   total: number;
+  wheelUsed: boolean;
+  setKeyUsed: (keyUsed: boolean) => void;
   setLoading: (loading: boolean) => void;
   setPost: (postId: string | null) => void;
   setPostHover: (postId: number | null) => void;
@@ -20,4 +23,5 @@ export interface PostsState extends State {
   setPosts: (limit: number, offset: number | null, tag: string | null) => void;
   addPosts: (limit: number, offset: number, tag: string) => void;
   setTag: (tag: string) => void;
+  setWheelUsed: (wheelUsed: boolean) => void;
 }

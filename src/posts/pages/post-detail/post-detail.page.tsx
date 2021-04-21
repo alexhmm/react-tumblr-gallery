@@ -58,23 +58,31 @@ const PostDetail = (): ReactElement => {
 
   // Posts store state
   const [
+    keyUsed,
     limit,
     offset,
     post,
     posts,
     tag,
     total,
+    wheelUsed,
+    setKeyUsed,
     addPosts,
-    setPost
+    setPost,
+    setWheelUsed
   ] = usePostsStore((state: PostsState) => [
+    state.keyUsed,
     state.limit,
     state.offset,
     state.post,
     state.posts,
     state.tag,
     state.total,
+    state.wheelUsed,
+    state.setKeyUsed,
     state.addPosts,
-    state.setPost
+    state.setPost,
+    state.setWheelUsed
   ]);
 
   // Post id route param
@@ -192,6 +200,28 @@ const PostDetail = (): ReactElement => {
     // eslint-disable-next-line
   }, [post, postId, posts]);
 
+  // Add and remove key and wheel event listeners.
+  useEffect(() => {
+    if (loaded) {
+      window.addEventListener('keyup', onKeyUse);
+    }
+    return () => {
+      window.removeEventListener('keyup', onKeyUse);
+    };
+    // eslint-disable-next-line
+  }, [keyUsed, loaded, postPrev, postNext]);
+
+  // Add and remove key and wheel event listeners.
+  useEffect(() => {
+    if (loaded) {
+      window.addEventListener('wheel', onWheelUse);
+    }
+    return () => {
+      window.removeEventListener('wheel', onWheelUse);
+    };
+    // eslint-disable-next-line
+  }, [loaded, postPrev, postNext, wheelUsed]);
+
   // Set opacity on mounted state
   useEffect(() => {
     if (
@@ -272,6 +302,26 @@ const PostDetail = (): ReactElement => {
   }, []);
 
   /**
+   * Handler on keyboard use to navigate to prev / next post.
+   *
+   * @param event KeyboardEvent
+   */
+  const onKeyUse = useCallback(
+    (event: KeyboardEvent) => {
+      if (loaded && !keyUsed) {
+        if (event.key === 'ArrowLeft' && postPrev) {
+          onPostPrev();
+        } else if (event.key === 'ArrowRight' && postNext) {
+          onPostNext();
+        }
+        setKeyUsed(true);
+      }
+    },
+    // eslint-disable-next-line
+    [keyUsed, loaded, postPrev, postNext]
+  );
+
+  /**
    * Handler on next post navigation.
    */
   const onPostNext = useCallback(() => {
@@ -325,6 +375,26 @@ const PostDetail = (): ReactElement => {
       );
     }
   }, []);
+
+  /**
+   * Handler on wheel use to navigate to prev / next post.
+   *
+   * @param event WheelEvent
+   */
+  const onWheelUse = useCallback(
+    (event: WheelEvent) => {
+      if (loaded && !wheelUsed) {
+        if (event.deltaY < 0 && postPrev) {
+          onPostPrev();
+        } else if (event.deltaY > 0 && postNext) {
+          onPostNext();
+        }
+        setWheelUsed(true);
+      }
+    },
+    // eslint-disable-next-line
+    [loaded, postPrev, postNext, wheelUsed]
+  );
 
   return (
     <Fragment>

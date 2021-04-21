@@ -6,6 +6,7 @@ import { PostsState } from '../models/posts-state.interface';
 import { getPostById, getPosts } from '../utils/posts.utils';
 
 const usePostsStore = create<PostsState>((set, get) => ({
+  keyUsed: false,
   limit: process.env.REACT_APP_API_LIMIT
     ? parseInt(process.env.REACT_APP_API_LIMIT, 10)
     : 20,
@@ -17,6 +18,15 @@ const usePostsStore = create<PostsState>((set, get) => ({
   posts: [],
   tag: null,
   total: 0,
+  wheelUsed: false,
+  setKeyUsed: (keyUsed: boolean) => {
+    if (keyUsed) {
+      set({ keyUsed });
+      setTimeout(() => {
+        set({ keyUsed: false });
+      }, 250);
+    }
+  },
   setLoading: (loading: boolean) => {
     set({ loading });
   },
@@ -84,7 +94,15 @@ const usePostsStore = create<PostsState>((set, get) => ({
       }));
     }
   },
-  setTag: (tag: string) => set({ tag })
+  setTag: (tag: string) => set({ tag }),
+  setWheelUsed: (wheelUsed: boolean) => {
+    if (wheelUsed) {
+      set({ wheelUsed });
+      setTimeout(() => {
+        set({ wheelUsed: false });
+      }, 250);
+    }
+  }
 }));
 
 export default usePostsStore;
