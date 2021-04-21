@@ -412,6 +412,11 @@ const PostDetail = (): ReactElement => {
             className='post-detail-container'
           >
             <section className='post-detail-container-caption'>
+              {post.summary && (
+                <div className='post-detail-container-caption-title'>
+                  {post.summary}
+                </div>
+              )}
               {post.tags.map((tag: string) => (
                 <Link
                   key={tag}

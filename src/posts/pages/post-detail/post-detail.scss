@@ -53,6 +53,14 @@
           color: var(--tag-color);
         }
       }
+      &-title {
+        height: 100%;
+        margin-right: 12px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
     }
     &-date {
       color: var(--tag-color);
