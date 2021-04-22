@@ -210,23 +210,51 @@
         cursor: pointer;
         &-next {
           @include transition(0.25s, 0s, ease-in-out, opacity);
+          cursor: pointer;
           display: block;
-          right: 8px;
-          padding: 8px;
-          opacity: 0;
+          height: 100%;
+          padding: 0;
           position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
+          right: 0;
+          top: 0;
+          width: 50%;
+          &:hover {
+            .post-detail-container-src-next-icon {
+              opacity: 1;
+            }
+          }
+          &-icon {
+            @include transition(0.25s, 0s, ease-in-out, opacity);
+            right: 8px;
+            padding: 8px;
+            opacity: 0;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+          }
         }
         &-prev {
-          @include transition(0.25s, 0s, ease-in-out, opacity);
           display: block;
-          left: 8px;
-          padding: 8px;
-          opacity: 0;
+          height: 100%;
+          left: 0;
+          padding: 0;
           position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
+          top: 0;
+          width: 50%;
+          &:hover {
+            .post-detail-container-src-prev-icon {
+              opacity: 1;
+            }
+          }
+          &-icon {
+            @include transition(0.25s, 0s, ease-in-out, opacity);
+            left: 8px;
+            opacity: 0;
+            padding: 8px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+          }
         }
       }
     }

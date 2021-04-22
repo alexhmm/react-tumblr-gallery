@@ -101,19 +101,6 @@ export const getPostById = (postId: string): Promise<PostsResponse> => {
 };
 
 /**
- * Returns prev or next state based on mouse position on x axis.
- * @param clientX Client X
- * @returns Prev / next state
- */
-export const getPrevNextPost = (clientX: number): string => {
-  if (window.innerWidth / 2 >= clientX) {
-    return 'prev';
-  } else {
-    return 'next';
-  }
-};
-
-/**
  * Sets photo post source in detail.
  * @param currentImgWidth Current image width
  * @param photos Photos

@@ -1,6 +1,5 @@
 import {
   Fragment,
-  MouseEvent,
   ReactElement,
   useCallback,
   useEffect,
@@ -34,7 +33,7 @@ import useSharedStore from '../../../shared/store/shared.store';
 import './post-detail.scss';
 
 // Utils
-import { getPrevNextPost, setPostSourceDetail } from '../../utils/posts.utils';
+import { setPostSourceDetail } from '../../utils/posts.utils';
 
 const PostDetail = (): ReactElement => {
   const dimensions = useDimensions();
@@ -130,6 +129,28 @@ const PostDetail = (): ReactElement => {
     };
     // eslint-disable-next-line
   }, [postId, posts]);
+
+  // Style prev / next elements
+  useEffect(() => {
+    const prevElemRef = postDetailContainerPrevElem.current;
+    const nextElemRef = postDetailContainerNextElem.current;
+    if (postPrev && prevElemRef) {
+      prevElemRef.style.cursor = 'pointer';
+      prevElemRef.style.opacity = '1';
+    }
+    if (!postPrev && prevElemRef) {
+      prevElemRef.style.cursor = 'auto';
+      prevElemRef.style.opacity = '0';
+    }
+    if (postNext && nextElemRef) {
+      nextElemRef.style.cursor = 'pointer';
+      nextElemRef.style.opacity = '1';
+    }
+    if (!postNext && nextElemRef) {
+      nextElemRef.style.cursor = 'auto';
+      nextElemRef.style.opacity = '0';
+    }
+  }, [postPrev, postNext]);
 
   // Effect on dimensions and post
   useEffect(() => {
@@ -253,60 +274,6 @@ const PostDetail = (): ReactElement => {
   }, [contributor, mounted, loaded]);
 
   /**
-   * Handler on image click.
-   * Navigates to previous or next post.
-   */
-  const onImgClick = useCallback(
-    (event: MouseEvent) => {
-      if (getPrevNextPost(event.clientX) === 'next' && postNext) {
-        onPostNext();
-      }
-      if (getPrevNextPost(event.clientX) === 'prev' && postPrev) {
-        onPostPrev();
-      }
-    },
-    // eslint-disable-next-line
-    [postNext, postPrev]
-  );
-
-  /**
-   * Handler on image mouse move.
-   * Shows or hides post navigation buttons.
-   */
-  const onImgMouseMove = useCallback(
-    (event: MouseEvent) => {
-      if (
-        postDetailContainerPrevElem.current &&
-        postDetailContainerNextElem.current
-      ) {
-        if (getPrevNextPost(event.clientX) === 'prev' && postPrev) {
-          postDetailContainerPrevElem.current.style.opacity = '1';
-          postDetailContainerNextElem.current.style.opacity = '0';
-        }
-        if (getPrevNextPost(event.clientX) === 'next' && postNext) {
-          postDetailContainerPrevElem.current.style.opacity = '0';
-          postDetailContainerNextElem.current.style.opacity = '1';
-        }
-      }
-    },
-    [postPrev, postNext]
-  );
-
-  /**
-   * Handler on image mouse out.
-   * Hides post navigation buttons.
-   */
-  const onImgMouseOut = useCallback(() => {
-    if (
-      postDetailContainerPrevElem.current &&
-      postDetailContainerNextElem.current
-    ) {
-      postDetailContainerPrevElem.current.style.opacity = '0';
-      postDetailContainerNextElem.current.style.opacity = '0';
-    }
-  }, []);
-
-  /**
    * Handler on keyboard use to navigate to prev / next post.
    *
    * @param event KeyboardEvent
@@ -403,22 +370,22 @@ const PostDetail = (): ReactElement => {
 
   return (
     <Fragment>
-      <div ref={postDetailElem} className='post-detail'>
-        <div ref={postDetailLoadingElem} className='post-detail-loading'>
+      <div ref={postDetailElem} className="post-detail">
+        <div ref={postDetailLoadingElem} className="post-detail-loading">
           <Spinner size={10} />
         </div>
         <div
           ref={postDetailBackdropElem}
-          className='post-detail-backdrop'
+          className="post-detail-backdrop"
         ></div>
         {post && post.id_string === postId && (
           <article
             ref={postDetailContainerElem}
-            className='post-detail-container'
+            className="post-detail-container"
           >
-            <section className='post-detail-container-caption'>
+            <section className="post-detail-container-caption">
               {post.summary && (
-                <div className='post-detail-container-caption-title'>
+                <div className="post-detail-container-caption-title">
                   {post.summary}
                 </div>
               )}
@@ -426,7 +393,7 @@ const PostDetail = (): ReactElement => {
                 <Link
                   key={tag}
                   to={'/tagged/' + tag}
-                  className='post-detail-container-caption-tag'
+                  className="post-detail-container-caption-tag"
                 >
                   {'#' + tag}
                 </Link>
@@ -436,40 +403,43 @@ const PostDetail = (): ReactElement => {
               onTouchStart={onTouchStart}
               onTouchEnd={onTouchEnd}
               releaseAnimationTimeout={250}
-              className='post-detail-container-src'
+              className="post-detail-container-src"
             >
               <img
                 {...onImgSwipeHandlers}
                 alt={post?.caption}
                 src={imgSrc}
-                onClick={event => onImgClick(event)}
                 onLoad={() => setLoaded(true)}
-                onMouseMove={event => onImgMouseMove(event)}
-                onMouseOut={onImgMouseOut}
-                className='post-detail-container-src'
+                className="post-detail-container-src"
               />
               <Fragment>
                 <div
                   ref={postDetailContainerPrevElem}
-                  className='post-detail-container-src-prev'
+                  onClick={onPostPrev}
+                  className="post-detail-container-src-prev"
                 >
-                  <Icon
-                    classes='fas fa-chevron-left'
-                    style={{ color: 'white' }}
-                  />
+                  <div className="post-detail-container-src-prev-icon">
+                    <Icon
+                      classes="fas fa-chevron-left"
+                      style={{ color: 'white' }}
+                    />
+                  </div>
                 </div>
                 <div
                   ref={postDetailContainerNextElem}
-                  className='post-detail-container-src-next'
+                  onClick={onPostNext}
+                  className="post-detail-container-src-next"
                 >
-                  <Icon
-                    classes='fas fa-chevron-right'
-                    style={{ color: 'white' }}
-                  />
+                  <div className="post-detail-container-src-next-icon">
+                    <Icon
+                      classes="fas fa-chevron-right"
+                      style={{ color: 'white' }}
+                    />
+                  </div>
                 </div>
               </Fragment>
             </Zoomable>
-            <section className='post-detail-container-date'>
+            <section className="post-detail-container-date">
               {date && <span>{date}</span>}
             </section>
           </article>
@@ -478,12 +448,12 @@ const PostDetail = (): ReactElement => {
       <a
         ref={postDetailContributorElem}
         href={contributor?.href}
-        className='post-detail-contributor'
-        rel='noreferrer'
-        target='_blank'
+        className="post-detail-contributor"
+        rel="noreferrer"
+        target="_blank"
       >
-        <Icon classes='fas fa-camera' size={18} />
-        <span className='post-detail-contributor-text'>
+        <Icon classes="fas fa-camera" size={18} />
+        <span className="post-detail-contributor-text">
           {contributor?.name}
         </span>
       </a>
