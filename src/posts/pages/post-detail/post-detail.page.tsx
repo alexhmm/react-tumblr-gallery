@@ -47,7 +47,6 @@ const PostDetail = (): ReactElement => {
   const postDetailContainerElem = useRef<HTMLDivElement>(null);
   const postDetailContainerNextElem = useRef<HTMLDivElement>(null);
   const postDetailContainerPrevElem = useRef<HTMLDivElement>(null);
-  const postDetailContributorElem = useRef<HTMLAnchorElement>(null);
   const postDetailLoadingElem = useRef<HTMLDivElement>(null);
 
   // Shared store state
@@ -103,8 +102,6 @@ const PostDetail = (): ReactElement => {
 
     dayjs.extend(LocalizedFormat);
     // eslint-disable-next-line
-
-    // window.addEventListener('keyup', onKeyUse);
   }, []);
 
   // Effect on mounted
@@ -269,17 +266,8 @@ const PostDetail = (): ReactElement => {
       postDetailLoadingElem.current.style.opacity = '0';
     }
 
-    if (
-      contributor &&
-      loaded &&
-      mounted &&
-      postDetailContributorElem.current &&
-      process.env.REACT_APP_CONTRIBUTORS
-    ) {
-      postDetailContributorElem.current.style.opacity = '1';
-    }
     // eslint-disable-next-line
-  }, [contributor, mounted, loaded]);
+  }, [mounted, loaded]);
 
   /**
    * Handler on next post navigation.
@@ -407,24 +395,29 @@ const PostDetail = (): ReactElement => {
                 </div>
               </Fragment>
             </Zoomable>
-            <section className="post-detail-container-date">
-              {date && <span>{date}</span>}
+            <section className="post-detail-container-info">
+              {contributor ? (
+                <a
+                  href={contributor?.href}
+                  className="post-detail-container-info-contributor"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  <Icon classes="fas fa-camera" size={16} />
+                  <span className="post-detail-container-info-contributor-text">
+                    {contributor?.name}
+                  </span>
+                </a>
+              ) : (
+                <span></span>
+              )}
+              <div className="post-detail-container-info-date">
+                {date && <span>{date}</span>}
+              </div>
             </section>
           </article>
         )}
       </div>
-      <a
-        ref={postDetailContributorElem}
-        href={contributor?.href}
-        className="post-detail-contributor"
-        rel="noreferrer"
-        target="_blank"
-      >
-        <Icon classes="fas fa-camera" size={18} />
-        <span className="post-detail-contributor-text">
-          {contributor?.name}
-        </span>
-      </a>
     </Fragment>
   );
 };
