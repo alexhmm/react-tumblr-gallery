@@ -21,7 +21,7 @@ const About = (): ReactElement => {
       }
     }, 500);
 
-    setSubtitle('About');
+    setSubtitle({ document: 'About', text: 'About' });
     // eslint-disable-next-line
   }, []);
 

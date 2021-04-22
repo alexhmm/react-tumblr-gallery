@@ -60,8 +60,8 @@ const Title = (): ReactElement => {
     // Set document title
     if (title) {
       document.title = title
-        ? subtitle
-          ? `${title} •  ${subtitle}`
+        ? subtitle?.document
+          ? `${title} •  ${subtitle.document}`
           : title
         : '';
     }
@@ -93,7 +93,7 @@ const Title = (): ReactElement => {
       onClick={subtitle ? onClickBack : onClickHome}
       className={`title ${subtitle ? 'title-sub' : 'title-home'}`}
     >
-      {typeof subtitle === 'string' ? (
+      {subtitle ? (
         <Fragment>
           <Icon
             button
@@ -101,7 +101,7 @@ const Title = (): ReactElement => {
             size={16}
             style={{ padding: 8 }}
           />
-          <span className='title-sub-text'>{subtitle}</span>
+          <span className='title-sub-text'>{subtitle.text}</span>
         </Fragment>
       ) : (
         <Fragment>{title}</Fragment>

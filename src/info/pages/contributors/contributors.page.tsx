@@ -34,7 +34,7 @@ const Contributors = (): ReactElement => {
       setContributors(JSON.parse(process.env.REACT_APP_CONTRIBUTORS));
     }
 
-    setSubtitle('Contributors');
+    setSubtitle({ document: 'Contributors', text: 'Contributors' });
 
     return () => {
       setContributors([]);

@@ -95,6 +95,7 @@ const PostDetail = (): ReactElement => {
   const [date, setDate] = useState<string | null>('');
   const [imgWidth, setImgWidth] = useState<number>(0);
   const [imgSrc, setImgSrc] = useState<string | undefined>(undefined);
+  const [init, setInit] = useState<boolean>(true);
   const [loaded, setLoaded] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
   const [postNext, setPostNext] = useState<string | null>(null);
@@ -106,6 +107,7 @@ const PostDetail = (): ReactElement => {
     window.requestAnimationFrame(() => setMounted(true));
 
     dayjs.extend(LocalizedFormat);
+    // eslint-disable-next-line
   }, []);
 
   // Effect on mounted
@@ -149,9 +151,12 @@ const PostDetail = (): ReactElement => {
 
   // Effect on post
   useEffect(() => {
-    if (post?.id_string === postId) {
-      // Set document title
-      setSubtitle(post?.summary.toUpperCase() || '');
+    if (post?.id_string === postId && init) {
+      setSubtitle({
+        document: post?.summary.toUpperCase() || '',
+        text: 'Posts'
+      });
+      setInit(false);
 
       // Set post date
       setDate(dayjs.unix(post.timestamp).format('LL'));
