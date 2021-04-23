@@ -2,7 +2,7 @@ import { ReactElement, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 // Components
-import Spinner from '../../../shared/components/spinner/spinner.component';
+import Spinner from '../../../shared/ui/spinner/spinner.component';
 
 // Models
 import { Contributor } from '../../../shared/models/contributor.interface';
@@ -81,24 +81,24 @@ const Contributors = (): ReactElement => {
   }, [loaded]);
 
   return (
-    <div className='contributors'>
-      <div ref={contributorsLoadingElem} className='contributors-loading'>
+    <div className="contributors">
+      <div ref={contributorsLoadingElem} className="contributors-loading">
         <Spinner size={10} />
       </div>
-      <div ref={contributorsElem} className='contributors-container'>
+      <div ref={contributorsElem} className="contributors-container">
         {contributors.map((contributor: Contributor) => (
-          <div key={contributor.name} className='contributors-container-item'>
+          <div key={contributor.name} className="contributors-container-item">
             <a
               href={contributor.href}
-              rel='noreferrer'
-              target='_blank'
-              className='contributors-container-item-title'
+              rel="noreferrer"
+              target="_blank"
+              className="contributors-container-item-title"
             >
               {contributor.name}
             </a>
             <Link
               to={'/tagged/' + contributor.tag}
-              className='contributors-container-item-total'
+              className="contributors-container-item-total"
             >
               {contributor.total_posts && `${contributor.total_posts} posts`}
             </Link>

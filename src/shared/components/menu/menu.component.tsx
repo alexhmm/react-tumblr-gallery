@@ -2,7 +2,7 @@ import { Fragment, ReactElement, useEffect, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 // Components
-import Icon from '../icon/icon.component';
+import Icon from '../../ui/icon/icon.component';
 
 // Models
 import { PostsState } from '../../../posts/models/posts-state.interface';

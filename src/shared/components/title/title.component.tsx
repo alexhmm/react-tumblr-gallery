@@ -2,7 +2,7 @@ import { Fragment, ReactElement, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 // Components
-import Icon from '../icon/icon.component';
+import Icon from '../../ui/icon/icon.component';
 
 // Models
 import { BlogInfo } from '../../models/blog-info.interface';
@@ -97,11 +97,11 @@ const Title = (): ReactElement => {
         <Fragment>
           <Icon
             button
-            classes='fas fa-arrow-left'
+            classes="fas fa-arrow-left"
             size={16}
             style={{ padding: 8 }}
           />
-          <span className='title-sub-text'>{subtitle.text}</span>
+          <span className="title-sub-text">{subtitle.text}</span>
         </Fragment>
       ) : (
         <Fragment>{title}</Fragment>

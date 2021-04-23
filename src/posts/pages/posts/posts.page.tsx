@@ -4,7 +4,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 // Components
 import Post from '../../components/post/post.component';
-import Spinner from '../../../shared/components/spinner/spinner.component';
+import Spinner from '../../../shared/ui/spinner/spinner.component';
 
 // Models
 import { PostsState } from '../../models/posts-state.interface';
@@ -157,13 +157,13 @@ const Posts = (): ReactElement => {
       loader={null}
       next={onAddPosts}
       scrollThreshold={1}
-      className='posts'
+      className="posts"
     >
-      <div ref={postsLoadingElem} className='posts-loading'>
+      <div ref={postsLoadingElem} className="posts-loading">
         <Spinner size={10} />
       </div>
       {postElements}
-      <div ref={postsEmptyElem} className='posts-empty'>
+      <div ref={postsEmptyElem} className="posts-empty">
         No results found{tagged && `: #${tagged}.`}
       </div>
     </InfiniteScroll>

@@ -12,8 +12,8 @@ import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import { useSwipeable } from 'react-swipeable';
 
 // Components
-import Icon from '../../../shared/components/icon/icon.component';
-import Spinner from '../../../shared/components/spinner/spinner.component';
+import Icon from '../../../shared/ui/icon/icon.component';
+import Spinner from '../../../shared/ui/spinner/spinner.component';
 import Zoomable from 'react-instagram-zoom';
 
 // Hooks
