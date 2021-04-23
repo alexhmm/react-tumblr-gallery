@@ -396,21 +396,31 @@ const PostDetail = (): ReactElement => {
               </Fragment>
             </Zoomable>
             <section className="post-detail-container-info">
-              {contributor ? (
-                <a
-                  href={contributor?.href}
-                  className="post-detail-container-info-contributor"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  <Icon classes="fas fa-camera" size={16} />
-                  <span className="post-detail-container-info-contributor-text">
-                    {contributor?.name}
+              <div className="post-detail-container-info-group">
+                <div className="post-detail-container-info-group-notes">
+                  <Icon
+                    classes="fas fa-heart"
+                    size={16}
+                    style={{ color: 'rgb(226, 72, 85)' }}
+                  />
+                  <span className="post-detail-container-info-group-text">
+                    {post.note_count}
                   </span>
-                </a>
-              ) : (
-                <span></span>
-              )}
+                </div>
+                {contributor && (
+                  <a
+                    href={contributor.href}
+                    className="post-detail-container-info-group-contributor"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    <Icon classes="fas fa-camera" size={16} />
+                    <span className="post-detail-container-info-group-text">
+                      {contributor.name}
+                    </span>
+                  </a>
+                )}
+              </div>
               <div className="post-detail-container-info-date">
                 {date && <span>{date}</span>}
               </div>
