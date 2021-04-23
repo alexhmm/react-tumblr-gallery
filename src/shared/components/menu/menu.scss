@@ -205,7 +205,7 @@
       &-content {
         &-bottom {
           &-social {
-            &-item {
+            & a.menu-container-content-bottom-social-item {
               @include transition(0.25s, 0s, ease-in, color);
               &:hover {
                 color: var(--theme-color-hover);
@@ -215,9 +215,8 @@
         }
         &-top {
           &-nav {
-            &-item {
+            & a.menu-container-content-top-nav-item {
               @include transition(0.25s, 0s, ease-in, color);
-              cursor: pointer;
               &:hover {
                 color: var(--theme-color-hover);
               }

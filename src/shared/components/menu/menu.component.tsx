@@ -97,15 +97,15 @@ const Menu = (): ReactElement => {
 
   return (
     <Fragment>
-      <section ref={menuBtnElem} onClick={toggleMenu} className='menu-button'>
+      <section ref={menuBtnElem} onClick={toggleMenu} className="menu-button">
         {menu ? 'Close' : 'Menu'}
       </section>
       {menu && (
-        <section onClick={toggleMenu} className='menu-backdrop'></section>
+        <section onClick={toggleMenu} className="menu-backdrop"></section>
       )}
-      <section ref={menuContainerElem} className='menu-container'>
-        <div className='menu-container-content'>
-          <div className='menu-container-content-theme'>
+      <section ref={menuContainerElem} className="menu-container">
+        <div className="menu-container-content">
+          <div className="menu-container-content-theme">
             <Icon
               button
               size={18}
@@ -114,10 +114,10 @@ const Menu = (): ReactElement => {
               classes={theme === 'light' ? 'fas fa-moon' : 'fas fa-sun'}
             />
           </div>
-          <div className='menu-container-content-top'>
+          <div className="menu-container-content-top">
             <input
               ref={menuSearchElem}
-              placeholder='Search'
+              placeholder="Search"
               onKeyPress={event => {
                 if (event.key === 'Enter') {
                   search();
@@ -125,45 +125,45 @@ const Menu = (): ReactElement => {
               }}
               onChange={event => setSearchValue(event.target.value)}
               value={searchValue}
-              className='menu-container-content-top-search'
+              className="menu-container-content-top-search"
             ></input>
-            <nav className='menu-container-content-top-nav'>
+            <nav className="menu-container-content-top-nav">
               <Link
-                to='/'
+                to="/"
                 onClick={toggleMenu}
-                className='menu-container-content-top-nav-item'
+                className="menu-container-content-top-nav-item"
               >
                 Home
               </Link>
               <Link
-                to='/about'
+                to="/about"
                 onClick={toggleMenu}
-                className='menu-container-content-top-nav-item'
+                className="menu-container-content-top-nav-item"
               >
                 About
               </Link>
               {process.env.REACT_APP_CONTRIBUTORS && (
                 <Link
-                  to='/contributors'
+                  to="/contributors"
                   onClick={toggleMenu}
-                  className='menu-container-content-top-nav-item'
+                  className="menu-container-content-top-nav-item"
                 >
                   Contributors
                 </Link>
               )}
             </nav>
           </div>
-          <div className='menu-container-content-bottom'>
-            <div className='menu-container-content-bottom-social'>
+          <div className="menu-container-content-bottom">
+            <div className="menu-container-content-bottom-social">
               {process.env.REACT_APP_SOCIAL_FACEBOOK && (
                 <a
                   href={
                     'https://www.facebook.com/' +
                     process.env.REACT_APP_SOCIAL_FACEBOOK
                   }
-                  className='menu-container-content-bottom-social-item'
-                  rel='noreferrer'
-                  target='_blank'
+                  className="menu-container-content-bottom-social-item"
+                  rel="noreferrer"
+                  target="_blank"
                 >
                   Facebook
                 </a>
@@ -173,9 +173,9 @@ const Menu = (): ReactElement => {
                   href={
                     'https://github.com/' + process.env.REACT_APP_SOCIAL_GITHUB
                   }
-                  className='menu-container-content-bottom-social-item'
-                  rel='noreferrer'
-                  target='_blank'
+                  className="menu-container-content-bottom-social-item"
+                  rel="noreferrer"
+                  target="_blank"
                 >
                   Github
                 </a>
@@ -186,9 +186,9 @@ const Menu = (): ReactElement => {
                     'https://story.snapchat.com/s/' +
                     process.env.REACT_APP_SOCIAL_SNAPCHAT
                   }
-                  className='menu-container-content-bottom-social-item'
-                  rel='noreferrer'
-                  target='_blank'
+                  className="menu-container-content-bottom-social-item"
+                  rel="noreferrer"
+                  target="_blank"
                 >
                   Snapchat
                 </a>
@@ -199,9 +199,9 @@ const Menu = (): ReactElement => {
                     'https://instagram.com/' +
                     process.env.REACT_APP_SOCIAL_INSTAGRAM
                   }
-                  className='menu-container-content-bottom-social-item'
-                  rel='noreferrer'
-                  target='_blank'
+                  className="menu-container-content-bottom-social-item"
+                  rel="noreferrer"
+                  target="_blank"
                 >
                   Instagram
                 </a>
@@ -213,9 +213,9 @@ const Menu = (): ReactElement => {
                     'https://www.tiktok.com/@' +
                     process.env.REACT_APP_SOCIAL_TIKTOK
                   }
-                  className='menu-container-content-bottom-social-item'
-                  rel='noreferrer'
-                  target='_blank'
+                  className="menu-container-content-bottom-social-item"
+                  rel="noreferrer"
+                  target="_blank"
                 >
                   TikTok
                 </a>
@@ -226,9 +226,9 @@ const Menu = (): ReactElement => {
                     'https://www.twitch.tv/' +
                     process.env.REACT_APP_SOCIAL_TWITCH
                   }
-                  className='menu-container-content-bottom-social-item'
-                  rel='noreferrer'
-                  target='_blank'
+                  className="menu-container-content-bottom-social-item"
+                  rel="noreferrer"
+                  target="_blank"
                 >
                   Twitch
                 </a>
@@ -239,15 +239,15 @@ const Menu = (): ReactElement => {
                     'https://twitter.com/' +
                     process.env.REACT_APP_SOCIAL_TWITTER
                   }
-                  className='menu-container-content-bottom-social-item'
-                  rel='noreferrer'
-                  target='_blank'
+                  className="menu-container-content-bottom-social-item"
+                  rel="noreferrer"
+                  target="_blank"
                 >
                   Twitter
                 </a>
               )}
             </div>
-            <div className='menu-container-content-bottom-copyright'>
+            <div className="menu-container-content-bottom-copyright">
               {process.env.REACT_APP_COPYRIGHT}
             </div>
           </div>
