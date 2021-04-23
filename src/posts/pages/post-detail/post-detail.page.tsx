@@ -369,30 +369,34 @@ const PostDetail = (): ReactElement => {
                 className="post-detail-container-src"
               />
               <Fragment>
-                <div
-                  ref={postDetailContainerPrevElem}
-                  onClick={onPostPrev}
-                  className="post-detail-container-src-prev"
-                >
-                  <div className="post-detail-container-src-prev-icon">
-                    <Icon
-                      classes="fas fa-chevron-left"
-                      style={{ color: 'white' }}
-                    />
+                {postPrev && (
+                  <div
+                    ref={postDetailContainerPrevElem}
+                    onClick={onPostPrev}
+                    className="post-detail-container-src-prev"
+                  >
+                    <div className="post-detail-container-src-prev-icon">
+                      <Icon
+                        classes="fas fa-chevron-left"
+                        style={{ color: 'white' }}
+                      />
+                    </div>
                   </div>
-                </div>
-                <div
-                  ref={postDetailContainerNextElem}
-                  onClick={onPostNext}
-                  className="post-detail-container-src-next"
-                >
-                  <div className="post-detail-container-src-next-icon">
-                    <Icon
-                      classes="fas fa-chevron-right"
-                      style={{ color: 'white' }}
-                    />
+                )}
+                {postNext && (
+                  <div
+                    ref={postDetailContainerNextElem}
+                    onClick={onPostNext}
+                    className="post-detail-container-src-next"
+                  >
+                    <div className="post-detail-container-src-next-icon">
+                      <Icon
+                        classes="fas fa-chevron-right"
+                        style={{ color: 'white' }}
+                      />
+                    </div>
                   </div>
-                </div>
+                )}
               </Fragment>
             </Zoomable>
             <section className="post-detail-container-info">

@@ -254,9 +254,7 @@
         }
       }
       &-src {
-        cursor: pointer;
         &-next {
-          @include transition(0.25s, 0s, ease-in-out, opacity);
           cursor: pointer;
           display: block;
           height: 100%;
