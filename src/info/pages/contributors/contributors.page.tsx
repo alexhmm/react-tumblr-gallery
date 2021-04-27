@@ -92,16 +92,30 @@ const Contributors = (): ReactElement => {
               href={contributor.href}
               rel="noreferrer"
               target="_blank"
-              className="contributors-container-item-title"
+              className="contributors-container-item-image"
             >
-              {contributor.name}
+              <img
+                alt={contributor.name}
+                src={contributor.image}
+                className="contributors-container-item-image-src"
+              />
             </a>
-            <Link
-              to={'/tagged/' + contributor.tag}
-              className="contributors-container-item-total"
-            >
-              {contributor.total_posts && `${contributor.total_posts} posts`}
-            </Link>
+            <div className="contributors-container-item-info">
+              <a
+                href={contributor.href}
+                rel="noreferrer"
+                target="_blank"
+                className="contributors-container-item-info-title"
+              >
+                {contributor.name}
+              </a>
+              <Link
+                to={'/tagged/' + contributor.tag}
+                className="contributors-container-item-info-total"
+              >
+                {contributor.total_posts && `${contributor.total_posts} posts`}
+              </Link>
+            </div>
           </div>
         ))}
       </div>

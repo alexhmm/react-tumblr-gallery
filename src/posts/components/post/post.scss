@@ -145,6 +145,11 @@
 @media (min-width: $xl) and (hover: hover) {
   .post {
     &-container {
+      &:hover {
+        & .post-container-photo-src {
+          filter: brightness(0.9);
+        }
+      }
       &-caption {
         display: block;
         height: 20px;
@@ -154,6 +159,16 @@
         &-content {
           height: 20px;
           transform: translateY(32px);
+        }
+      }
+      &-photo {
+        &-src {
+          @include transition(
+            0.33s,
+            0s,
+            cubic-bezier(0.76, 0, 0.24, 1),
+            filter
+          );
         }
       }
     }
