@@ -247,8 +247,24 @@ const Menu = (): ReactElement => {
                 </a>
               )}
             </div>
-            <div className="menu-container-content-bottom-copyright">
-              {process.env.REACT_APP_COPYRIGHT}
+            <div className="menu-container-content-bottom-info">
+              <div className="menu-container-content-bottom-info-copyright">
+                <Icon size={14} classes="far fa-copyright" />
+                <span className="menu-container-content-bottom-info-copyright-text">
+                  {process.env.REACT_APP_COPYRIGHT}
+                </span>
+              </div>
+              <a
+                href="https://www.tumblr.com/"
+                rel="noreferrer"
+                target="_blank"
+                className="menu-container-content-bottom-info-powered"
+              >
+                <span className="menu-container-content-bottom-info-powered-text">
+                  powered by
+                </span>
+                <Icon size={14} classes="fab fa-tumblr" />
+              </a>
             </div>
           </div>
         </div>
