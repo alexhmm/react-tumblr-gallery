@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useRef } from 'react';
 import { Switch, Route, useLocation } from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
@@ -21,16 +21,18 @@ const routes = [
 
 const AppRouter = () => {
   const location = useLocation();
+  const nodeRef = useRef(null);
 
   return (
     <TransitionGroup>
       <CSSTransition
+        nodeRef={nodeRef}
         timeout={250}
-        classNames='fade'
+        classNames="fade"
         key={location.key}
         unmountOnExit={true}
       >
-        <section className='route'>
+        <section className="route">
           <Switch location={location}>
             {routes.map(
               ({

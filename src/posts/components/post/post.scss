@@ -159,6 +159,17 @@
         &-content {
           height: 20px;
           transform: translateY(32px);
+          &-title {
+            @include transition(0.25s, 0s, ease-in-out, color);
+            &:hover {
+              color: var(--theme-color-hover);
+            }
+            &:visited {
+              &:hover {
+                color: var(--theme-color-hover);
+              }
+            }
+          }
         }
       }
       &-photo {

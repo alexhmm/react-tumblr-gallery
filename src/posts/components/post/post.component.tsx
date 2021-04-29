@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactElement, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import useDimensions from '../../../shared/hooks/use-dimensions.hook';
@@ -13,14 +13,13 @@ const Post = (props: { post: PostType }): ReactElement => {
 
   // Post element references
   const postElem: any = useRef<HTMLDivElement>(null);
-  const postContainerElem = useRef<HTMLAnchorElement>(null);
+  const postContainerElem = useRef<HTMLDivElement>(null);
 
   // Component state
   const [imgWidth, setImgWidth] = useState<number>(0);
   const [imgSrc, setImgSrc] = useState<string | undefined>(undefined);
   const [loaded, setLoaded] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
-  const [tags, setTags] = useState<ReactNode[]>([]);
 
   // Effect on component mount
   useEffect(() => {
@@ -48,50 +47,42 @@ const Post = (props: { post: PostType }): ReactElement => {
     }
   }, [imgSrc, imgWidth, loaded, mounted]);
 
-  // Effect on post change
-  useEffect(() => {
-    // TODO: Warning: validateDOMNesting(...): <a> cannot appear as a descendant of <a>.
-    const tagElements: ReactNode[] = [];
-    for (const tag of props?.post?.tags) {
-      tagElements.push(
-        <Link
-          key={tag}
-          to={'/tagged/' + tag}
-          className="post-container-caption-content-tag"
-        >
-          {'#' + tag}
-        </Link>
-      );
-    }
-    setTags(tagElements);
-  }, [props.post, setTags]);
-
   return (
     <article ref={postElem} className="post">
-      <Link
-        to={'/post/' + props.post.id_string}
-        ref={postContainerElem}
-        className="post-container"
-      >
+      <div ref={postContainerElem} className="post-container">
         <div className="post-container-caption">
           <div className="post-container-caption-content">
             {props?.post?.summary && (
-              <div className="post-container-caption-content-title">
+              <Link
+                to={'/post/' + props.post.id_string}
+                className="post-container-caption-content-title"
+              >
                 {props?.post?.summary}
-              </div>
+              </Link>
             )}
-            {tags && tags}
+            {props?.post?.tags?.map((tag: string) => (
+              <Link
+                key={tag}
+                to={'/tagged/' + tag}
+                className="post-container-caption-content-tag"
+              >
+                #{tag}
+              </Link>
+            ))}
           </div>
         </div>
-        <div className="post-container-photo">
+        <Link
+          to={'/post/' + props.post.id_string}
+          className="post-container-photo"
+        >
           <img
             alt={props?.post?.caption}
             src={imgSrc}
             onLoad={() => setLoaded(true)}
             className="post-container-photo-src"
           />
-        </div>
-      </Link>
+        </Link>
+      </div>
     </article>
   );
 };
