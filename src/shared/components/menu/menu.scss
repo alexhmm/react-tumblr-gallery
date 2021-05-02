@@ -207,6 +207,16 @@
       font-size: 2rem;
       height: 64px;
       right: 96px;
+      top: 48px;
+    }
+    &-container {
+      &-content {
+        padding: 128px 48px;
+        &-theme {
+          left: 36px;
+          top: 64px;
+        }
+      }
     }
   }
 }
