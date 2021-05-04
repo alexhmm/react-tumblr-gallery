@@ -91,6 +91,8 @@ const usePostsStore = create<PostsState>((set, get) => ({
         offset,
         posts: state.posts.concat(addedPosts.posts)
       }));
+    } else {
+      set({ loading: false });
     }
   },
   setTag: (tag: string) => set({ tag })
