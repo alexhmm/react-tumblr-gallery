@@ -40,7 +40,7 @@
       top: -32px;
       width: calc(100% - 24px);
       &-tag {
-        @include highlight-disabled();
+        @include select-item();
         color: var(--tag-color);
         margin-left: 4px;
         overflow: hidden;
@@ -76,7 +76,7 @@
         align-items: center;
         display: flex;
         &-contributor {
-          @include highlight-disabled();
+          @include select-item();
           @include transition(0.25s, 0s, ease-out, opacity);
           align-items: center;
           display: flex;
@@ -101,7 +101,6 @@
       }
     }
     &-src {
-      @include highlight-disabled();
       max-height: 60vh;
       max-width: 100%;
       &-prev {

@@ -64,7 +64,7 @@
             }
           }
           &-powered {
-            @include highlight-disabled();
+            @include select-item();
             align-items: center;
             display: flex;
             &-text {
@@ -76,7 +76,7 @@
           display: flex;
           flex-wrap: wrap;
           &-item {
-            @include highlight-disabled();
+            @include select-item();
             padding-bottom: 4px;
             margin-right: 12px;
           }
@@ -90,7 +90,7 @@
           align-items: flex-end;
           margin-top: 32px;
           &-item {
-            @include highlight-disabled();
+            @include select-item();
             font-size: 1.5rem;
             padding: 8px 0px;
           }
@@ -215,6 +215,25 @@
         &-theme {
           left: 36px;
           top: 64px;
+        }
+      }
+    }
+  }
+}
+
+@media (hover: none) {
+  .menu {
+    &-container {
+      &-button {
+        &:active {
+          background-color: var(--select-color);
+        }
+      }
+      &-content {
+        &-theme {
+          &:active {
+            background-color: var(--select-color);
+          }
         }
       }
     }

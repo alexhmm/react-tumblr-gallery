@@ -2,7 +2,6 @@
 @import '../../styles/mixins.scss';
 
 .title {
-  @include highlight-disabled();
   @include transition(0.25s, 0s, ease-in, color, opacity);
   align-items: center;
   display: flex;
@@ -86,6 +85,14 @@
         font-size: 2rem;
         left: 88px;
       }
+    }
+  }
+}
+
+@media (hover: none) {
+  .title {
+    &:active {
+      background-color: var(--select-color);
     }
   }
 }

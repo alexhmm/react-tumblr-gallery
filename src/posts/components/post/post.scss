@@ -3,7 +3,7 @@
 @import '../../../shared/styles/theme.scss';
 
 .post {
-  @include highlight-disabled();
+  @include select-post();
   @include transition(0.25s, 0s, ease-in, opacity);
   align-items: center;
   box-sizing: border-box;
@@ -54,7 +54,6 @@
       overflow: hidden;
       z-index: 11;
       &-overlay {
-        @include highlight-disabled();
         height: 100%;
         left: 0;
         opacity: 0;

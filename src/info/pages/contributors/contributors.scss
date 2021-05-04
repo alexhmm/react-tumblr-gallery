@@ -5,7 +5,7 @@
 .contributors {
   display: flex;
   &-container {
-    @include highlight-disabled();
+    @include select-item();
     @include transition(0.25s, 0s, ease-in, opacity);
     box-sizing: border-box;
     display: flex;
@@ -34,7 +34,7 @@
         flex-direction: column;
         &-title {
           font-size: 1.5rem;
-          padding-bottom: 8px;
+          margin-bottom: 8px;
           &:visited {
             color: var(--theme-color);
           }
@@ -42,6 +42,7 @@
         &-total {
           color: var(--tag-color);
           font-size: 0.875rem;
+          width: fit-content;
           &:visited {
             color: var(--tag-color);
           }

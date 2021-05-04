@@ -1,11 +1,13 @@
 html {
   --posts-nav-item-color: #fafafa;
+  --posts-select-color: rgba(0, 0, 0, 0.25);
 }
 
 html[theme='light'] {
   --detail-pinch-bg-color: rgba(0, 0, 0, 0.5);
   --input-placeholder-color: #b6b6b6;
   --menu-background-color: #f8f8f8;
+  --select-color: rgba(0, 0, 0, 0.05);
   --spinner-color: rgba(0, 0, 0, 0.5);
   --tag-color: #6e6e6e;
   --theme-background-color: #fafafa;
@@ -17,6 +19,7 @@ html[theme='dark'] {
   --detail-pinch-bg-color: rgba(255, 255, 255, 0.25);
   --input-placeholder-color: #5c5c5c;
   --menu-background-color: #252525;
+  --select-color: rgba(255, 255, 255, 0.05);
   --spinner-color: rgba(255, 255, 255, 0.5);
   --tag-color: #acacac;
   --theme-background-color: #1f1f1f;
