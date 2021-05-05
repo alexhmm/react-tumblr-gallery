@@ -2,19 +2,18 @@ import { Fragment, ReactElement, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 // Components
-import Icon from '../../ui/icon/icon.component';
+import Icon from '../../ui/Icon2/Icon';
 
 // Models
 import { BlogInfo } from '../../models/blog-info.interface';
-import { SharedState } from '../../models/shared-state.interface';
 
 // Stores
-import useSharedStore from '../../store/shared.store';
+import useSharedStore, { SharedStore } from '../../store/shared.store';
 
 // Utils
 import { getBlogInfo } from '../../utils/shared.utils';
 
-import './title.scss';
+import './Title.scss';
 
 const Title = (): ReactElement => {
   const history = useHistory();
@@ -26,7 +25,7 @@ const Title = (): ReactElement => {
   const [mounted, setMounted] = useState<boolean>(false);
 
   // Shared store state
-  const [subtitle, title, setTitle] = useSharedStore((state: SharedState) => [
+  const [subtitle, title, setTitle] = useSharedStore((state: SharedStore) => [
     state.subtitle,
     state.title,
     state.setTitle

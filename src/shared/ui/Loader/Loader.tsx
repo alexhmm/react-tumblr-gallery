@@ -1,22 +1,26 @@
-import './spinner.scss';
+import './Loader.scss';
 
-const Spinner = (props: { size: number }) => {
+type LoaderProps = {
+  size: number;
+};
+
+const Loader = (props: LoaderProps) => {
   return (
-    <div className='spinner'>
+    <div className="loader">
       <div
-        className='bounce1'
+        className="bounce1"
         style={{ height: props.size + 'px', width: props.size + 'px' }}
       ></div>
       <div
-        className='bounce2'
+        className="bounce2"
         style={{ height: props.size + 'px', width: props.size + 'px' }}
       ></div>
       <div
-        className='bounce3'
+        className="bounce3"
         style={{ height: props.size + 'px', width: props.size + 'px' }}
       ></div>
     </div>
   );
 };
 
-export default Spinner;
+export default Loader;

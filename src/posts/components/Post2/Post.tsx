@@ -4,7 +4,7 @@ import * as dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 
 // Components
-import Icon from '../../../shared/ui/icon/icon.component';
+import Icon from '../../../shared/ui/Icon2/Icon';
 
 // Hooks
 import useDimensions from '../../../shared/hooks/use-dimensions.hook';
@@ -16,7 +16,7 @@ import { Post as PostType } from '../../models/post.interface';
 // Utils
 import { setPostSourceGallery } from '../../utils/posts.utils';
 
-import './post.scss';
+import './Post.scss';
 
 const Post = (props: { post: PostType }): ReactElement => {
   const dimensions = useDimensions();

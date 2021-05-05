@@ -2,23 +2,24 @@ import { ReactElement, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 // Components
-import Spinner from '../../../shared/ui/spinner/spinner.component';
+import Loader from '../../../shared/ui/Loader/Loader';
 
 // Models
 import { Contributor } from '../../../shared/models/contributor.interface';
-import { SharedState } from '../../../shared/models/shared-state.interface';
 
 // Stores
-import useSharedStore from '../../../shared/store/shared.store';
+import useSharedStore, {
+  SharedStore
+} from '../../../shared/store/shared.store';
 
 // Utils
 import { getContributor } from '../../../shared/utils/shared.utils';
 
-import './contributors.scss';
+import './Contributors.scss';
 
 const Contributors = (): ReactElement => {
   // Shared store state
-  const [setSubtitle] = useSharedStore((state: SharedState) => [
+  const [setSubtitle] = useSharedStore((state: SharedStore) => [
     state.setSubtitle
   ]);
 
@@ -83,7 +84,7 @@ const Contributors = (): ReactElement => {
   return (
     <div className="contributors">
       <div ref={contributorsLoadingElem} className="contributors-loading">
-        <Spinner size={10} />
+        <Loader size={10} />
       </div>
       <div ref={contributorsElem} className="contributors-container">
         {contributors.map((contributor: Contributor) => (

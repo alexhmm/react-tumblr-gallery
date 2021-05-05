@@ -3,23 +3,21 @@ import { useParams } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 // Components
-import Post from '../../components/post/post.component';
-import Spinner from '../../../shared/ui/spinner/spinner.component';
-
-// Models
-import { PostsState } from '../../models/posts-state.interface';
-import { SharedState } from '../../../shared/models/shared-state.interface';
+import Loader from '../../../shared/ui/Loader/Loader';
+import Post from '../../components/Post2/Post';
 
 // Stores
-import usePostsStore from '../../store/posts.store';
-import useSharedStore from '../../../shared/store/shared.store';
+import usePostsStore, { PostsStore } from '../../store/posts.store';
+import useSharedStore, {
+  SharedStore
+} from '../../../shared/store/shared.store';
 
 // Styles
-import './posts.scss';
+import './Posts.scss';
 
 const Posts = (): ReactElement => {
   // Settings store state
-  const [setSubtitle] = useSharedStore((state: SharedState) => [
+  const [setSubtitle] = useSharedStore((state: SharedStore) => [
     state.setSubtitle
   ]);
 
@@ -44,7 +42,7 @@ const Posts = (): ReactElement => {
     setPosts,
     addPosts,
     setTag
-  ] = usePostsStore((state: PostsState) => [
+  ] = usePostsStore((state: PostsStore) => [
     state.limit,
     state.loading,
     state.offset,
@@ -160,7 +158,7 @@ const Posts = (): ReactElement => {
       className="posts"
     >
       <div ref={postsLoadingElem} className="posts-loading">
-        <Spinner size={10} />
+        <Loader size={10} />
       </div>
       {postElements}
       <div ref={postsEmptyElem} className="posts-empty">

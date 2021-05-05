@@ -12,8 +12,8 @@ import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import { useSwipeable } from 'react-swipeable';
 
 // Components
-import Icon from '../../../shared/ui/icon/icon.component';
-import Spinner from '../../../shared/ui/spinner/spinner.component';
+import Icon from '../../../shared/ui/Icon2/Icon';
+import Loader from '../../../shared/ui/Loader/Loader';
 import Zoomable from 'react-instagram-zoom';
 
 // Hooks
@@ -22,15 +22,15 @@ import useDimensions from '../../../shared/hooks/use-dimensions.hook';
 // Models
 import { Contributor } from '../../../shared/models/contributor.interface';
 import { Post } from '../../models/post.interface';
-import { PostsState } from '../../models/posts-state.interface';
-import { SharedState } from '../../../shared/models/shared-state.interface';
 
 // Stores
-import usePostsStore from '../../store/posts.store';
-import useSharedStore from '../../../shared/store/shared.store';
+import usePostsStore, { PostsStore } from '../../store/posts.store';
+import useSharedStore, {
+  SharedStore
+} from '../../../shared/store/shared.store';
 
 // Styles
-import './post-detail.scss';
+import './PostDetail.scss';
 
 // Utils
 import { setPostSourceDetail } from '../../utils/posts.utils';
@@ -50,7 +50,7 @@ const PostDetail = (): ReactElement => {
   const postDetailLoadingElem = useRef<HTMLDivElement>(null);
 
   // Shared store state
-  const [setSubtitle] = useSharedStore((state: SharedState) => [
+  const [setSubtitle] = useSharedStore((state: SharedStore) => [
     state.setSubtitle
   ]);
 
@@ -66,7 +66,7 @@ const PostDetail = (): ReactElement => {
     setNavUsed,
     addPosts,
     setPost
-  ] = usePostsStore((state: PostsState) => [
+  ] = usePostsStore((state: PostsStore) => [
     state.limit,
     state.navUsed,
     state.offset,
@@ -328,7 +328,7 @@ const PostDetail = (): ReactElement => {
     <Fragment>
       <div ref={postDetailElem} className="post-detail">
         <div ref={postDetailLoadingElem} className="post-detail-loading">
-          <Spinner size={10} />
+          <Loader size={10} />
         </div>
         <div
           ref={postDetailBackdropElem}

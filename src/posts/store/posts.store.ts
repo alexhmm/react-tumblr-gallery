@@ -1,11 +1,32 @@
 import { ReactNode } from 'react';
-import create from 'zustand';
+import create, { State } from 'zustand';
+import { Post } from '../models/post.interface';
 
 import { PostsResponse } from '../models/posts-response.interface';
-import { PostsState } from '../models/posts-state.interface';
 import { getPostById, getPosts } from '../utils/posts.utils';
 
-const usePostsStore = create<PostsState>((set, get) => ({
+export interface PostsStore extends State {
+  limit: number;
+  loading: boolean;
+  navUsed: boolean;
+  offset: number;
+  post: Post | null;
+  postHover: number | null;
+  postElements: ReactNode[];
+  posts: Post[];
+  tag: string | null;
+  total: number;
+  setLoading: (loading: boolean) => void;
+  setNavUsed: (navUsed: boolean) => void;
+  setPost: (postId: string | null) => void;
+  setPostHover: (postId: number | null) => void;
+  setPostElements: (postElements: ReactNode[]) => void;
+  setPosts: (limit: number, offset: number | null, tag: string | null) => void;
+  addPosts: (limit: number, offset: number, tag: string) => void;
+  setTag: (tag: string) => void;
+}
+
+const usePostsStore = create<PostsStore>((set, get) => ({
   limit: process.env.REACT_APP_API_LIMIT
     ? parseInt(process.env.REACT_APP_API_LIMIT, 10)
     : 20,
@@ -58,7 +79,7 @@ const usePostsStore = create<PostsState>((set, get) => ({
     tag: string | null
   ) => {
     // Reset state
-    set((state: PostsState) => ({
+    set((state: PostsStore) => ({
       ...state,
       offset: 0,
       posts: [],
@@ -68,7 +89,7 @@ const usePostsStore = create<PostsState>((set, get) => ({
     // Fetch tumblr posts
     const fetchPosts: PostsResponse = await getPosts(limit, offset, tag);
     if (fetchPosts && fetchPosts.posts.length > 0) {
-      set((state: PostsState) => ({
+      set((state: PostsStore) => ({
         ...state,
         loading: false,
         posts: fetchPosts.posts,
@@ -76,7 +97,7 @@ const usePostsStore = create<PostsState>((set, get) => ({
         total: fetchPosts.total_posts
       }));
     } else {
-      set((state: PostsState) => ({
+      set((state: PostsStore) => ({
         ...state,
         loading: false,
         tag
@@ -86,7 +107,7 @@ const usePostsStore = create<PostsState>((set, get) => ({
   addPosts: async (limit: number, offset: number, tag: string) => {
     const addedPosts: PostsResponse = await getPosts(limit, offset, tag);
     if (addedPosts && addedPosts.posts.length > 0) {
-      set((state: PostsState) => ({
+      set((state: PostsStore) => ({
         ...state,
         offset,
         posts: state.posts.concat(addedPosts.posts)

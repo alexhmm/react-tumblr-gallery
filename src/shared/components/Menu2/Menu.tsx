@@ -2,17 +2,13 @@ import { Fragment, ReactElement, useEffect, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 // Components
-import Icon from '../../ui/icon/icon.component';
-
-// Models
-import { PostsState } from '../../../posts/models/posts-state.interface';
-import { SharedState } from '../../models/shared-state.interface';
+import Icon from '../../ui/Icon2/Icon';
 
 // Stores
-import usePostsStore from '../../../posts/store/posts.store';
-import useSharedStore from '../../store/shared.store';
+import usePostsStore, { PostsStore } from '../../../posts/store/posts.store';
+import useSharedStore, { SharedStore } from '../../store/shared.store';
 
-import './menu.scss';
+import './Menu.scss';
 
 const Menu = (): ReactElement => {
   // React router history
@@ -24,13 +20,13 @@ const Menu = (): ReactElement => {
   const menuSearchElem = useRef<HTMLInputElement>(null);
 
   // Shared store state
-  const [theme, setTheme] = useSharedStore((state: SharedState) => [
+  const [theme, setTheme] = useSharedStore((state: SharedStore) => [
     state.theme,
     state.setTheme
   ]);
 
   // Posts store state
-  const [limit, setPosts] = usePostsStore((state: PostsState) => [
+  const [limit, setPosts] = usePostsStore((state: PostsStore) => [
     state.limit,
     state.setPosts
   ]);

@@ -1,13 +1,14 @@
 import { Fragment, ReactElement, useEffect, useRef } from 'react';
 
-import { SharedState } from '../../../shared/models/shared-state.interface';
-import useSharedStore from '../../../shared/store/shared.store';
+import useSharedStore, {
+  SharedStore
+} from '../../../shared/store/shared.store';
 
-import './about.scss';
+import './About.scss';
 
 const About = (): ReactElement => {
   // Shared store state
-  const [setSubtitle] = useSharedStore((state: SharedState) => [
+  const [setSubtitle] = useSharedStore((state: SharedStore) => [
     state.setSubtitle
   ]);
 
@@ -27,11 +28,11 @@ const About = (): ReactElement => {
 
   return (
     <Fragment>
-      <div ref={aboutElem} className='about'>
+      <div ref={aboutElem} className="about">
         {process.env.REACT_APP_ABOUT && (
           <div
             dangerouslySetInnerHTML={{ __html: process.env.REACT_APP_ABOUT }}
-            className='about-container'
+            className="about-container"
           ></div>
         )}
       </div>

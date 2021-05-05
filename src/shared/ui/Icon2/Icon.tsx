@@ -1,6 +1,6 @@
 import { CSSProperties, forwardRef, ReactElement } from 'react';
 
-import './icon.scss';
+import './Icon.scss';
 
 type IconProps = {
   button?: boolean;
