@@ -4,7 +4,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 // Components
 import Loader from '../../../shared/ui/Loader/Loader';
-import Post from '../../components/Post2/Post';
+import Post from '../../components/Post/Post';
 
 // Stores
 import usePostsStore, { PostsStore } from '../../store/posts.store';
