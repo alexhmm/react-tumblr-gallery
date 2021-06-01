@@ -4,7 +4,7 @@ import * as dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 
 // Components
-import Icon from '../../../shared/ui/Icon2/Icon';
+import Icon from '../../../shared/ui/Icon/Icon';
 
 // Hooks
 import useDimensions from '../../../shared/hooks/use-dimensions.hook';

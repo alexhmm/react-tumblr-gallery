@@ -2,7 +2,7 @@ import { Fragment, ReactElement, useEffect, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 // Components
-import Icon from '../../ui/Icon2/Icon';
+import Icon from '../../ui/Icon/Icon';
 
 // Stores
 import usePostsStore, { PostsStore } from '../../../posts/store/posts.store';
@@ -250,17 +250,25 @@ const Menu = (): ReactElement => {
                   {process.env.REACT_APP_COPYRIGHT}
                 </span>
               </div>
-              <a
-                href="https://www.tumblr.com/"
-                rel="noreferrer"
-                target="_blank"
-                className="menu-container-content-bottom-info-powered"
-              >
-                <span className="menu-container-content-bottom-info-powered-text">
-                  powered by
-                </span>
-                <Icon size={14} classes="fab fa-tumblr" />
-              </a>
+              <div>
+                <a
+                  href="https://www.tumblr.com/policy/de/impressum"
+                  rel="noreferrer"
+                  target="_blank"
+                  className="menu-container-content-bottom-info-link"
+                  style={{ marginRight: 12 }}
+                >
+                  Imprint
+                </a>
+                <a
+                  href="https://www.tumblr.com/privacy/de"
+                  rel="noreferrer"
+                  target="_blank"
+                  className="menu-container-content-bottom-info-link"
+                >
+                  Privacy
+                </a>
+              </div>
             </div>
           </div>
         </div>

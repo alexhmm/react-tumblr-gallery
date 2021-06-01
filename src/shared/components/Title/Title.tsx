@@ -2,7 +2,7 @@ import { Fragment, ReactElement, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 // Components
-import Icon from '../../ui/Icon2/Icon';
+import Icon from '../../ui/Icon/Icon';
 
 // Models
 import { BlogInfo } from '../../models/blog-info.interface';

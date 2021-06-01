@@ -12,7 +12,7 @@ import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import { useSwipeable } from 'react-swipeable';
 
 // Components
-import Icon from '../../../shared/ui/Icon2/Icon';
+import Icon from '../../../shared/ui/Icon/Icon';
 import Loader from '../../../shared/ui/Loader/Loader';
 import Zoomable from 'react-instagram-zoom';
 

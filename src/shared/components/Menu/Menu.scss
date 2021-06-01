@@ -51,7 +51,6 @@
       &-bottom {
         &-info {
           align-items: center;
-          color: var(--tag-color);
           display: flex;
           font-size: 0.75rem;
           justify-content: space-between;
@@ -60,8 +59,12 @@
             align-items: center;
             display: flex;
             &-text {
+              color: var(--tag-color);
               margin-left: 8px;
             }
+          }
+          &-link {
+            color: var(--theme-color);
           }
           &-powered {
             @include select-item();
@@ -252,6 +255,12 @@
       &-content {
         &-bottom {
           &-info {
+            &-link {
+              @include transition(0.25s, 0s, ease-in, color);
+              &:hover {
+                color: var(--theme-color-hover) !important;
+              }
+            }
             &-powered {
               &:hover {
                 .menu-container-content-bottom-info-powered-text {
