@@ -21,19 +21,19 @@ import useDimensions from '../../../shared/hooks/use-dimensions.hook';
 
 // Models
 import { Contributor } from '../../../shared/models/contributor.interface';
-import { Post } from '../../models/post.interface';
+import { PostsState } from '../../models/posts-state.interface';
+import { SharedState } from '../../../shared/models/shared-state.interface';
 
 // Stores
-import usePostsStore, { PostsStore } from '../../store/posts.store';
-import useSharedStore, {
-  SharedStore
-} from '../../../shared/store/shared.store';
+import usePostsStore from '../../store/posts.store';
+import useSharedStore from '../../../shared/store/shared.store';
 
 // Styles
 import './PostDetail.scss';
 
 // Utils
 import { setPostSourceDetail } from '../../utils/posts.utils';
+import { Post } from '../../models/post.interface';
 
 const PostDetail = (): ReactElement => {
   const dimensions = useDimensions();
@@ -50,7 +50,7 @@ const PostDetail = (): ReactElement => {
   const postDetailLoadingElem = useRef<HTMLDivElement>(null);
 
   // Shared store state
-  const [setSubtitle] = useSharedStore((state: SharedStore) => [
+  const [setSubtitle] = useSharedStore((state: SharedState) => [
     state.setSubtitle
   ]);
 
@@ -58,24 +58,20 @@ const PostDetail = (): ReactElement => {
   const [
     limit,
     navUsed,
-    offset,
     post,
     posts,
     tag,
-    total,
-    setNavUsed,
     addPosts,
+    setNavUsed,
     setPost
-  ] = usePostsStore((state: PostsStore) => [
+  ] = usePostsStore((state: PostsState) => [
     state.limit,
     state.navUsed,
-    state.offset,
     state.post,
     state.posts,
     state.tag,
-    state.total,
-    state.setNavUsed,
     state.addPosts,
+    state.setNavUsed,
     state.setPost
   ]);
 
@@ -101,6 +97,7 @@ const PostDetail = (): ReactElement => {
     window.requestAnimationFrame(() => setMounted(true));
 
     dayjs.extend(LocalizedFormat);
+
     // eslint-disable-next-line
   }, []);
 
@@ -238,20 +235,25 @@ const PostDetail = (): ReactElement => {
 
   // Set prev and next post ids
   useEffect(() => {
-    if (post?.id_string === postId && posts?.length > 0) {
-      const index = posts.findIndex(
+    if (
+      post?.id_string === postId &&
+      posts[tag ? tag : '/']?.posts?.length > 0
+    ) {
+      const index = posts[tag ? tag : '/'].posts.findIndex(
         (singlePost: Post) => singlePost.id_string === post?.id_string
       );
-      index > 0 && setPostPrev(posts[index - 1].id_string);
-      index < posts.length - 1 && setPostNext(posts[index + 1].id_string);
+      index > 0 &&
+        setPostPrev(posts[tag ? tag : '/'].posts[index - 1].id_string);
+      index < posts[tag ? tag : '/'].posts.length - 1 &&
+        setPostNext(posts[tag ? tag : '/'].posts[index + 1].id_string);
 
       // Add more posts on last posts item
-      index === posts.length - 1 &&
-        total >= offset + limit &&
-        addPosts(limit, offset + limit, tag ? tag : '');
+      index === posts[tag ? tag : '/'].posts.length - 1 &&
+        posts[tag ? tag : '/'].total >= posts[tag ? tag : '/'].offset + limit &&
+        addPosts(limit, posts[tag ? tag : '/'].offset + limit, tag ? tag : '');
     }
     // eslint-disable-next-line
-  }, [post, postId, posts]);
+  }, [post, postId, posts, tag]);
 
   // Set opacity on mounted state
   useEffect(() => {

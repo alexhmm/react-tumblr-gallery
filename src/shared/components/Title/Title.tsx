@@ -1,4 +1,11 @@
-import { Fragment, ReactElement, useEffect, useRef, useState } from 'react';
+import {
+  Fragment,
+  ReactElement,
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
 import { useHistory } from 'react-router-dom';
 
 // Components
@@ -6,14 +13,16 @@ import Icon from '../../ui/Icon/Icon';
 
 // Models
 import { BlogInfo } from '../../models/blog-info.interface';
+import { SharedState } from '../../models/shared-state.interface';
 
 // Stores
-import useSharedStore, { SharedStore } from '../../store/shared.store';
+import useSharedStore from '../../store/shared.store';
+
+// Styles
+import './Title.scss';
 
 // Utils
 import { getBlogInfo } from '../../utils/shared.utils';
-
-import './Title.scss';
 
 const Title = (): ReactElement => {
   const history = useHistory();
@@ -25,7 +34,7 @@ const Title = (): ReactElement => {
   const [mounted, setMounted] = useState<boolean>(false);
 
   // Shared store state
-  const [subtitle, title, setTitle] = useSharedStore((state: SharedStore) => [
+  const [subtitle, title, setTitle] = useSharedStore((state: SharedState) => [
     state.subtitle,
     state.title,
     state.setTitle
@@ -69,20 +78,22 @@ const Title = (): ReactElement => {
   }, [mounted, title, subtitle]);
 
   /**
-   * Handler on backdrop click to navigate back to gallery.
+   * Handler on backdrop click to navigate back.
    */
-  const onClickBack = () => {
+  const onClickBack = useCallback(() => {
     if (history.length > 2) {
       history.goBack();
     } else {
       onClickHome();
     }
-  };
+    // eslint-disable-next-line
+  }, [history]);
 
   /**
-   * Handler on backdrop click to navigate back to gallery.
+   * Handler on to navigate back to gallery.
    */
   const onClickHome = () => {
+    // history.replace('/');
     history.push('/');
   };
 

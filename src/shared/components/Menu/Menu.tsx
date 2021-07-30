@@ -4,10 +4,13 @@ import { Link, useHistory } from 'react-router-dom';
 // Components
 import Icon from '../../ui/Icon/Icon';
 
-// Stores
-import usePostsStore, { PostsStore } from '../../../posts/store/posts.store';
-import useSharedStore, { SharedStore } from '../../store/shared.store';
+// Models
+import { SharedState } from '../../models/shared-state.interface';
 
+// Stores
+import useSharedStore from '../../store/shared.store';
+
+// Styles
 import './Menu.scss';
 
 const Menu = (): ReactElement => {
@@ -20,15 +23,9 @@ const Menu = (): ReactElement => {
   const menuSearchElem = useRef<HTMLInputElement>(null);
 
   // Shared store state
-  const [theme, setTheme] = useSharedStore((state: SharedStore) => [
+  const [theme, setTheme] = useSharedStore((state: SharedState) => [
     state.theme,
     state.setTheme
-  ]);
-
-  // Posts store state
-  const [limit, setPosts] = usePostsStore((state: PostsStore) => [
-    state.limit,
-    state.setPosts
   ]);
 
   // Component state
@@ -67,7 +64,6 @@ const Menu = (): ReactElement => {
         menuSearchElem.current.blur();
       }
       setSearchValue('');
-      setPosts(limit, 0, searchVal.toLocaleLowerCase());
       history.push('/tagged/' + searchVal.toLocaleLowerCase());
     }
   };

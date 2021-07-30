@@ -6,20 +6,20 @@ import Loader from '../../../shared/ui/Loader/Loader';
 
 // Models
 import { Contributor } from '../../../shared/models/contributor.interface';
+import { SharedState } from '../../../shared/models/shared-state.interface';
 
 // Stores
-import useSharedStore, {
-  SharedStore
-} from '../../../shared/store/shared.store';
+import useSharedStore from '../../../shared/store/shared.store';
+
+// Styles
+import './Contributors.scss';
 
 // Utils
 import { getContributor } from '../../../shared/utils/shared.utils';
 
-import './Contributors.scss';
-
 const Contributors = (): ReactElement => {
   // Shared store state
-  const [setSubtitle] = useSharedStore((state: SharedStore) => [
+  const [setSubtitle] = useSharedStore((state: SharedState) => [
     state.setSubtitle
   ]);
 

@@ -64,7 +64,6 @@ const Post = (props: { post: PostType }): ReactElement => {
   useEffect(() => {
     if (props.post) {
       // Set post date
-      // console.log('timestamp', props.post.timestamp);
       setDate(dayjs.unix(props.post.timestamp).format('LL'));
 
       // Get post contributor

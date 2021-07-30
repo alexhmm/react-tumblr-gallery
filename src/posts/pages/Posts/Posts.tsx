@@ -6,21 +6,18 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import Loader from '../../../shared/ui/Loader/Loader';
 import Post from '../../components/Post/Post';
 
+// Models
+import { PostsState } from '../../models/posts-state.interface';
+import { SharedState } from '../../../shared/models/shared-state.interface';
+
 // Stores
-import usePostsStore, { PostsStore } from '../../store/posts.store';
-import useSharedStore, {
-  SharedStore
-} from '../../../shared/store/shared.store';
+import usePostsStore from '../../store/posts.store';
+import useSharedStore from '../../../shared/store/shared.store';
 
 // Styles
 import './Posts.scss';
 
 const Posts = (): ReactElement => {
-  // Settings store state
-  const [setSubtitle] = useSharedStore((state: SharedStore) => [
-    state.setSubtitle
-  ]);
-
   // Tagged route param
   const { tagged } = useParams<{
     tagged: string;
@@ -30,33 +27,32 @@ const Posts = (): ReactElement => {
   const [
     limit,
     loading,
-    offset,
     postElements,
     posts,
     tag,
-    total,
+    addPosts,
     setLoading,
     setPost,
-    setPostHover,
     setPostElements,
     setPosts,
-    addPosts,
     setTag
-  ] = usePostsStore((state: PostsStore) => [
+  ] = usePostsStore((state: PostsState) => [
     state.limit,
     state.loading,
-    state.offset,
-    state.postElements,
+    state.postElementsL,
     state.posts,
     state.tag,
-    state.total,
+    state.addPosts,
     state.setLoading,
     state.setPost,
-    state.setPostHover,
     state.setPostElements,
     state.setPosts,
-    state.addPosts,
     state.setTag
+  ]);
+
+  // Settings store state
+  const [setSubtitle] = useSharedStore((state: SharedState) => [
+    state.setSubtitle
   ]);
 
   // Posts element references
@@ -74,10 +70,6 @@ const Posts = (): ReactElement => {
     // Reset post
     setPost(null);
 
-    // Cleanup on component unmount
-    return () => {
-      setPostHover(null);
-    };
     // eslint-disable-next-line
   }, []);
 
@@ -89,49 +81,85 @@ const Posts = (): ReactElement => {
       postsLoadingElem.current.style.opacity = '0';
     }
 
-    if (posts?.length < 1) {
+    if (!posts[tagged ? tagged : '/']) {
       // Set no result feedback visible
       if (!loading && mounted && postsEmptyElem.current) {
         postsEmptyElem.current.style.opacity = '1';
       }
     }
     // eslint-disable-next-line
-  }, [loading, mounted]);
+  }, [loading, mounted, posts, tagged]);
 
-  // Effect on posts state change
+  // Detect post changes
   useEffect(() => {
-    const setElements = async () => {
-      // Check if posts were added
-      if (posts?.length > postElements.length) {
-        setLoading(true);
-        const elements: JSX.Element[] = [];
+    // On existing object add further posts
+    // Check if there are more loaded posts than rendered elements
+    if (
+      posts[tagged ? tagged : '/']?.posts?.length > 0 &&
+      (posts[tagged ? tagged : '/'].posts.length >
+        postElements[tagged ? tagged : '/']?.length ||
+        !postElements[tagged ? tagged : '/'])
+    ) {
+      const setElements = async () => {
         // Set start index to push new react elements (posts) into view
-        const startIndex = postElements.length;
-        for (let i = startIndex > -1 ? startIndex : 0; i < posts.length; i++) {
-          if (posts[i].type === 'photo') {
-            elements.push(<Post key={i} post={posts[i]} />);
-            setPostElements(postElements.concat(elements));
+        let startIndex = 0;
+        // Check if there are existing post elements of the current tag
+        // Set start index by post elements length
+        if (
+          postElements[tagged ? tagged : '/'] &&
+          postElements[tagged ? tagged : '/'].length > 0
+        ) {
+          startIndex = postElements[tagged ? tagged : '/'].length;
+        }
+
+        // Check if new posts were added
+        if (posts[tagged ? tagged : '/']?.posts?.length > startIndex) {
+          setLoading(true);
+          const elements: JSX.Element[] = [];
+
+          // Iterate from calculated start index
+          for (
+            let i = startIndex > -1 ? startIndex : 0;
+            i < posts[tagged ? tagged : '/'].posts.length;
+            i++
+          ) {
+            // Add posts if photo type
+            if (posts[tagged ? tagged : '/'].posts[i].type === 'photo') {
+              elements.push(
+                <Post key={i} post={posts[tagged ? tagged : '/'].posts[i]} />
+              );
+              if (postElements[tagged ? tagged : '/']) {
+                // Concat react nodes to existing elements object
+                setPostElements(
+                  postElements[tagged ? tagged : '/'].concat(elements),
+                  tagged
+                );
+              } else {
+                // Insert new post elements object
+                setPostElements(elements, tagged);
+              }
+            }
             // Set loading to false after last element is rendered
-          }
-          if (i === posts.length - 1) {
-            setLoading(false);
+            if (i === posts[tagged ? tagged : '/'].posts.length - 1) {
+              setLoading(false);
+            }
           }
         }
-      }
-    };
-    setElements();
+      };
+      setElements();
+    } else if (!posts[tagged ? tagged : '/']?.posts) {
+      setLoading(true);
+      setPosts(limit, tagged);
+    }
     // eslint-disable-next-line
-  }, [posts]);
+  }, [postElements, posts, tagged]);
 
-  // Effect on tagged param state change
+  // Set store tag on state change
   useEffect(() => {
-    // Reset posts
     if (tagged !== tag) {
       setTag(tagged);
-      setLoading(true);
-      setPostElements([]);
-      setPosts(limit, 0, tagged);
     }
+
     // Set document title based on tag
     !tagged && setSubtitle(null);
     tagged && setSubtitle({ document: `#${tagged}`, text: `#${tagged}` });
@@ -142,29 +170,37 @@ const Posts = (): ReactElement => {
    * Handler to add posts.
    */
   const onAddPosts = () => {
-    if (total >= offset + limit) {
+    if (
+      posts[tagged ? tagged : '/'] &&
+      posts[tagged ? tagged : '/'].total >=
+        posts[tagged ? tagged : '/'].offset + limit
+    ) {
       setLoading(true);
-      addPosts(limit, offset + limit, tagged);
+      // addPosts(limit, offset + limit, tagged);
+      addPosts(limit, posts[tagged ? tagged : '/'].offset + limit, tagged);
     }
   };
 
   return (
-    <InfiniteScroll
-      dataLength={postElements.length}
-      hasMore
-      loader={null}
-      next={onAddPosts}
-      scrollThreshold={1}
-      className="posts"
-    >
-      <div ref={postsLoadingElem} className="posts-loading">
-        <Loader size={10} />
-      </div>
-      {postElements}
-      <div ref={postsEmptyElem} className="posts-empty">
-        No results found{tagged && `: #${tagged}.`}
-      </div>
-    </InfiniteScroll>
+    <>
+      <InfiniteScroll
+        dataLength={postElements[tagged ? tagged : '/']?.length || 0}
+        hasMore
+        loader={null}
+        next={onAddPosts}
+        scrollThreshold={1}
+        className="posts"
+      >
+        <div ref={postsLoadingElem} className="posts-loading">
+          <Loader size={10} />
+        </div>
+        {/* {tag ? postElements[tag] : postElementsL} */}
+        {postElements[tagged ? tagged : '/']}
+        <div ref={postsEmptyElem} className="posts-empty">
+          No results found{tagged && `: #${tagged}.`}
+        </div>
+      </InfiniteScroll>
+    </>
   );
 };
 

@@ -1,14 +1,17 @@
 import { Fragment, ReactElement, useEffect, useRef } from 'react';
 
-import useSharedStore, {
-  SharedStore
-} from '../../../shared/store/shared.store';
+// Models
+import { SharedState } from '../../../shared/models/shared-state.interface';
 
+// Stores
+import useSharedStore from '../../../shared/store/shared.store';
+
+// Styles
 import './About.scss';
 
 const About = (): ReactElement => {
   // Shared store state
-  const [setSubtitle] = useSharedStore((state: SharedStore) => [
+  const [setSubtitle] = useSharedStore((state: SharedState) => [
     state.setSubtitle
   ]);
 

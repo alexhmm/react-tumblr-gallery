@@ -1,18 +1,13 @@
-import create, { State } from 'zustand';
+import create from 'zustand';
 
+// Models
+import { SharedState } from '../models/shared-state.interface';
 import { Subtitle } from '../models/subtitle.interface';
+
+// Utils
 import { setAppTheme } from '../utils/shared.utils';
 
-export interface SharedStore extends State {
-  theme: string;
-  subtitle: Subtitle | null;
-  title: string;
-  setTheme: (theme: string) => void;
-  setSubtitle: (subtitle: Subtitle | null) => void;
-  setTitle: (title: string) => void;
-}
-
-const useSharedStore = create<SharedStore>(set => ({
+const useSharedStore = create<SharedState>(set => ({
   theme: 'light',
   subtitle: null,
   title: process.env.REACT_APP_TITLE ? process.env.REACT_APP_TITLE : '',
