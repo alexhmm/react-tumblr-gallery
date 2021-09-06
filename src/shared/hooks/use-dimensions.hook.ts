@@ -21,7 +21,7 @@ const debounce = (fn: Function, ms: number) => {
  * Debounced dimensions hook.
  * @returns Dimensions
  */
-const useDimensions = () => {
+export const useDimensions = () => {
   const [dimensions, setDimensions] = useState({
     height: window.innerHeight,
     width: window.innerWidth
@@ -42,7 +42,5 @@ const useDimensions = () => {
     };
   });
 
-  return dimensions;
+  return { dimensions };
 };
-
-export default useDimensions;

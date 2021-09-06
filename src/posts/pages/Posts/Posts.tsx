@@ -6,6 +6,9 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import Loader from '../../../shared/ui/Loader/Loader';
 import Post from '../../components/Post/Post';
 
+// Hooks
+import { usePosts } from '../../hooks/usePosts.hook';
+
 // Models
 import { PostsState } from '../../models/posts-state.interface';
 import { SharedState } from '../../../shared/models/shared-state.interface';
@@ -23,6 +26,8 @@ const Posts = (): ReactElement => {
     tagged: string;
   }>();
 
+  const { getPosts } = usePosts();
+
   // Posts store state
   const [
     limit,
@@ -39,7 +44,7 @@ const Posts = (): ReactElement => {
   ] = usePostsStore((state: PostsState) => [
     state.limit,
     state.loading,
-    state.postElementsL,
+    state.postElements,
     state.posts,
     state.tag,
     state.addPosts,
@@ -92,6 +97,11 @@ const Posts = (): ReactElement => {
 
   // Detect post changes
   useEffect(() => {
+    // Set posts
+    const fetchPosts = async () => {
+      setPosts(await getPosts(limit, 0, tagged), tagged);
+    };
+
     // On existing object add further posts
     // Check if there are more loaded posts than rendered elements
     if (
@@ -149,7 +159,7 @@ const Posts = (): ReactElement => {
       setElements();
     } else if (!posts[tagged ? tagged : '/']?.posts) {
       setLoading(true);
-      setPosts(limit, tagged);
+      fetchPosts();
     }
     // eslint-disable-next-line
   }, [postElements, posts, tagged]);
@@ -158,6 +168,8 @@ const Posts = (): ReactElement => {
   useEffect(() => {
     if (tagged !== tag) {
       setTag(tagged);
+    } else if (tagged === undefined) {
+      setTag(null);
     }
 
     // Set document title based on tag
@@ -169,15 +181,23 @@ const Posts = (): ReactElement => {
   /**
    * Handler to add posts.
    */
-  const onAddPosts = () => {
+  const onAddPosts = async () => {
     if (
       posts[tagged ? tagged : '/'] &&
       posts[tagged ? tagged : '/'].total >=
         posts[tagged ? tagged : '/'].offset + limit
     ) {
       setLoading(true);
-      // addPosts(limit, offset + limit, tagged);
-      addPosts(limit, posts[tagged ? tagged : '/'].offset + limit, tagged);
+      addPosts(
+        await getPosts(
+          limit,
+          posts[tagged ? tagged : '/'].offset + limit,
+          tagged
+        ),
+        limit,
+        posts[tagged ? tagged : '/'].offset,
+        tagged
+      );
     }
   };
 
@@ -194,7 +214,6 @@ const Posts = (): ReactElement => {
         <div ref={postsLoadingElem} className="posts-loading">
           <Loader size={10} />
         </div>
-        {/* {tag ? postElements[tag] : postElementsL} */}
         {postElements[tagged ? tagged : '/']}
         <div ref={postsEmptyElem} className="posts-empty">
           No results found{tagged && `: #${tagged}.`}

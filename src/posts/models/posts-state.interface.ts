@@ -3,6 +3,7 @@ import { State } from 'zustand';
 
 // Models
 import { Post } from './post.interface';
+import { PostsResponse } from './posts-response.interface';
 
 export interface PostsState extends State {
   limit: number;
@@ -10,7 +11,7 @@ export interface PostsState extends State {
   navUsed: boolean;
   offset: number;
   post: Post | null;
-  postElementsL: {
+  postElements: {
     [tag: string]: ReactNode[];
   };
   posts: {
@@ -22,11 +23,16 @@ export interface PostsState extends State {
   };
   tag: string | null;
   total: number;
-  addPosts: (limit: number, offset: number, tag: string | null) => void;
+  addPosts: (
+    postsResponse: PostsResponse,
+    limit: number,
+    offset: number,
+    tag: string
+  ) => void;
   setLoading: (loading: boolean) => void;
   setNavUsed: (navUsed: boolean) => void;
-  setPost: (postId: string | null) => void;
+  setPost: (post: Post | null) => void;
   setPostElements: (postElements: ReactNode[], tag: string | null) => void;
-  setPosts: (limit: number, tag: string | null) => void;
-  setTag: (tag: string) => void;
+  setPosts: (postsReponse: PostsResponse, tag: string) => void;
+  setTag: (tag: string | null) => void;
 }

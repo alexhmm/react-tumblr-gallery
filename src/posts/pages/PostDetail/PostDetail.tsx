@@ -17,10 +17,12 @@ import Loader from '../../../shared/ui/Loader/Loader';
 import Zoomable from 'react-instagram-zoom';
 
 // Hooks
-import useDimensions from '../../../shared/hooks/use-dimensions.hook';
+import { useDimensions } from '../../../shared/hooks/use-dimensions.hook';
+import { usePosts } from '../../hooks/usePosts.hook';
 
 // Models
 import { Contributor } from '../../../shared/models/contributor.interface';
+import { Post } from '../../models/post.interface';
 import { PostsState } from '../../models/posts-state.interface';
 import { SharedState } from '../../../shared/models/shared-state.interface';
 
@@ -31,12 +33,9 @@ import useSharedStore from '../../../shared/store/shared.store';
 // Styles
 import './PostDetail.scss';
 
-// Utils
-import { setPostSourceDetail } from '../../utils/posts.utils';
-import { Post } from '../../models/post.interface';
-
 const PostDetail = (): ReactElement => {
-  const dimensions = useDimensions();
+  const { dimensions } = useDimensions();
+  const { getPosts, getPost, setPostSourceDetail } = usePosts();
 
   // React router history
   const history = useHistory();
@@ -83,7 +82,6 @@ const PostDetail = (): ReactElement => {
   // Component state
   const [contributor, setContributor] = useState<Contributor | null>(null);
   const [date, setDate] = useState<string | null>('');
-  const [imgWidth, setImgWidth] = useState<number>(0);
   const [imgSrc, setImgSrc] = useState<string | undefined>(undefined);
   const [init, setInit] = useState<boolean>(true);
   const [loaded, setLoaded] = useState<boolean>(false);
@@ -142,8 +140,13 @@ const PostDetail = (): ReactElement => {
 
   // Effect on postId param
   useEffect(() => {
+    const fetchPost = async () => {
+      setPost(await getPost(postId));
+    };
+
+    // Fetch post on mount
     if (postId) {
-      setPost(postId);
+      fetchPost();
     }
 
     // Cleanup on unmount component
@@ -180,15 +183,13 @@ const PostDetail = (): ReactElement => {
   useEffect(() => {
     // Reset post source on resize
     if (dimensions && post) {
-      const img = setPostSourceDetail(imgWidth, post?.photos[0]?.alt_sizes);
+      const img = setPostSourceDetail(post?.photos[0]?.alt_sizes);
       setImgSrc(img.imgSrc);
-      setImgWidth(img.imgWidth);
     }
 
     // Cleanup function
     return () => {
       setImgSrc(undefined);
-      setImgWidth(0);
     };
 
     // eslint-disable-next-line
@@ -235,6 +236,15 @@ const PostDetail = (): ReactElement => {
 
   // Set prev and next post ids
   useEffect(() => {
+    const fetchPosts = async () => {
+      addPosts(
+        await getPosts(limit, posts[tag ?? '/'].offset + limit, tag),
+        limit,
+        posts[tag ?? '/'].offset,
+        tag ?? '/'
+      );
+    };
+
     if (
       post?.id_string === postId &&
       posts[tag ? tag : '/']?.posts?.length > 0
@@ -250,7 +260,7 @@ const PostDetail = (): ReactElement => {
       // Add more posts on last posts item
       index === posts[tag ? tag : '/'].posts.length - 1 &&
         posts[tag ? tag : '/'].total >= posts[tag ? tag : '/'].offset + limit &&
-        addPosts(limit, posts[tag ? tag : '/'].offset + limit, tag ? tag : '');
+        fetchPosts();
     }
     // eslint-disable-next-line
   }, [post, postId, posts, tag]);

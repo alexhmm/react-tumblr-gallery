@@ -7,19 +7,18 @@ import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import Icon from '../../../shared/ui/Icon/Icon';
 
 // Hooks
-import useDimensions from '../../../shared/hooks/use-dimensions.hook';
+import { useDimensions } from '../../../shared/hooks/use-dimensions.hook';
+import { usePosts } from '../../hooks/usePosts.hook';
 
 // Models
 import { Contributor } from '../../../shared/models/contributor.interface';
 import { Post as PostType } from '../../models/post.interface';
 
-// Utils
-import { setPostSourceGallery } from '../../utils/posts.utils';
-
 import './Post.scss';
 
 const Post = (props: { post: PostType }): ReactElement => {
-  const dimensions = useDimensions();
+  const { dimensions } = useDimensions();
+  const { setPostSourceGallery } = usePosts();
 
   // Post element references
   const postElem: any = useRef<HTMLDivElement>(null);
@@ -28,7 +27,6 @@ const Post = (props: { post: PostType }): ReactElement => {
   // Component state
   const [contributor, setContributor] = useState<Contributor | null>(null);
   const [date, setDate] = useState<string | null>(null);
-  const [imgWidth, setImgWidth] = useState<number>(0);
   const [imgSrc, setImgSrc] = useState<string | undefined>(undefined);
   const [loaded, setLoaded] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
@@ -44,22 +42,18 @@ const Post = (props: { post: PostType }): ReactElement => {
   // Effect on dimensions change.
   useEffect(() => {
     // Reset post source on resize
-    const img = setPostSourceGallery(
-      imgWidth,
-      props?.post?.photos[0]?.alt_sizes
-    );
+    const img = setPostSourceGallery(props?.post?.photos[0]?.alt_sizes);
     setImgSrc(img.imgSrc);
-    setImgWidth(img.imgWidth);
     // eslint-disable-next-line
   }, [dimensions]);
 
   // Effect on loaded & mounted state
   useEffect(() => {
-    if (imgSrc && imgWidth && loaded && mounted && postElem.current) {
+    if (imgSrc && loaded && mounted && postElem.current) {
       // Fade in post
       postElem.current.style.opacity = '1';
     }
-  }, [imgSrc, imgWidth, loaded, mounted]);
+  }, [imgSrc, loaded, mounted]);
 
   useEffect(() => {
     if (props.post) {
