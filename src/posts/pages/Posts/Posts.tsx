@@ -1,6 +1,7 @@
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import clsx from 'clsx';
 
 // Components
 import Loader from '../../../shared/ui/Loader/Loader';
@@ -61,7 +62,7 @@ const Posts = (): ReactElement => {
   ]);
 
   // Posts element references
-  const postsEmptyElem = useRef<HTMLDivElement>(null);
+  // const postsEmptyElem = useRef<HTMLDivElement>(null);
   const postsLoadingElem = useRef<HTMLDivElement>(null);
 
   // Component state
@@ -86,12 +87,12 @@ const Posts = (): ReactElement => {
       postsLoadingElem.current.style.opacity = '0';
     }
 
-    if (!posts[tagged ? tagged : '/']) {
-      // Set no result feedback visible
-      if (!loading && mounted && postsEmptyElem.current) {
-        postsEmptyElem.current.style.opacity = '1';
-      }
-    }
+    // if (!posts[tagged ? tagged : '/']) {
+    //   // Set no result feedback visible
+    //   if (!loading && mounted && postsEmptyElem.current) {
+    //     postsEmptyElem.current.style.opacity = '1';
+    //   }
+    // }
     // eslint-disable-next-line
   }, [loading, mounted, posts, tagged]);
 
@@ -201,6 +202,8 @@ const Posts = (): ReactElement => {
     }
   };
 
+  // console.log(!posts[tagged ?? '/'] && !loading && mounted);
+
   return (
     <>
       <InfiniteScroll
@@ -209,13 +212,22 @@ const Posts = (): ReactElement => {
         loader={null}
         next={onAddPosts}
         scrollThreshold={1}
-        className="posts"
+        className="box-border flex flex-wrap px-1 py-16 w-full sm:px-2 md:px-4 md:py-20 xl:py-24 3xl:px-8 4xl:px-12 4xl:py-28"
       >
-        <div ref={postsLoadingElem} className="posts-loading">
+        <div ref={postsLoadingElem} className={clsx('posts-loading')}>
           <Loader size={10} />
         </div>
         {postElements[tagged ? tagged : '/']}
-        <div ref={postsEmptyElem} className="posts-empty">
+        <div
+          // ref={postsEmptyElem}
+          className={clsx(
+            'box-border duration-500 ease-out mt-8 p-2 text-center text-2xl transition-opacity w-full z-20',
+            'md:p-4 md:text-3xl xl:p-6 xl:text-4xl',
+            !posts[tagged ?? '/'] && !loading && mounted
+              ? 'opacity-100'
+              : 'opacity-0'
+          )}
+        >
           No results found{tagged && `: #${tagged}.`}
         </div>
       </InfiniteScroll>
