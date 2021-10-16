@@ -1,12 +1,14 @@
+import clsx from 'clsx';
 import './Loader.scss';
 
 type LoaderProps = {
+  classes?: string;
   size: number;
 };
 
 const Loader = (props: LoaderProps) => {
   return (
-    <div className="loader">
+    <div className={clsx('loader', props.classes && props.classes)}>
       <div
         className="bounce1"
         style={{ height: props.size + 'px', width: props.size + 'px' }}

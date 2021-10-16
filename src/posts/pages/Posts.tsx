@@ -1,27 +1,25 @@
-import { ReactElement, useEffect, useRef, useState } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { Transition } from '@headlessui/react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import clsx from 'clsx';
 
 // Components
-import Loader from '../../../shared/ui/Loader/Loader';
-import Post from '../../components/Post/Post';
+import Loader from '../../shared/ui/Loader/Loader';
+import Post from '../components/Post/Post';
 
 // Hooks
-import { usePosts } from '../../hooks/usePosts.hook';
+import { usePosts } from '../hooks/usePosts.hook';
 
 // Models
-import { PostsState } from '../../models/posts-state.interface';
-import { SharedState } from '../../../shared/models/shared-state.interface';
+import { PostsState } from '../models/posts-state.interface';
+import { SharedState } from '../../shared/models/shared-state.interface';
 
 // Stores
-import usePostsStore from '../../store/posts.store';
-import useSharedStore from '../../../shared/store/shared.store';
+import usePostsStore from '../store/posts.store';
+import useSharedStore from '../../shared/store/shared.store';
 
-// Styles
-import './Posts.scss';
-
-const Posts = (): ReactElement => {
+export const Posts = (): ReactElement => {
   // Tagged route param
   const { tagged } = useParams<{
     tagged: string;
@@ -61,40 +59,13 @@ const Posts = (): ReactElement => {
     state.setSubtitle
   ]);
 
-  // Posts element references
-  // const postsEmptyElem = useRef<HTMLDivElement>(null);
-  const postsLoadingElem = useRef<HTMLDivElement>(null);
-
-  // Component state
-  const [mounted, setMounted] = useState<boolean>(false);
-
   // Effect on component mount
   useEffect(() => {
-    // Using window.requestAnimationFrame allows an action to be take after the next DOM paint
-    window.requestAnimationFrame(() => setMounted(true));
-
     // Reset post
     setPost(null);
 
     // eslint-disable-next-line
   }, []);
-
-  // Effect on loading and mounted state change
-  useEffect(() => {
-    if (loading && mounted && postsLoadingElem.current) {
-      postsLoadingElem.current.style.opacity = '1';
-    } else if (!loading && mounted && postsLoadingElem.current) {
-      postsLoadingElem.current.style.opacity = '0';
-    }
-
-    // if (!posts[tagged ? tagged : '/']) {
-    //   // Set no result feedback visible
-    //   if (!loading && mounted && postsEmptyElem.current) {
-    //     postsEmptyElem.current.style.opacity = '1';
-    //   }
-    // }
-    // eslint-disable-next-line
-  }, [loading, mounted, posts, tagged]);
 
   // Detect post changes
   useEffect(() => {
@@ -202,8 +173,6 @@ const Posts = (): ReactElement => {
     }
   };
 
-  // console.log(!posts[tagged ?? '/'] && !loading && mounted);
-
   return (
     <>
       <InfiniteScroll
@@ -214,25 +183,31 @@ const Posts = (): ReactElement => {
         scrollThreshold={1}
         className="box-border flex flex-wrap px-1 py-16 w-full sm:px-2 md:px-4 md:py-20 xl:py-24 3xl:px-8 4xl:px-12 4xl:py-28"
       >
-        <div ref={postsLoadingElem} className={clsx('posts-loading')}>
-          <Loader size={10} />
-        </div>
+        <Transition
+          show={loading}
+          enter="transition-opacity duration-200"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="transition-opacity duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <Loader
+            classes="bottom-8 fixed left-1/2 transform -translate-x-1/2 z-20 lg:bottom-12 xl:bottom-16"
+            size={10}
+          />
+        </Transition>
         {postElements[tagged ? tagged : '/']}
         <div
-          // ref={postsEmptyElem}
           className={clsx(
             'box-border duration-500 ease-out mt-8 p-2 text-center text-2xl transition-opacity w-full z-20',
             'md:p-4 md:text-3xl xl:p-6 xl:text-4xl',
-            !posts[tagged ?? '/'] && !loading && mounted
-              ? 'opacity-100'
-              : 'opacity-0'
+            !posts[tagged ?? '/'] && !loading ? 'opacity-100' : 'opacity-0'
           )}
         >
-          No results found{tagged && `: #${tagged}.`}
+          No results found{tagged && `: #${tagged}`}.
         </div>
       </InfiniteScroll>
     </>
   );
 };
-
-export default Posts;
