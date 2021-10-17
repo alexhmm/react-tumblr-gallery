@@ -141,5 +141,7 @@ export const setAppTheme = (theme: string) => {
 
   // Set document theme
   document.documentElement.setAttribute('theme', theme);
+  // Tailwindcss theme
+  document.documentElement.setAttribute('class', theme);
   localStorage.setItem('theme', theme);
 };

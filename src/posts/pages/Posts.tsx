@@ -200,7 +200,7 @@ export const Posts = (): ReactElement => {
         {postElements[tagged ? tagged : '/']}
         <div
           className={clsx(
-            'box-border duration-500 ease-out mt-8 p-2 text-center text-2xl transition-opacity w-full z-20',
+            'box-border duration-500 ease-out mt-8 p-2 text-center text-2xl transition-opacity w-full z-10',
             'md:p-4 md:text-3xl xl:p-6 xl:text-4xl',
             !posts[tagged ?? '/'] && !loading ? 'opacity-100' : 'opacity-0'
           )}
