@@ -1,41 +1,33 @@
-import { ReactElement, useEffect, useRef, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { isDesktop } from 'react-device-detect';
 import * as dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
+import clsx from 'clsx';
 
 // Components
-import Icon from '../../../shared/ui/Icon/Icon';
+import Icon from '../../shared/ui/Icon/Icon';
 
 // Hooks
-import { useDimensions } from '../../../shared/hooks/use-dimensions.hook';
-import { usePosts } from '../../hooks/usePosts.hook';
+import { useDimensions } from '../../shared/hooks/use-dimensions.hook';
+import { usePosts } from '../hooks/usePosts.hook';
 
 // Models
-import { Contributor } from '../../../shared/models/contributor.interface';
-import { Post as PostType } from '../../models/post.interface';
+import { Contributor } from '../../shared/models/contributor.interface';
+import { Post as IPost } from '../models/post.interface';
 
-import './Post.scss';
-
-const Post = (props: { post: PostType }): ReactElement => {
+export const Post = (props: { post: IPost }): ReactElement => {
   const { dimensions } = useDimensions();
   const { setPostSourceGallery } = usePosts();
-
-  // Post element references
-  const postElem: any = useRef<HTMLDivElement>(null);
-  const postContainerElem = useRef<HTMLDivElement>(null);
 
   // Component state
   const [contributor, setContributor] = useState<Contributor | null>(null);
   const [date, setDate] = useState<string | null>(null);
   const [imgSrc, setImgSrc] = useState<string | undefined>(undefined);
   const [loaded, setLoaded] = useState<boolean>(false);
-  const [mounted, setMounted] = useState<boolean>(false);
 
   // Effect on component mount
   useEffect(() => {
-    // Using window.requestAnimationFrame allows an action to be take after the next DOM paint
-    window.requestAnimationFrame(() => setMounted(true));
-
     dayjs.extend(LocalizedFormat);
   }, []);
 
@@ -46,14 +38,6 @@ const Post = (props: { post: PostType }): ReactElement => {
     setImgSrc(img.imgSrc);
     // eslint-disable-next-line
   }, [dimensions]);
-
-  // Effect on loaded & mounted state
-  useEffect(() => {
-    if (imgSrc && loaded && mounted && postElem.current) {
-      // Fade in post
-      postElem.current.style.opacity = '1';
-    }
-  }, [imgSrc, loaded, mounted]);
 
   useEffect(() => {
     if (props.post) {
@@ -81,73 +65,99 @@ const Post = (props: { post: PostType }): ReactElement => {
   }, [props.post]);
 
   return (
-    <article ref={postElem} className="post">
-      <div ref={postContainerElem} className="post-container">
-        <div className="post-container-photo">
+    <article
+      className={clsx(
+        'box-border duration-500 flex items-center justify-center p-2 tap-highlight-post transition-opacity w-1/2 z-10',
+        'md:p-4 xl:p-6 xl:w-1/3 3xl:p-8 4xl:w-1/4',
+        loaded ? 'opacity-100' : 'opacity-0'
+      )}
+    >
+      <div
+        className={clsx(
+          'relative w-full',
+          isDesktop && 'duration-300 ease-in-out group transition-all'
+        )}
+      >
+        <div className="flex justify-center overflow-hidden z-20">
           <img
             alt={props?.post?.caption}
             src={imgSrc}
             onLoad={() => setLoaded(true)}
-            className="post-container-photo-src"
+            className={clsx(
+              isDesktop &&
+                'box-border duration-300 ease-in-out filter max-h-[1920px] max-w-full object-cover overflow-hidden transition-all group-hover:brightness-[.25]'
+            )}
           />
-          <div className="post-container-photo-overlay">
+          <div
+            className={clsx(
+              'absolute h-full left-0 opacity-0 top-0 w-full',
+              isDesktop &&
+                'duration-300 ease-in-out transition-opacity group-hover:opacity-100'
+            )}
+          >
             <Link
               to={'/post/' + props.post.id_string}
-              className="post-container-photo-overlay-link"
+              className="absolute h-full left-0 top-0 w-full"
             />
-            <div className="post-container-photo-overlay-group">
+            <div className="absolute hidden items-center left-4 top-4 sm:flex 3xl:left-6 3xl:top-6 4xl:left-8 4xl:top-8">
               <Link
                 to={'/post/' + props.post.id_string}
-                className="post-container-photo-overlay-group-notes"
+                className="flex items-center"
               >
                 <Icon
                   classes="fas fa-heart"
                   size={16}
                   style={{ color: 'rgb(226, 72, 85)' }}
                 />
-                <span className="post-container-photo-overlay-group-text">
+                <span className="ml-2 text-white">
                   {props?.post?.note_count}
                 </span>
               </Link>
               {contributor && (
                 <a
                   href={contributor.href}
-                  className="post-container-photo-overlay-group-contributor"
                   rel="noreferrer"
                   target="_blank"
+                  className="duration-200 ease-in-out flex items-center ml-4 transition-opacity sm:flex"
                 >
                   <Icon
                     classes="fas fa-camera"
                     size={16}
                     style={{ color: 'white' }}
                   />
-                  <span className="post-container-photo-overlay-group-text">
-                    {contributor.name}
-                  </span>
+                  <span className="ml-2 text-white">{contributor.name}</span>
                 </a>
               )}
             </div>
-            <div className="post-container-photo-overlay-content">
+            <div
+              className={clsx(
+                'absolute bottom-4 flex flex-col left-4',
+                'xl:w-[calc(100%-32px)] 3xl:bottom-6 3xl:left-6 3xl:w-[calc(100%-48px)] 4xl:bottom-8 4xl:h-[28px] 4xl:left-8 4xl:text-xl 2 4xl:w-[calc(100%-64px)]'
+              )}
+            >
               {date && (
                 <Link
                   to={'/post/' + props.post.id_string}
-                  className="post-container-photo-overlay-content-date"
+                  className="pb-1 text-posts-tag text-sm 3xl:pb-2"
                 >
                   {date}
                 </Link>
               )}
               <Link
                 to={'/post/' + props.post.id_string}
-                className="post-container-photo-overlay-content-title"
+                className={clsx(
+                  'mr-3 overflow-hidden text-white text-xl truncate uppercase w-full whitespace-nowrap',
+                  'lg:pb-1 3xl:text-2xl 3xl:pb-2'
+                )}
               >
                 {props?.post?.summary}
               </Link>
-              <div className="post-container-photo-overlay-content-tags">
+              <div className="hidden flex-wrap w-full lg:flex">
                 {props?.post?.tags?.map((tag: string) => (
                   <Link
                     key={tag}
                     to={'/tagged/' + tag}
-                    className="post-container-photo-overlay-content-tags-item"
+                    className="duration-200 mr-1 text-posts-tag transition-colors hover:text-white"
                   >
                     #{tag}
                   </Link>
@@ -160,5 +170,3 @@ const Post = (props: { post: PostType }): ReactElement => {
     </article>
   );
 };
-
-export default Post;

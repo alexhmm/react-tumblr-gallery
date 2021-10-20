@@ -6,7 +6,7 @@ import clsx from 'clsx';
 
 // Components
 import Loader from '../../shared/ui/Loader/Loader';
-import Post from '../components/Post/Post';
+import { Post } from '../components/Post';
 
 // Hooks
 import { usePosts } from '../hooks/usePosts.hook';

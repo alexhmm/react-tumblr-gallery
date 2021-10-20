@@ -1,4 +1,4 @@
-import { wqhd, xl } from '../../shared/utils/breakpoints';
+import { xxxxl, xl } from '../../shared/utils/breakpoints';
 
 // Models
 import { PhotoSource } from '../models/photo-source.interface';
@@ -177,7 +177,7 @@ export const usePosts = () => {
     if (windowWidth > xl - 1) {
       containerWidth = windowWidth / 3;
     }
-    if (windowWidth > wqhd) {
+    if (windowWidth > xxxxl) {
       containerWidth = windowWidth / 4;
     }
 

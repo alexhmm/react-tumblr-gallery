@@ -5,9 +5,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: 'var(--theme-color-hover)',
+        'posts-tag': '#acacac',
+        'primary': 'var(--theme-color-hover)',
         // primary: '#ff0000',
-        tag: 'var(--tag-color)'
+        'tag': 'var(--tag-color)'
       },
       screens: {
         '3xl': '1920px',

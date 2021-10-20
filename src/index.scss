@@ -9,6 +9,9 @@
   .tap-highlight {
     -webkit-tap-highlight-color: var(--select-color);
   }
+  .tap-highlight-post {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.25);
+  }
   // .user-select-none {
   //   -webkit-user-select: none;
   //   -khtml-user-select: none;
