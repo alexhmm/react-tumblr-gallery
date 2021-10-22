@@ -117,30 +117,30 @@ export const setAppMetaData = (): void => {
  * @param theme Theme
  */
 export const setAppTheme = (theme: string) => {
-  const darkColor = '#1f1f1f';
-  const lightColor = '#fafafa';
+  // const darkColor = '#1f1f1f';
+  // const lightColor = '#fafafa';
 
-  // Set mobile status bar
-  const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-  if (metaThemeColor) {
-    metaThemeColor.setAttribute(
-      'content',
-      theme === 'light' ? lightColor : darkColor
-    );
-  }
+  // // Set mobile status bar
+  // const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+  // if (metaThemeColor) {
+  //   metaThemeColor.setAttribute(
+  //     'content',
+  //     theme === 'light' ? lightColor : darkColor
+  //   );
+  // }
 
-  const metaStatusBar = document.querySelector(
-    'meta[name="apple-mobile-web-app-status-bar-style"]'
-  );
-  if (metaStatusBar) {
-    metaStatusBar.setAttribute(
-      'content',
-      theme === 'light' ? lightColor : darkColor
-    );
-  }
+  // const metaStatusBar = document.querySelector(
+  //   'meta[name="apple-mobile-web-app-status-bar-style"]'
+  // );
+  // if (metaStatusBar) {
+  //   metaStatusBar.setAttribute(
+  //     'content',
+  //     theme === 'light' ? lightColor : darkColor
+  //   );
+  // }
 
-  // Set document theme
-  document.documentElement.setAttribute('theme', theme);
+  // // Set document theme
+  // document.documentElement.setAttribute('theme', theme);
   // Tailwindcss theme
   document.documentElement.setAttribute('class', theme);
   localStorage.setItem('theme', theme);

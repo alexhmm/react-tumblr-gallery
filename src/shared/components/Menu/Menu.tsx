@@ -95,7 +95,7 @@ const Menu = (): ReactElement => {
       {menu && (
         <section onClick={toggleMenu} className="menu-backdrop"></section>
       )}
-      <section ref={menuContainerElem} className="menu-container">
+      <section ref={menuContainerElem} className="menu-container bg-menu">
         <div className="menu-container-content">
           <div className="menu-container-content-theme">
             <Icon
