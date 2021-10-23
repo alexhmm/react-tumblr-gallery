@@ -10,12 +10,13 @@ module.exports = {
       },
       colors: {
         'posts-tag': '#acacac',
-        'primary': 'var(--theme-color-hover)',
+        'primary': 'var(--app-color-hover)',
         // primary: '#ff0000',
         'tag': 'var(--tag-color)'
       },
       textColor: {
-        app: 'var(--app-color)'
+        app: 'var(--app-color)',
+        sub: 'var(--sub-color)'
       },
       screens: {
         '3xl': '1920px',
