@@ -1,0 +1,12 @@
+.fade-enter {
+  z-index: 1;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit.fade-exit-active {
+  transition: 0.25 0s ease-in-out opacity;
+  opacity: 0.01;
+}

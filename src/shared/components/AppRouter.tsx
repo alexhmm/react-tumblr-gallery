@@ -3,12 +3,12 @@ import { Switch, Route, useLocation } from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 // Pages
-import { About } from '../../../info/pages/About';
-import { Contributors } from '../../../info/pages/Contributors';
-import { PostDetail } from '../../../posts/pages/PostDetail';
-import { Posts } from '../../../posts/pages/Posts';
+import { About } from '../../info/pages/About';
+import { Contributors } from '../../info/pages/Contributors';
+import { PostDetail } from '../../posts/pages/PostDetail';
+import { Posts } from '../../posts/pages/Posts';
 
-import './AppRouter.scss';
+import './styles/AppRouter.scss';
 
 const routes = [
   { path: '/', name: 'Home', Component: Posts },
@@ -19,7 +19,7 @@ const routes = [
   { path: '/tagged/:tagged', name: 'Posts', Component: Posts }
 ];
 
-const AppRouter = () => {
+export const AppRouter = () => {
   const location = useLocation();
   const nodeRef = useRef(null);
 
@@ -27,12 +27,12 @@ const AppRouter = () => {
     <TransitionGroup>
       <CSSTransition
         nodeRef={nodeRef}
-        timeout={250}
+        timeout={200}
         classNames="fade"
         key={location.key}
         unmountOnExit={true}
       >
-        <section className="route">
+        <section className="absolute left-0 top-0 w-full">
           <Switch location={location}>
             {routes.map(
               ({
@@ -51,5 +51,3 @@ const AppRouter = () => {
     </TransitionGroup>
   );
 };
-
-export default AppRouter;
