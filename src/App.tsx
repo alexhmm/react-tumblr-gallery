@@ -8,6 +8,7 @@ import { Title } from './shared/components/Title';
 
 // Utils
 import { setAppMetaData } from './shared/utils/shared.utils';
+import './shared/utils/font-awesome.util';
 
 const App = () => {
   useEffect(() => {

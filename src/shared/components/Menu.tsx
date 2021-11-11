@@ -4,7 +4,8 @@ import { isDesktop, isMobile } from 'react-device-detect';
 import clsx from 'clsx';
 
 // Components
-import Icon from '../ui/Icon/Icon';
+import { Icon } from '../ui/Icon';
+import { IconButton } from '../ui/IconButton';
 
 // Hooks
 import { useSharedUtils } from '../hooks/use-shared-utils.hook';
@@ -82,7 +83,7 @@ export const Menu = (): ReactElement => {
         className={clsx(
           'duration-200 fixed flex h-8 items-center justify-end right-4 top-4 transition-all z-40',
           'md:h-12 md:right-8 md:text-xl xl:right-12 xl:top-8 3xl:right-16 4xl:h-16 4xl:right-24 4xl:top-12 4xl:text-3xl',
-          isDesktop && 'cursor-pointer hover:text-primary',
+          isDesktop && 'cursor-pointer hover:text-hover',
           isMobile && 'tap-highlight'
         )}
       >
@@ -111,17 +112,12 @@ export const Menu = (): ReactElement => {
           >
             <div className="flex flex-col">
               <div className="flex items-center w-full">
-                <Icon
-                  button
-                  size={18}
+                <IconButton
+                  classes="mr-4"
+                  icon={['fas', theme === 'light' ? 'moon' : 'sun']}
                   onClick={toggleTheme}
-                  style={{ padding: 8 }}
-                  classes={clsx(
-                    'mr-4',
-                    theme === 'light' ? 'fas fa-moon' : 'fas fa-sun'
-                  )}
                 />
-                <Icon size={18} classes="fas fa-search mr-2 p-2" />
+                <Icon icon={['fas', 'search']} classes="mr-2 p-2" />
                 <input
                   placeholder="Search"
                   onKeyPress={event => {
@@ -148,8 +144,8 @@ export const Menu = (): ReactElement => {
                       className={clsx(
                         'py-2 text-xl sm:text-2xl xl:py-3 xl:text-3xl 3xl:text-4xl',
                         isDesktop &&
-                          'duration-200 transition-colors hover:text-primary',
-                        isMobile && 'active:text-primary'
+                          'duration-200 transition-colors hover:text-hover',
+                        isMobile && 'active:text-hover'
                       )}
                     >
                       {link.title}
@@ -171,17 +167,17 @@ export const Menu = (): ReactElement => {
                         className="flex group items-center pb-1 pr-4 tap-highlight-0"
                       >
                         <Icon
-                          classes={clsx(
-                            link.icon,
+                          color={clsx(
                             isDesktop &&
-                              'duration-200 transition-colors group-hover:text-primary'
+                              'duration-200 transition-colors group-hover:text-hover'
                           )}
+                          icon={link.icon}
                         />
                         <span
                           className={clsx(
                             'ml-2 text-app ',
                             isDesktop &&
-                              'duration-200 transition-colors group-hover:text-primary'
+                              'duration-200 transition-colors group-hover:text-hover'
                           )}
                         >
                           {link.title}
@@ -193,7 +189,11 @@ export const Menu = (): ReactElement => {
               </div>
               <div className="flex items-center justify-between mt-4 text-xs xl:mt-8">
                 <div className="flex items-center">
-                  <Icon size={14} classes="far fa-copyright text-sub" />
+                  <Icon
+                    color="text-sub"
+                    icon={['far', 'copyright']}
+                    size="text-xs"
+                  />
                   <span className="ml-2 text-sub">
                     {process.env.REACT_APP_COPYRIGHT}
                   </span>
@@ -206,7 +206,7 @@ export const Menu = (): ReactElement => {
                     className={clsx(
                       'mr-4',
                       isDesktop &&
-                        'duration-200 transition-colors hover:text-primary'
+                        'duration-200 transition-colors hover:text-hover'
                     )}
                   >
                     Imprint
@@ -217,7 +217,7 @@ export const Menu = (): ReactElement => {
                     target="_blank"
                     className={clsx(
                       isDesktop &&
-                        'duration-200 transition-colors hover:text-primary'
+                        'duration-200 transition-colors hover:text-hover'
                     )}
                   >
                     Privacy

@@ -120,9 +120,9 @@ export const Contributors = (): ReactElement => {
                 className={clsx(
                   'mb-1 text-2xl lg:text-3xl',
                   isDesktop &&
-                    'duration-200 transition-colors hover:text-primary',
+                    'duration-200 transition-colors hover:text-hover',
                   isMobile &&
-                    'user-select-none active:text-primary  active:scale-95'
+                    'user-select-none active:text-hover active:scale-95'
                 )}
               >
                 {contributor.name}
@@ -132,9 +132,9 @@ export const Contributors = (): ReactElement => {
                 className={clsx(
                   'text-sm text-sub w-max',
                   isDesktop &&
-                    'duration-200 transition-colors hover:text-primary',
+                    'duration-200 transition-colors hover:text-hover',
                   isMobile &&
-                    'user-select-none active:text-primary active:scale-95'
+                    'user-select-none active:text-hover active:scale-95'
                 )}
               >
                 {contributor.total_posts && `${contributor.total_posts} posts`}

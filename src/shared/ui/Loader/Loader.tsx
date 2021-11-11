@@ -10,15 +10,15 @@ const Loader = (props: LoaderProps) => {
   return (
     <div className={clsx('loader', props.classes && props.classes)}>
       <div
-        className="bounce1"
+        className="bounce1 bg-loader"
         style={{ height: props.size + 'px', width: props.size + 'px' }}
       ></div>
       <div
-        className="bounce2"
+        className="bounce2 bg-loader"
         style={{ height: props.size + 'px', width: props.size + 'px' }}
       ></div>
       <div
-        className="bounce3"
+        className="bounce3 bg-loader"
         style={{ height: props.size + 'px', width: props.size + 'px' }}
       ></div>
     </div>

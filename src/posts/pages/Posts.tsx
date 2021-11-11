@@ -24,7 +24,6 @@ export const Posts = (): ReactElement => {
   const { tagged } = useParams<{
     tagged: string;
   }>();
-
   const { getPosts } = usePosts();
 
   // Posts store state
@@ -181,14 +180,14 @@ export const Posts = (): ReactElement => {
         loader={null}
         next={onAddPosts}
         scrollThreshold={1}
-        className="box-border flex flex-wrap px-1 py-16 w-full sm:px-2 md:px-4 md:py-20 xl:py-24 3xl:px-8 4xl:px-12 4xl:py-28"
+        className="box-border flex flex-wrap px-1 py-16 w-full sm:px-2 md:px-4 md:py-20 xl:px-6 xl:py-24 3xl:px-8 4xl:px-12 4xl:py-28"
       >
         <Transition
           show={loading}
-          enter="transition-opacity duration-200"
+          enter="transition-opacity duration-500"
           enterFrom="opacity-0"
           enterTo="opacity-100"
-          leave="transition-opacity duration-200"
+          leave="transition-opacity duration-500"
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
@@ -198,15 +197,25 @@ export const Posts = (): ReactElement => {
           />
         </Transition>
         {postElements[tagged ? tagged : '/']}
-        <div
-          className={clsx(
-            'box-border duration-500 ease-out mt-8 p-2 text-center text-2xl transition-opacity w-full z-10',
-            'md:p-4 md:text-3xl xl:p-6 xl:text-4xl',
-            !posts[tagged ?? '/'] && !loading ? 'opacity-100' : 'opacity-0'
-          )}
+        <Transition
+          show={!posts[tagged ?? '/'] && !loading}
+          enter="transition-opacity duration-200"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="transition-opacity duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+          className="w-full"
         >
-          No results found{tagged && `: #${tagged}`}.
-        </div>
+          <div
+            className={clsx(
+              'box-border duration-500 ease-out mt-8 p-2 text-center text-2xl transition-opacity w-full z-10',
+              'md:p-4 md:text-3xl xl:p-6 xl:text-4xl'
+            )}
+          >
+            No results found{tagged && `: #${tagged}`}.
+          </div>
+        </Transition>
       </InfiniteScroll>
     </>
   );

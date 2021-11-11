@@ -37,49 +37,49 @@ export const useSharedUtils = () => {
     const externalLinks: MenuExternalLink[] = [];
     if (process.env.REACT_APP_SOCIAL_FACEBOOK) {
       externalLinks.push({
-        icon: 'fab fa-facebook',
+        icon: ['fab', 'facebook'],
         title: 'Facebook',
         to: `https://www.facebook.com/${process.env.REACT_APP_SOCIAL_FACEBOOK}`
       });
     }
     if (process.env.REACT_APP_SOCIAL_GITHUB) {
       externalLinks.push({
-        icon: 'fab fa-github',
+        icon: ['fab', 'github'],
         title: 'Github',
         to: `https://www.facebook.com/${process.env.REACT_APP_SOCIAL_GITHUB}`
       });
     }
-    if (process.env.REACT_APP_SOCIAL_SNAPCHAT) {
-      externalLinks.push({
-        icon: 'fab fa-snapchat',
-        title: 'Snapchat',
-        to: `https://story.snapchat.com/s/${process.env.REACT_APP_SOCIAL_SNAPCHAT}`
-      });
-    }
     if (process.env.REACT_APP_SOCIAL_INSTAGRAM) {
       externalLinks.push({
-        icon: 'fab fa-instagram',
+        icon: ['fab', 'instagram'],
         title: 'Instagram',
         to: `https://instagram.com/${process.env.REACT_APP_SOCIAL_INSTAGRAM}`
       });
     }
+    if (process.env.REACT_APP_SOCIAL_SNAPCHAT) {
+      externalLinks.push({
+        icon: ['fab', 'snapchat'],
+        title: 'Snapchat',
+        to: `https://story.snapchat.com/s/${process.env.REACT_APP_SOCIAL_SNAPCHAT}`
+      });
+    }
     if (process.env.REACT_APP_SOCIAL_TIKTOK) {
       externalLinks.push({
-        icon: 'fab fa-tiktok',
+        icon: ['fab', 'tiktok'],
         title: 'TikTok',
         to: `https://www.tiktok.com/@${process.env.REACT_APP_SOCIAL_TIKTOK}`
       });
     }
     if (process.env.REACT_APP_SOCIAL_TWITCH) {
       externalLinks.push({
-        icon: 'fab fa-twitch',
+        icon: ['fab', 'twitch'],
         title: 'Twitch',
         to: `https://www.twitch.tv/${process.env.REACT_APP_SOCIAL_TWITCH}`
       });
     }
     if (process.env.REACT_APP_SOCIAL_TWITTER) {
       externalLinks.push({
-        icon: 'fab fa-twitter',
+        icon: ['fab', 'twitter'],
         title: 'Twitter',
         to: `https://twitter.com/${process.env.REACT_APP_SOCIAL_TWITTER}`
       });

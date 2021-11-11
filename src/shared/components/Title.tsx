@@ -4,7 +4,7 @@ import { isDesktop, isMobile } from 'react-device-detect';
 import clsx from 'clsx';
 
 // Components
-import Icon from '../ui/Icon/Icon';
+import { Icon } from '../ui/Icon';
 
 // Hooks
 import { useSharedUtils } from '../hooks/use-shared-utils.hook';
@@ -85,34 +85,39 @@ export const Title = (): ReactElement => {
     <header
       onClick={subtitle ? onClickBack : onClickHome}
       className={clsx(
-        'duration-200 fixed flex h-8 items-center max-w-[calc(100%-90px)] opacity-0 overflow-hidden top-4 transition-all whitespace-nowrap z-20',
+        'duration-200 fixed flex group h-8 items-center max-w-[calc(100%-90px)] opacity-0 overflow-hidden top-4 transition-all whitespace-nowrap z-20',
         'md:h-12 md:max-w-[calc(100%-160px)] xl:max-w-[calc(100%-200px)] xl:top-8 3xl:max-w-[calc(100%-240px)] 4xl:h-16 4xl:top-12',
         init && title && 'opacity-100',
-        isDesktop && 'cursor-pointer duration-200 group hover:text-primary',
+        isDesktop && 'cursor-pointer',
         isMobile && 'tap-highlight-0',
-        // 'left-2 text-xl md:left-6 md:text-2xl xl:left-10 3xl:left-14 4xl:left-20'
-        // 'left-4 text-2xl md:left-8 md:text-3xl xl:left-12 3xl:left-16 4xl:left-24 4xl:text-5xl'
         'left-4 text-xl md:left-8 md:text-2xl xl:left-12 3xl:left-16 4xl:left-24 4xl:text-3xl'
-        // subtitle
-        //   ? 'left-2 text-xl md:left-6 md:text-2xl xl:left-10 3xl:left-14 4xl:left-20'
-        //   : 'left-4 text-2xl md:left-8 md:text-3xl xl:left-12 3xl:left-16 4xl:left-24 4xl:text-5xl'
       )}
     >
       {subtitle ? (
         <>
           <Icon
-            button
-            classes={clsx(
-              'fas fa-arrow-left p-2',
+            color={clsx(
               isDesktop &&
-                'duration-200 transition-colors group-hover:text-primary'
+                'duration-200 transition-colors group-hover:text-hover'
             )}
-            size={16}
+            icon={['fas', 'arrow-left']}
           />
-          <span className="ml-1 truncate md:ml-2">{subtitle.text}</span>
+          <span
+            className={clsx(
+              'ml-2 truncate md:ml-4',
+              isDesktop &&
+                'duration-200 transition-colors group-hover:text-hover'
+            )}
+          >
+            {subtitle.text}
+          </span>
         </>
       ) : (
-        <>{title}</>
+        <span
+          className={clsx(isDesktop && 'duration-200 group hover:text-hover')}
+        >
+          {title}
+        </span>
       )}
     </header>
   );

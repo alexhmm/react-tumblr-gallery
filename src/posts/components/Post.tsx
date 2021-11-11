@@ -6,7 +6,7 @@ import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import clsx from 'clsx';
 
 // Components
-import Icon from '../../shared/ui/Icon/Icon';
+import { Icon } from '../../shared/ui/Icon';
 
 // Hooks
 import { useDimensions } from '../../shared/hooks/use-dimensions.hook';
@@ -67,8 +67,8 @@ export const Post = (props: { post: IPost }): ReactElement => {
   return (
     <article
       className={clsx(
-        'box-border duration-500 flex items-center justify-center p-2 tap-highlight-post transition-opacity w-1/2 z-10',
-        'md:p-4 xl:p-6 xl:w-1/3 3xl:p-8 4xl:w-1/4',
+        'box-border duration-500 flex items-center justify-center p-1 tap-highlight-post transition-opacity w-1/2 z-10',
+        'sm:p-2 md:p-4 xl:p-6 xl:w-1/3 3xl:p-8 4xl:w-1/4',
         loaded ? 'opacity-100' : 'opacity-0'
       )}
     >
@@ -88,42 +88,40 @@ export const Post = (props: { post: IPost }): ReactElement => {
                 'box-border duration-300 ease-in-out filter max-h-[1920px] max-w-full object-cover overflow-hidden transition-all group-hover:brightness-[.25]'
             )}
           />
+          <Link
+            to={'/post/' + props.post.id_string}
+            className="absolute h-full left-0 top-0 w-full z-30"
+          />
           <div
             className={clsx(
-              'absolute h-full left-0 opacity-0 top-0 w-full',
+              'absolute h-full left-0 top-0 w-full',
+              isDesktop ? 'block' : 'hidden',
               isDesktop &&
-                'duration-300 ease-in-out transition-opacity group-hover:opacity-100'
+                'duration-300 ease-in-out opacity-0 transition-opacity group-hover:opacity-100'
             )}
           >
-            <Link
-              to={'/post/' + props.post.id_string}
-              className="absolute h-full left-0 top-0 w-full"
-            />
             <div className="absolute hidden items-center left-4 top-4 sm:flex 3xl:left-6 3xl:top-6 4xl:left-8 4xl:top-8">
-              <Link
-                to={'/post/' + props.post.id_string}
-                className="flex items-center"
-              >
+              <div className="flex items-center">
                 <Icon
-                  classes="fas fa-heart"
-                  size={16}
-                  style={{ color: 'rgb(226, 72, 85)' }}
+                  color="text-like"
+                  icon={['fas', 'heart']}
+                  size="text-md"
                 />
                 <span className="ml-2 text-white">
                   {props?.post?.note_count}
                 </span>
-              </Link>
+              </div>
               {contributor && (
                 <a
                   href={contributor.href}
                   rel="noreferrer"
                   target="_blank"
-                  className="duration-200 ease-in-out flex items-center ml-4 transition-opacity sm:flex"
+                  className="duration-200 ease-in-out flex group items-center ml-4 transition-opacity z-40 sm:flex"
                 >
                   <Icon
-                    classes="fas fa-camera"
-                    size={16}
-                    style={{ color: 'white' }}
+                    color="text-white"
+                    icon={['fas', 'camera']}
+                    size="text-md"
                   />
                   <span className="ml-2 text-white">{contributor.name}</span>
                 </a>
@@ -136,28 +134,24 @@ export const Post = (props: { post: IPost }): ReactElement => {
               )}
             >
               {date && (
-                <Link
-                  to={'/post/' + props.post.id_string}
-                  className="pb-1 text-posts-tag text-sm 3xl:pb-2"
-                >
+                <div className="pb-1 text-posts-tag text-sm 3xl:pb-2">
                   {date}
-                </Link>
+                </div>
               )}
-              <Link
-                to={'/post/' + props.post.id_string}
+              <div
                 className={clsx(
                   'mr-3 overflow-hidden text-white text-xl truncate uppercase w-full whitespace-nowrap',
                   'lg:pb-1 3xl:text-2xl 3xl:pb-2'
                 )}
               >
                 {props?.post?.summary}
-              </Link>
+              </div>
               <div className="hidden flex-wrap w-full lg:flex">
                 {props?.post?.tags?.map((tag: string) => (
                   <Link
                     key={tag}
                     to={'/tagged/' + tag}
-                    className="duration-200 mr-1 text-posts-tag transition-colors hover:text-white"
+                    className="duration-200 mr-1 text-posts-tag transition-colors z-40 hover:text-white"
                   >
                     #{tag}
                   </Link>

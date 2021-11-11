@@ -9,14 +9,14 @@ import { Link, useHistory, useParams } from 'react-router-dom';
 import { isDesktop } from 'react-device-detect';
 import { useSwipeable } from 'react-swipeable';
 import { Transition } from '@headlessui/react';
+import Zoomable from 'react-instagram-zoom';
 import * as dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import clsx from 'clsx';
 
 // Components
-import Icon from '../../shared/ui/Icon/Icon';
+import { Icon } from '../../shared/ui/Icon';
 import Loader from '../../shared/ui/Loader/Loader';
-import Zoomable from 'react-instagram-zoom';
 
 // Hooks
 import { useDimensions } from '../../shared/hooks/use-dimensions.hook';
@@ -133,7 +133,6 @@ export const PostDetail = (): ReactElement => {
     // Cleanup on unmount component
     return () => {
       setContributor(null);
-      setLoaded(false);
     };
     // eslint-disable-next-line
   }, [postId, posts]);
@@ -309,9 +308,9 @@ export const PostDetail = (): ReactElement => {
                     key={tag}
                     to={'/tagged/' + tag}
                     className={clsx(
-                      'ml-1 overflow-clip overflow-hidden tap-highlight text-tag whitespace-nowrap',
+                      'ml-1 overflow-clip overflow-hidden tap-highlight-0 text-sub whitespace-nowrap',
                       isDesktop &&
-                        'duration-200 transition-colors hover:text-primary visited:text-tag'
+                        'duration-200 transition-colors hover:text-app visited:text-sub'
                     )}
                   >
                     {'#' + tag}
@@ -338,8 +337,8 @@ export const PostDetail = (): ReactElement => {
                     >
                       <div className="absolute duration-200 left-2 opacity-0 p-2 top-1/2 -translate-y-1/2 transform transition-opacity group-hover:opacity-100">
                         <Icon
-                          classes="fas fa-chevron-left"
-                          style={{ color: 'white' }}
+                          color="text-white"
+                          icon={['fas', 'chevron-left']}
                         />
                       </div>
                     </div>
@@ -351,8 +350,8 @@ export const PostDetail = (): ReactElement => {
                     >
                       <div className="absolute duration-200 opacity-0 p-2 right-2 top-1/2 -translate-y-1/2 transform transition-opacity group-hover:opacity-100">
                         <Icon
-                          classes="fas fa-chevron-right"
-                          style={{ color: 'white' }}
+                          color="text-white"
+                          icon={['fas', 'chevron-right']}
                         />
                       </div>
                     </div>
@@ -362,17 +361,17 @@ export const PostDetail = (): ReactElement => {
               <section
                 className={clsx(
                   'absolute -bottom-8 flex h-[20px] items-center left-3 justify-between text-sm w-[calc(100%-24px)]',
-                  '3xl:-bottom-9 3xl:left-4 3xl:w-[calc(100%-36px) 4xl:-bottom-12 4xl:h-[24px] 4xl:left-6 4xl:text-base 4xl:w-[calc(100%-48px)]'
+                  'md:text-base 3xl:-bottom-9 3xl:left-4 3xl:w-[calc(100%-36px) 4xl:-bottom-12 4xl:h-[24px] 4xl:left-6 4xl:w-[calc(100%-48px)]'
                 )}
               >
                 <div className="flex items-center">
                   <div className="flex items-center">
                     <Icon
-                      classes="fas fa-heart"
-                      size={16}
-                      style={{ color: 'rgb(226, 72, 85)' }}
+                      color="text-like"
+                      icon={['fas', 'heart']}
+                      size="text-sm"
                     />
-                    <span className="ml-2">{post.note_count}</span>
+                    <span className="ml-2 text-sm">{post.note_count}</span>
                   </div>
                   <Transition
                     show={contributor ? true : false}
@@ -382,30 +381,32 @@ export const PostDetail = (): ReactElement => {
                     leave="duration-200 transition-opacity"
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
+                    className="flex items-center"
                   >
                     <a
                       href={contributor?.href}
                       className={clsx(
-                        'flex group items-center ml-4 tap-highlight xl:bottom-8 xl:left-8',
+                        'flex group items-center ml-4 tap-highlight',
                         isDesktop &&
-                          'duration-200 transition-colors hover:text-primary'
+                          'duration-200 group transition-colors hover:text-hover'
                       )}
                       rel="noreferrer"
                       target="_blank"
                     >
                       <Icon
-                        classes={clsx(
-                          'fas fa-camera',
+                        color={clsx(
+                          'text-app',
                           isDesktop &&
-                            'duration-200 transition-colors group-hover:text-primary'
+                            'duration-200 transition-colors group-hover:text-hover'
                         )}
-                        size={16}
+                        icon={['fas', 'camera']}
+                        size="text-sm"
                       />
-                      <span className="ml-2">{contributor?.name}</span>
+                      <span className="ml-2 text-sm">{contributor?.name}</span>
                     </a>
                   </Transition>
                 </div>
-                <div className="flex-wrap h-[20px] hidden items-center overflow-hidden right-3 text-tag sm:flex">
+                <div className="flex-wrap h-[20px] hidden items-center overflow-hidden right-3 text-sm text-sub sm:flex">
                   {date && <span>{date}</span>}
                 </div>
               </section>

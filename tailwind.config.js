@@ -1,7 +1,7 @@
 module.exports = {
   mode: 'jit',
   purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
-  darkMode: 'class', // or 'media' or 'class'
+  darkMode: 'class',
   theme: {
     extend: {
       backgroundColor: {
@@ -15,9 +15,10 @@ module.exports = {
         menu: '-5px 0px 10px 0px rgba(0, 0, 0, 0.05)'
       },
       colors: {
+        'like': '#e24855',
+        'loader': 'var(--loader-color)',
         'posts-tag': '#acacac',
-        // 'primary': 'var(--app-color-hover)'
-        'primary': '#ff0000'
+        'primary': '#0077fa'
       },
       screens: {
         '3xl': '1920px',
@@ -25,6 +26,7 @@ module.exports = {
       },
       textColor: {
         app: 'var(--app-color)',
+        hover: 'var(--app-color-hover)',
         sub: 'var(--sub-color)'
       },
       transitionTimingFunction: {

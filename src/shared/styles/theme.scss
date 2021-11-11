@@ -1,10 +1,8 @@
-:root {
-}
-
 .dark {
   --app-bg: #1f1f1f;
   --app-color: #ebebeb;
-  --app-color-hover: white;
+  --app-color-hover: #b9b9b9;
+  --loader-color: rgba(255, 255, 255, 0.5);
   --menu-bg: #252525;
   --select-color: red;
   --sub-color: #acacac;
@@ -13,7 +11,8 @@
 .light {
   --app-bg: #fafafa;
   --app-color: #202020;
-  --app-color-hover: black;
+  --app-color-hover: #565656;
+  --loader-color: rgba(0, 0, 0, 0.5);
   --menu-bg: #f8f8f8;
   --select-color: rgba(0, 0, 0, 0.05);
   --sub-color: #6e6e6e;
