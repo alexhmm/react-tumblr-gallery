@@ -64,7 +64,7 @@ const usePostsStore = create<PostsState>((set, get) => ({
     })),
   setPosts: async (fetchPosts: PostsResponse, tag: string) => {
     // Fetch tumblr posts
-    if (fetchPosts && fetchPosts.posts.length > 0) {
+    if (fetchPosts) {
       // Set initial posts for specific tag.
       set((state: PostsState) => ({
         ...state,
@@ -78,12 +78,6 @@ const usePostsStore = create<PostsState>((set, get) => ({
             total: fetchPosts.total_posts
           }
         },
-        tag
-      }));
-    } else {
-      set((state: PostsState) => ({
-        ...state,
-        loading: false,
         tag
       }));
     }

@@ -84,8 +84,9 @@ export const Post = (props: { post: IPost }): ReactElement => {
             src={imgSrc}
             onLoad={() => setLoaded(true)}
             className={clsx(
+              'box-border object-cover overflow-hidden max-w-full',
               isDesktop &&
-                'box-border duration-300 ease-in-out filter max-h-[1920px] max-w-full object-cover overflow-hidden transition-all group-hover:brightness-[.25]'
+                'duration-300 ease-in-out filter transition-all group-hover:brightness-[.25]'
             )}
           />
           <Link

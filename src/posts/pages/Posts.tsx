@@ -86,10 +86,7 @@ export const Posts = (): ReactElement => {
         let startIndex = 0;
         // Check if there are existing post elements of the current tag
         // Set start index by post elements length
-        if (
-          postElements[tagged ? tagged : '/'] &&
-          postElements[tagged ? tagged : '/'].length > 0
-        ) {
+        if (postElements[tagged ? tagged : '/']?.length > 0) {
           startIndex = postElements[tagged ? tagged : '/'].length;
         }
 
@@ -198,7 +195,7 @@ export const Posts = (): ReactElement => {
         </Transition>
         {postElements[tagged ? tagged : '/']}
         <Transition
-          show={!posts[tagged ?? '/'] && !loading}
+          show={posts[tagged ? tagged : '/']?.posts.length === 0 && !loading}
           enter="transition-opacity duration-200"
           enterFrom="opacity-0"
           enterTo="opacity-100"
