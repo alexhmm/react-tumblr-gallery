@@ -199,43 +199,39 @@ export const PostDetail = (): ReactElement => {
         await getPosts(limit, posts[tag ?? '/'].offset + limit, tag),
         limit,
         posts[tag ?? '/'].offset,
-        tag ?? '/'
+        tag ?? null
       );
     };
 
-    if (
-      post?.id_string === postId &&
-      posts[tag ? tag : '/']?.posts?.length > 0
-    ) {
-      const index = posts[tag ? tag : '/'].posts.findIndex(
+    if (post?.id_string === postId && posts[tag ?? '/']?.posts?.length > 0) {
+      const index = posts[tag ?? '/'].posts.findIndex(
         (singlePost: Post) => singlePost.id_string === post?.id_string
       );
-      index > 0 &&
-        setPostPrev(posts[tag ? tag : '/'].posts[index - 1].id_string);
-      index < posts[tag ? tag : '/'].posts.length - 1 &&
-        setPostNext(posts[tag ? tag : '/'].posts[index + 1].id_string);
+      index > 0 && setPostPrev(posts[tag ?? '/'].posts[index - 1].id_string);
+      index < posts[tag ?? '/'].posts.length - 1 &&
+        setPostNext(posts[tag ?? '/'].posts[index + 1].id_string);
 
       // Add more posts on last posts item
-      index === posts[tag ? tag : '/'].posts.length - 1 &&
-        posts[tag ? tag : '/'].total >= posts[tag ? tag : '/'].offset + limit &&
+      index === posts[tag ?? '/'].posts.length - 1 &&
+        posts[tag ?? '/'].total >= posts[tag ?? '/'].offset + limit &&
         fetchPosts();
     }
     // eslint-disable-next-line
-  }, [post, postId, posts, tag]);
+  }, [limit, post, postId, posts, tag]);
 
   /**
    * Handler on next post navigation.
    */
   const onPostNext = useCallback(() => {
-    postNext && history.replace(`/post/${postNext}`);
-  }, [history, postNext]);
+    loaded && postNext && history.replace(`/post/${postNext}`);
+  }, [history, loaded, postNext]);
 
   /**
    * Handler on previous post navigation.
    */
   const onPostPrev = useCallback(() => {
-    postPrev && history.replace(`/post/${postPrev}`);
-  }, [history, postPrev]);
+    loaded && postPrev && history.replace(`/post/${postPrev}`);
+  }, [history, loaded, postPrev]);
 
   /**
    * Handlers on image swipe. Navigates to previous or next post.

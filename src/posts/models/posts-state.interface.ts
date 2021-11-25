@@ -27,7 +27,7 @@ export interface PostsState extends State {
     postsResponse: PostsResponse,
     limit: number,
     offset: number,
-    tag: string
+    tag: string | null
   ) => void;
   setLoading: (loading: boolean) => void;
   setNavUsed: (navUsed: boolean) => void;

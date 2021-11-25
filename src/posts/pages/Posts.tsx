@@ -193,9 +193,9 @@ export const Posts = (): ReactElement => {
             size={10}
           />
         </Transition>
-        {postElements[tagged ? tagged : '/']}
+        {postElements[tagged ?? '/']}
         <Transition
-          show={posts[tagged ? tagged : '/']?.posts.length === 0 && !loading}
+          show={posts[tagged ?? '/']?.posts.length === 0 && !loading}
           enter="transition-opacity duration-200"
           enterFrom="opacity-0"
           enterTo="opacity-100"
