@@ -74,7 +74,7 @@ export const Post = (props: { post: IPost }): ReactElement => {
     >
       <div
         className={clsx(
-          'relative w-full',
+          'aspect-w-3 aspect-h-2 relative w-full',
           isDesktop && 'duration-300 ease-in-out group transition-all'
         )}
       >
@@ -84,7 +84,7 @@ export const Post = (props: { post: IPost }): ReactElement => {
             src={imgSrc}
             onLoad={() => setLoaded(true)}
             className={clsx(
-              'box-border object-cover overflow-hidden max-w-full',
+              'box-border object-cover overflow-hidden w-full',
               isDesktop &&
                 'duration-300 ease-in-out filter transition-all group-hover:brightness-[.25]'
             )}
