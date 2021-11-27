@@ -88,8 +88,9 @@ export const Contributors = (): ReactElement => {
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
         className={clsx(
-          'box-border flex flex-col pb-4 px-4 pt-16 tap-highlight-0 w-full',
-          'md:pt-24 md:px-8 lg:items-center lg:px-0 lg:pb-8 3xl:pt-32 4xl:pt-40'
+          'box-border flex flex-col pb-4 px-4 pt-16 w-full',
+          'md:pt-24 md:px-8 lg:items-center lg:px-0 lg:pb-8 3xl:pt-32 4xl:pt-40',
+          isMobile && 'tap-highlight'
         )}
       >
         {contributors.map((contributor: Contributor, index: number) => (
@@ -119,10 +120,7 @@ export const Contributors = (): ReactElement => {
                 target="_blank"
                 className={clsx(
                   'mb-1 text-2xl lg:text-3xl',
-                  isDesktop &&
-                    'duration-200 transition-colors hover:text-hover',
-                  isMobile &&
-                    'user-select-none active:text-hover active:scale-95'
+                  isDesktop && 'duration-200 transition-colors hover:text-hover'
                 )}
               >
                 {contributor.name}
@@ -131,10 +129,7 @@ export const Contributors = (): ReactElement => {
                 to={'/tagged/' + contributor.tag}
                 className={clsx(
                   'text-sm text-sub w-max',
-                  isDesktop &&
-                    'duration-200 transition-colors hover:text-hover',
-                  isMobile &&
-                    'user-select-none active:text-hover active:scale-95'
+                  isDesktop && 'duration-200 transition-colors hover:text-hover'
                 )}
               >
                 {contributor.total_posts && `${contributor.total_posts} posts`}

@@ -78,17 +78,17 @@ export const Menu = (): ReactElement => {
 
   return (
     <>
-      <section
+      <button
         onClick={toggleMenu}
         className={clsx(
           'duration-200 fixed flex h-8 items-center justify-end right-4 top-4 transition-all z-40',
           'md:h-12 md:right-8 md:text-xl xl:right-12 xl:top-8 3xl:right-16 4xl:h-16 4xl:right-24 4xl:top-12 4xl:text-3xl',
           isDesktop && 'cursor-pointer hover:text-hover',
-          isMobile && 'tap-highlight'
+          isMobile && 'tap-highlight-0'
         )}
       >
         {menu ? 'Close' : 'Menu'}
-      </section>
+      </button>
       {menu && (
         <section
           onClick={toggleMenu}
@@ -113,8 +113,12 @@ export const Menu = (): ReactElement => {
             <div className="flex flex-col">
               <div className="flex items-center w-full">
                 <IconButton
-                  classes="mr-4"
+                  classes="mr-4 tap-highlight"
                   icon={['fas', theme === 'light' ? 'moon' : 'sun']}
+                  iconColor={clsx(
+                    isDesktop &&
+                      'duration-200 transition-colors hover:text-hover'
+                  )}
                   onClick={toggleTheme}
                 />
                 <Icon icon={['fas', 'search']} classes="mr-2 p-2" />
@@ -134,7 +138,7 @@ export const Menu = (): ReactElement => {
                   className="py-1 w-full"
                 ></input>
               </div>
-              <nav className="flex flex-col font-medium items-end pt-8 tap-highlight-0 sm:pt-16">
+              <nav className="flex flex-col font-medium items-end pt-8 sm:pt-16">
                 {menuLinksGet().map((link: MenuLink, index: number) => {
                   return (
                     <Link
@@ -142,10 +146,10 @@ export const Menu = (): ReactElement => {
                       to={link.to}
                       onClick={toggleMenu}
                       className={clsx(
-                        'py-2 text-xl sm:text-2xl xl:py-3 xl:text-3xl 3xl:text-4xl',
+                        'my-2 text-xl sm:text-2xl xl:my-3 xl:text-3xl 3xl:text-4xl',
                         isDesktop &&
                           'duration-200 transition-colors hover:text-hover',
-                        isMobile && 'active:text-hover'
+                        isMobile && 'tap-highlight'
                       )}
                     >
                       {link.title}
@@ -164,7 +168,10 @@ export const Menu = (): ReactElement => {
                         href={link.to}
                         rel="noreferrer"
                         target="_blank"
-                        className="flex group items-center pb-1 pr-4 tap-highlight-0"
+                        className={clsx(
+                          'flex group items-center mb-1 mr-4',
+                          isMobile && 'tap-highlight'
+                        )}
                       >
                         <Icon
                           color={clsx(
@@ -206,7 +213,8 @@ export const Menu = (): ReactElement => {
                     className={clsx(
                       'mr-4',
                       isDesktop &&
-                        'duration-200 transition-colors hover:text-hover'
+                        'duration-200 transition-colors hover:text-hover',
+                      isMobile && 'tap-highlight'
                     )}
                   >
                     Imprint
@@ -217,7 +225,8 @@ export const Menu = (): ReactElement => {
                     target="_blank"
                     className={clsx(
                       isDesktop &&
-                        'duration-200 transition-colors hover:text-hover'
+                        'duration-200 transition-colors hover:text-hover',
+                      isMobile && 'tap-highlight'
                     )}
                   >
                     Privacy

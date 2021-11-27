@@ -82,14 +82,14 @@ export const Title = (): ReactElement => {
   }, [history]);
 
   return (
-    <header
+    <button
       onClick={subtitle ? onClickBack : onClickHome}
       className={clsx(
         'duration-200 fixed flex group h-8 items-center max-w-[calc(100%-90px)] opacity-0 overflow-hidden top-4 transition-all whitespace-nowrap z-20',
         'md:h-12 md:max-w-[calc(100%-160px)] xl:max-w-[calc(100%-200px)] xl:top-8 3xl:max-w-[calc(100%-240px)] 4xl:h-16 4xl:top-12',
         init && title && 'opacity-100',
         isDesktop && 'cursor-pointer',
-        isMobile && 'tap-highlight-0',
+        isMobile && 'tap-highlight',
         'left-4 text-xl md:left-8 md:text-2xl xl:left-12 3xl:left-16 4xl:left-24 4xl:text-3xl'
       )}
     >
@@ -119,7 +119,7 @@ export const Title = (): ReactElement => {
           {title}
         </span>
       )}
-    </header>
+    </button>
   );
 };
 

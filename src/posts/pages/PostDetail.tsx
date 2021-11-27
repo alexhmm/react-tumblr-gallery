@@ -6,7 +6,7 @@ import {
   useState
 } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
-import { isDesktop } from 'react-device-detect';
+import { isDesktop, isMobile } from 'react-device-detect';
 import { useSwipeable } from 'react-swipeable';
 import { Transition } from '@headlessui/react';
 import Zoomable from 'react-instagram-zoom';
@@ -304,9 +304,10 @@ export const PostDetail = (): ReactElement => {
                     key={tag}
                     to={'/tagged/' + tag}
                     className={clsx(
-                      'ml-1 overflow-clip overflow-hidden tap-highlight-0 text-sub whitespace-nowrap',
+                      'ml-1 overflow-clip overflow-hidden text-sub whitespace-nowrap',
                       isDesktop &&
-                        'duration-200 transition-colors hover:text-app visited:text-sub'
+                        'duration-200 transition-colors hover:text-app visited:text-sub',
+                      isMobile && 'tap-highlight'
                     )}
                   >
                     {'#' + tag}
@@ -326,31 +327,41 @@ export const PostDetail = (): ReactElement => {
                   className="max-h-[65vh] max-w-full md:max-h-[70vh] xl:max-h-[80vh]"
                 />
                 <>
-                  {postPrev && isDesktop && (
-                    <div
+                  {postPrev && (
+                    <button
                       onClick={onPostPrev}
-                      className="absolute cursor-pointer h-full group left-0 top-0 w-1/2"
+                      className={clsx(
+                        'absolute cursor-pointer h-full group left-0 top-0 w-1/2',
+                        isMobile && 'tap-highlight-0'
+                      )}
                     >
-                      <div className="absolute duration-200 left-2 opacity-0 p-2 top-1/2 -translate-y-1/2 transform transition-opacity group-hover:opacity-100">
-                        <Icon
-                          color="text-white"
-                          icon={['fas', 'chevron-left']}
-                        />
-                      </div>
-                    </div>
+                      {isDesktop && (
+                        <div className="absolute duration-200 left-2 opacity-0 p-2 top-1/2 -translate-y-1/2 transform transition-opacity group-hover:opacity-100">
+                          <Icon
+                            color="text-white"
+                            icon={['fas', 'chevron-left']}
+                          />
+                        </div>
+                      )}
+                    </button>
                   )}
-                  {postNext && isDesktop && (
-                    <div
+                  {postNext && (
+                    <button
                       onClick={onPostNext}
-                      className="absolute cursor-pointer h-full group right-0 user-select-none top-0 w-1/2"
+                      className={clsx(
+                        'absolute cursor-pointer h-full group right-0 top-0 w-1/2',
+                        isMobile && 'tap-highlight-0'
+                      )}
                     >
-                      <div className="absolute duration-200 opacity-0 p-2 right-2 top-1/2 -translate-y-1/2 transform transition-opacity group-hover:opacity-100">
-                        <Icon
-                          color="text-white"
-                          icon={['fas', 'chevron-right']}
-                        />
-                      </div>
-                    </div>
+                      {isDesktop && (
+                        <div className="absolute duration-200 opacity-0 p-2 right-2 top-1/2 -translate-y-1/2 transform transition-opacity group-hover:opacity-100">
+                          <Icon
+                            color="text-white"
+                            icon={['fas', 'chevron-right']}
+                          />
+                        </div>
+                      )}
+                    </button>
                   )}
                 </>
               </Zoomable>
