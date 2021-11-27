@@ -16,6 +16,7 @@ import clsx from 'clsx';
 
 // Components
 import { Icon } from '../../shared/ui/Icon';
+import { IconButton } from '../../shared/ui/IconButton';
 import Loader from '../../shared/ui/Loader/Loader';
 
 // Hooks
@@ -327,41 +328,45 @@ export const PostDetail = (): ReactElement => {
                   className="max-h-[65vh] max-w-full md:max-h-[70vh] xl:max-h-[80vh]"
                 />
                 <>
-                  {postPrev && (
+                  {postPrev && isDesktop && (
                     <button
                       onClick={onPostPrev}
-                      className={clsx(
-                        'absolute cursor-pointer h-full group left-0 top-0 w-1/2',
-                        isMobile && 'tap-highlight-0'
-                      )}
+                      className="absolute cursor-pointer h-full group left-0 top-0 w-1/2"
                     >
-                      {isDesktop && (
-                        <div className="absolute duration-200 left-2 opacity-0 p-2 top-1/2 -translate-y-1/2 transform transition-opacity group-hover:opacity-100">
-                          <Icon
-                            color="text-white"
-                            icon={['fas', 'chevron-left']}
-                          />
-                        </div>
-                      )}
+                      <div className="absolute duration-200 left-2 opacity-0 p-2 top-1/2 -translate-y-1/2 transform transition-opacity group-hover:opacity-100">
+                        <Icon
+                          color="text-white"
+                          icon={['fas', 'chevron-left']}
+                        />
+                      </div>
                     </button>
                   )}
-                  {postNext && (
+                  {postPrev && isMobile && (
+                    <IconButton
+                      classes="absolute left-2 tap-highlight top-1/2 -translate-y-1/2"
+                      icon={['fas', 'chevron-left']}
+                      onClick={onPostPrev}
+                    />
+                  )}
+                  {postNext && isDesktop && (
                     <button
                       onClick={onPostNext}
-                      className={clsx(
-                        'absolute cursor-pointer h-full group right-0 top-0 w-1/2',
-                        isMobile && 'tap-highlight-0'
-                      )}
+                      className="absolute cursor-pointer h-full group right-0 top-0 w-1/2"
                     >
-                      {isDesktop && (
-                        <div className="absolute duration-200 opacity-0 p-2 right-2 top-1/2 -translate-y-1/2 transform transition-opacity group-hover:opacity-100">
-                          <Icon
-                            color="text-white"
-                            icon={['fas', 'chevron-right']}
-                          />
-                        </div>
-                      )}
+                      <div className="absolute duration-200 opacity-0 p-2 right-2 top-1/2 -translate-y-1/2 transform transition-opacity group-hover:opacity-100">
+                        <Icon
+                          color="text-white"
+                          icon={['fas', 'chevron-right']}
+                        />
+                      </div>
                     </button>
+                  )}
+                  {postNext && isMobile && (
+                    <IconButton
+                      classes="absolute right-2 tap-highlight top-1/2 -translate-y-1/2"
+                      icon={['fas', 'chevron-right']}
+                      onClick={onPostNext}
+                    />
                   )}
                 </>
               </Zoomable>
