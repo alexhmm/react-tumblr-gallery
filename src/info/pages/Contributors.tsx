@@ -5,6 +5,7 @@ import { Transition } from '@headlessui/react';
 import clsx from 'clsx';
 
 // Components
+import { Icon } from '../../shared/ui/Icon';
 import Loader from '../../shared/ui/Loader/Loader';
 
 // Models
@@ -39,7 +40,6 @@ export const Contributors = (): ReactElement => {
 
   useEffect(() => {
     const getContributorMetaData = async () => {
-      console.log(loaded, contributors);
       if (!loaded && contributors?.length > 0) {
         const contributorsCurrent = [];
         for (let i = 0; i < contributors.length; i++) {
@@ -101,38 +101,45 @@ export const Contributors = (): ReactElement => {
               index < contributors.length - 1 && 'mb-4 lg:mb-6'
             )}
           >
-            <a
-              href={contributor.href}
-              rel="noreferrer"
-              target="_blank"
-              className="flex items-center mr-4 w-16"
-            >
-              <img
-                alt={contributor.name}
-                src={contributor.image}
-                className="object-cover rounded-full w-16"
-              />
-            </a>
+            <img
+              alt={contributor.name}
+              src={contributor.image}
+              className="object-cover mr-4 rounded-full w-16"
+            />
             <div className="flex flex-col">
               <a
                 href={contributor.href}
                 rel="noreferrer"
                 target="_blank"
-                className={clsx(
-                  'mb-1 text-2xl lg:text-3xl',
-                  isDesktop && 'duration-200 transition-colors hover:text-hover'
-                )}
+                className="flex items-center group mb-1"
               >
-                {contributor.name}
+                <Icon
+                  classes="mr-2"
+                  color={clsx(
+                    isDesktop &&
+                      'duration-200 transition-colors group-hover:text-hover'
+                  )}
+                  icon={['fas', 'external-link-alt']}
+                  size="text-md lg:text-lg"
+                />
+                <span
+                  className={clsx(
+                    'text-2xl lg:text-3xl',
+                    isDesktop &&
+                      'duration-200 transition-colors group-hover:text-hover'
+                  )}
+                >
+                  {contributor.name}
+                </span>
               </a>
               <Link
                 to={'/tagged/' + contributor.tag}
                 className={clsx(
                   'text-sm text-sub w-max',
-                  isDesktop && 'duration-200 transition-colors hover:text-hover'
+                  isDesktop && 'duration-200 transition-colors hover:text-app'
                 )}
               >
-                {contributor.total_posts && `${contributor.total_posts} posts`}
+                Show posts
               </Link>
             </div>
           </div>
