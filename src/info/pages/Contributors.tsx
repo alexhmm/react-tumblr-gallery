@@ -8,6 +8,9 @@ import clsx from 'clsx';
 import { Icon } from '../../shared/ui/Icon';
 import Loader from '../../shared/ui/Loader/Loader';
 
+// Hooks
+import { useSharedUtils } from '../../shared/hooks/use-shared-utils.hook';
+
 // Models
 import { Contributor } from '../../shared/models/contributor.interface';
 import { SharedState } from '../../shared/models/shared-state.interface';
@@ -15,18 +18,19 @@ import { SharedState } from '../../shared/models/shared-state.interface';
 // Stores
 import useSharedStore from '../../shared/store/shared.store';
 
-// Utils
-import { getContributor } from '../../shared/utils/shared.utils';
-
 export const Contributors = (): ReactElement => {
+  const { contributorGet } = useSharedUtils();
+
+  // Component state
+  const [contributors, setContributors] = useState<Contributor[]>([]);
+  const [loaded, setLoaded] = useState<boolean>(false);
+
   // Shared store state
   const [setSubtitle] = useSharedStore((state: SharedState) => [
     state.setSubtitle
   ]);
 
-  const [contributors, setContributors] = useState<Contributor[]>([]);
-  const [loaded, setLoaded] = useState<boolean>(false);
-
+  // Set contributors by environment and subtitle on mount.
   useEffect(() => {
     process.env.REACT_APP_CONTRIBUTORS &&
       setContributors(JSON.parse(process.env.REACT_APP_CONTRIBUTORS));
@@ -38,6 +42,7 @@ export const Contributors = (): ReactElement => {
     // eslint-disable-next-line
   }, []);
 
+  // Set contributor meta data per hashtag.
   useEffect(() => {
     const getContributorMetaData = async () => {
       if (!loaded && contributors?.length > 0) {
@@ -45,7 +50,7 @@ export const Contributors = (): ReactElement => {
         for (let i = 0; i < contributors.length; i++) {
           const contributor = { ...contributors[i] };
           // Get meta data from api
-          const contributorMetaData = await getContributor(contributors[i].tag);
+          const contributorMetaData = await contributorGet(contributors[i].tag);
           if (contributorMetaData?.total_posts) {
             // Set contributor total posts
             Object.assign(contributor, {
@@ -61,6 +66,7 @@ export const Contributors = (): ReactElement => {
       }
     };
     getContributorMetaData();
+    // eslint-disable-next-line
   }, [contributors, loaded]);
 
   return (
@@ -88,62 +94,72 @@ export const Contributors = (): ReactElement => {
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
         className={clsx(
-          'box-border flex flex-col pb-4 px-4 pt-16 w-full',
-          'md:pt-24 md:px-8 lg:items-center lg:px-0 lg:pb-8 3xl:pt-32 4xl:pt-40',
+          'box-border flex justify-center pb-4 px-4 pt-16 w-full',
+          'md:pt-24 md:px-8 lg:items-center lg:pb-8 xl:px-12 3xl:pt-32 3xl:px-16 4xl:pt-40 4xl:px-24',
           isMobile && 'tap-highlight'
         )}
       >
-        {contributors.map((contributor: Contributor, index: number) => (
-          <div
-            key={contributor.name}
-            className={clsx(
-              'box-border flex items-center',
-              index < contributors.length - 1 && 'mb-4 lg:mb-6'
-            )}
-          >
-            <img
-              alt={contributor.name}
-              src={contributor.image}
-              className="object-cover mr-4 rounded-full w-16"
-            />
-            <div className="flex flex-col">
-              <a
-                href={contributor.href}
-                rel="noreferrer"
-                target="_blank"
-                className="flex items-center group mb-1"
+        {contributors?.length > 0 ? (
+          <section className="w-full flex flex-col md:flex-row md:flex-wrap md:justify-center xl:w-3/4 2xl:w-2/3 3xl:w-1/2">
+            {contributors.map(contributor => (
+              <div
+                key={contributor.name}
+                className="box-border flex flex-col py-2 md:p-2 md:w-1/2 lg:w-1/3"
               >
-                <Icon
-                  classes="mr-2"
-                  color={clsx(
-                    isDesktop &&
-                      'duration-200 transition-colors group-hover:text-hover'
-                  )}
-                  icon={['fas', 'external-link-alt']}
-                  size="text-md lg:text-lg"
-                />
-                <span
-                  className={clsx(
-                    'text-2xl lg:text-3xl',
-                    isDesktop &&
-                      'duration-200 transition-colors group-hover:text-hover'
-                  )}
-                >
-                  {contributor.name}
-                </span>
-              </a>
-              <Link
-                to={'/tagged/' + contributor.tag}
-                className={clsx(
-                  'text-sm text-sub w-max',
-                  isDesktop && 'duration-200 transition-colors hover:text-app'
-                )}
-              >
-                Show posts
-              </Link>
-            </div>
-          </div>
-        ))}
+                <div className="bg-menu p-2 shadow-md w-full md:p-4">
+                  <div className="flex items-center justify-between mb-2 lg:mb-4">
+                    <span className="text-xl truncate lg:text-2xl">
+                      {contributor.name}
+                    </span>
+                    <img
+                      alt={contributor.name}
+                      src={contributor.image}
+                      className="flex-shrink-0 object-cover h-8 ml-2 rounded-full w-8 md:h-10 md:w-10 md:ml-4"
+                    />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <a
+                      href={contributor.href}
+                      rel="noreferrer"
+                      target="_blank"
+                      className="flex items-center group"
+                    >
+                      <Icon
+                        classes="mr-2"
+                        color={clsx(
+                          isDesktop &&
+                            'duration-200 transition-colors group-hover:text-hover'
+                        )}
+                        icon={['fas', 'external-link-alt']}
+                        size="text-md"
+                      />
+                      <span
+                        className={clsx(
+                          isDesktop &&
+                            'duration-200 transition-colors group-hover:text-hover'
+                        )}
+                      >
+                        Link
+                      </span>
+                    </a>
+                    <Link
+                      to={'/tagged/' + contributor.tag}
+                      className={clsx(
+                        'text-sm w-max',
+                        isDesktop &&
+                          'duration-200 transition-colors hover:text-hover'
+                      )}
+                    >
+                      {`Show ${contributor.total_posts} posts`}
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </section>
+        ) : (
+          <section className="text-center">No contributors found.</section>
+        )}
       </Transition>
     </>
   );

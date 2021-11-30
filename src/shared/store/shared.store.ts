@@ -4,9 +4,6 @@ import create from 'zustand';
 import { SharedState } from '../models/shared-state.interface';
 import { Subtitle } from '../models/subtitle.interface';
 
-// Utils
-import { setAppTheme } from '../utils/shared.utils';
-
 const useSharedStore = create<SharedState>(set => ({
   theme: 'light',
   subtitle: null,
@@ -15,7 +12,8 @@ const useSharedStore = create<SharedState>(set => ({
   setTitle: (title: string) => set({ title }),
   setTheme: (theme: string) => {
     set({ theme });
-    setAppTheme(theme);
+    document.documentElement.setAttribute('class', theme);
+    localStorage.setItem('theme', theme);
   }
 }));
 

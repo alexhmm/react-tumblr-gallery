@@ -6,13 +6,20 @@ import { AppRouter } from './shared/components/AppRouter';
 import { Menu } from './shared/components/Menu';
 import { Title } from './shared/components/Title';
 
+// Hooks
+import { useSharedUtils } from './shared/hooks/use-shared-utils.hook';
+
+// Hooks
+
 // Utils
-import { setAppMetaData } from './shared/utils/shared.utils';
 import './shared/utils/font-awesome.util';
 
 const App = () => {
+  const { appMetaDataSet } = useSharedUtils();
+
   useEffect(() => {
-    setAppMetaData();
+    appMetaDataSet();
+    // eslint-disable-next-line
   }, []);
 
   return (

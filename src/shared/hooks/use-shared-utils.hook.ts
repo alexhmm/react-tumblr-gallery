@@ -1,8 +1,76 @@
 // Models
 import { BlogInfo } from '../models/blog-info.interface';
 import { MenuLink, MenuExternalLink } from '../models/menu-link.interface';
+import { PostsResponse } from '../../posts/models/posts-response.interface';
 
 export const useSharedUtils = () => {
+  /**
+   * Sets application header meta data.
+   */
+  const appMetaDataSet = (): void => {
+    // Set description
+    const descriptionElem = document.getElementById('description');
+    if (descriptionElem && process.env.REACT_APP_DESCRIPTION) {
+      descriptionElem.setAttribute(
+        'content',
+        process.env.REACT_APP_DESCRIPTION
+      );
+    }
+
+    // Set favicon
+    const faviconElem = document.getElementById('favicon');
+    if (faviconElem && process.env.REACT_APP_FAVICON) {
+      faviconElem.setAttribute('href', process.env.REACT_APP_FAVICON);
+    }
+
+    // Set manifest
+    // Extract start url
+    const fullUrl = window.location.href;
+    const startUrl = fullUrl.substr(0, fullUrl.indexOf('/', 8));
+
+    // https://stackoverflow.com/questions/52997333/how-to-create-dynamic-manifest-json-file-in-pwa-and-reactjs
+    const manifestObj = {
+      background_color: '#fafafa',
+      description:
+        process.env.REACT_APP_DESCRIPTION && process.env.REACT_APP_DESCRIPTION,
+      display: 'standalone',
+      icons: [
+        {
+          sizes: '64x64',
+          src:
+            process.env.REACT_APP_FAVICON64 && process.env.REACT_APP_FAVICON64,
+          type: 'image/png'
+        },
+        {
+          sizes: '192x192',
+          src:
+            process.env.REACT_APP_FAVICON192 &&
+            process.env.REACT_APP_FAVICON192,
+          type: 'image/png'
+        },
+        {
+          sizes: '512x512',
+          src:
+            process.env.REACT_APP_FAVICON512 &&
+            process.env.REACT_APP_FAVICON512,
+          type: 'image/png'
+        }
+      ],
+      name: process.env.REACT_APP_TITLE && process.env.REACT_APP_TITLE,
+      short_name: process.env.REACT_APP_TITLE && process.env.REACT_APP_TITLE,
+      start_url: startUrl,
+      theme_color: '#202020'
+    };
+
+    const manifestStr = JSON.stringify(manifestObj);
+    const manifestBlob = new Blob([manifestStr], { type: 'application/json' });
+    const manifestURL = URL.createObjectURL(manifestBlob);
+    const manifestElem = document.getElementById('manifest');
+    if (manifestElem) {
+      manifestElem.setAttribute('href', manifestURL);
+    }
+  };
+
   /**
    * Get tumblr blog info.
    * @returns Tumblr blog info
@@ -22,6 +90,30 @@ export const useSharedUtils = () => {
       })
       .then(data => {
         return data.response.blog;
+      })
+      .catch(error => {
+        console.error('Error fetching posts:', error);
+        return null;
+      });
+  };
+
+  /**
+   * Get contributor meta data.
+   * @param tag Tag
+   * @returns Contributor meta data
+   */
+  const contributorGet = (tag: string): Promise<PostsResponse> => {
+    let url = `${process.env.REACT_APP_API_URL}/posts/?api_key=${process.env.REACT_APP_API_KEY}&limit=1&tag=${tag}`;
+
+    return fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        return data.response;
       })
       .catch(error => {
         console.error('Error fetching posts:', error);
@@ -117,7 +209,9 @@ export const useSharedUtils = () => {
   };
 
   return {
+    appMetaDataSet,
     blogInfoGet,
+    contributorGet,
     menuExternalLinksGet,
     menuLinksGet
   };
