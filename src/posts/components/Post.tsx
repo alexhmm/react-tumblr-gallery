@@ -7,6 +7,7 @@ import clsx from 'clsx';
 
 // Components
 import { Icon } from '../../shared/ui/Icon';
+import { Tag } from './Tag';
 
 // Hooks
 import { useDimensions } from '../../shared/hooks/use-dimensions.hook';
@@ -98,10 +99,10 @@ export const Post = (props: { post: IPost }): ReactElement => {
               'absolute h-full left-0 top-0 w-full',
               isDesktop ? 'block' : 'hidden',
               isDesktop &&
-                'duration-300 ease-in-out opacity-0 transition-opacity group-hover:opacity-100'
+                'box-border duration-300 ease-in-out flex flex-col h-full justify-between p-4 opacity-0 transition-opacity group-hover:opacity-100 3xl:p-6 4xl:p-8'
             )}
           >
-            <div className="absolute hidden items-center left-4 top-4 sm:flex 3xl:left-6 3xl:top-6 4xl:left-8 4xl:top-8">
+            <div className="hidden items-center sm:flex">
               <div className="flex items-center">
                 <Icon
                   color="text-like"
@@ -128,12 +129,7 @@ export const Post = (props: { post: IPost }): ReactElement => {
                 </a>
               )}
             </div>
-            <div
-              className={clsx(
-                'absolute bottom-4 flex flex-col left-4',
-                'xl:w-[calc(100%-32px)] 3xl:bottom-6 3xl:left-6 3xl:w-[calc(100%-48px)] 4xl:bottom-8 4xl:h-[28px] 4xl:left-8 4xl:text-xl 2 4xl:w-[calc(100%-64px)]'
-              )}
-            >
+            <div className="flex flex-col w-full 4xl:text-xl">
               {date && (
                 <div className="pb-1 text-posts-tag text-sm 3xl:pb-2">
                   {date}
@@ -141,21 +137,19 @@ export const Post = (props: { post: IPost }): ReactElement => {
               )}
               <div
                 className={clsx(
-                  'mr-3 overflow-hidden text-white text-xl truncate uppercase w-full whitespace-nowrap',
+                  'text-white text-xl truncate uppercase w-full',
                   'lg:pb-1 3xl:text-2xl 3xl:pb-2'
                 )}
               >
                 {props?.post?.summary}
               </div>
               <div className="hidden flex-wrap w-full lg:flex">
-                {props?.post?.tags?.map((tag: string) => (
-                  <Link
-                    key={tag}
-                    to={'/tagged/' + tag}
-                    className="duration-200 mr-1 text-posts-tag transition-colors z-40 hover:text-white"
-                  >
-                    #{tag}
-                  </Link>
+                {props?.post?.tags?.map((tag: string, index: number) => (
+                  <Tag
+                    key={index}
+                    color={isDesktop ? 'hover:text-white' : undefined}
+                    tag={tag}
+                  />
                 ))}
               </div>
             </div>

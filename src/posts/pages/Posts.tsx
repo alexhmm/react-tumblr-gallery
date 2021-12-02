@@ -177,7 +177,7 @@ export const Posts = (): ReactElement => {
         loader={null}
         next={onAddPosts}
         scrollThreshold={1}
-        className="box-border flex flex-wrap px-1 py-16 w-full sm:px-2 md:px-4 md:py-20 xl:px-6 xl:py-24 3xl:px-8 4xl:px-12 4xl:py-28"
+        className="box-border flex flex-wrap px-1 py-14 w-full sm:px-2 md:px-4 md:py-20 xl:px-6 xl:py-24 3xl:px-8 4xl:px-12 4xl:py-28"
       >
         <Transition
           show={loading}

@@ -1,17 +1,22 @@
-import { ReactElement, useCallback, useEffect, useState } from 'react';
+import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { isDesktop, isMobile } from 'react-device-detect';
+import { isDesktop, isFirefox, isMobile } from 'react-device-detect';
+import { Transition } from '@headlessui/react';
 import clsx from 'clsx';
 
 // Components
 import { Icon } from '../ui/Icon';
 import { IconButton } from '../ui/IconButton';
+import { MenuExternalLink } from './MenuExternalLink';
 
 // Hooks
 import { useSharedUtils } from '../hooks/use-shared-utils.hook';
 
 // Models
-import { MenuExternalLink, MenuLink } from '../models/menu-link.interface';
+import {
+  MenuExternalLink as IMenuExternalLink,
+  MenuLink
+} from '../models/menu-link.interface';
 import { SharedState } from '../models/shared-state.interface';
 
 // Stores
@@ -22,7 +27,7 @@ export const Menu = (): ReactElement => {
   const { menuExternalLinksGet, menuLinksGet } = useSharedUtils();
 
   // Menu element references
-  // const menuSearchElem = useRef<HTMLInputElement>(null);
+  const menuSearchElem = useRef<HTMLInputElement>(null);
 
   // Shared store state
   const [theme, setTheme] = useSharedStore((state: SharedState) => [
@@ -44,17 +49,18 @@ export const Menu = (): ReactElement => {
   /**
    * Search for tags.
    */
-  const search = useCallback(() => {
+  const onSearch = useCallback(() => {
     if (searchValue) {
       let searchVal = searchValue;
       if (searchVal.charAt(0) === '#') {
         searchVal = searchVal.substring(1, searchVal.length);
       }
       toggleMenu();
-      // if (menuSearchElem.current) {
-      //   menuSearchElem.current.blur();
-      // }
       setSearchValue('');
+      // #BUG: Firefox mobile crash on input blur
+      if (menuSearchElem.current && !isFirefox) {
+        menuSearchElem.current.blur();
+      }
       history.push('/tagged/' + searchVal.toLocaleLowerCase());
     }
     // eslint-disable-next-line
@@ -81,10 +87,11 @@ export const Menu = (): ReactElement => {
       <button
         onClick={toggleMenu}
         className={clsx(
-          'duration-200 fixed flex h-8 items-center justify-end right-4 top-4 transition-all z-40',
-          'md:h-12 md:right-8 md:text-xl xl:right-12 xl:top-8 3xl:right-16 4xl:h-16 4xl:right-24 4xl:top-12 4xl:text-3xl',
-          isDesktop && 'cursor-pointer hover:text-hover',
-          isMobile && 'tap-highlight-0'
+          'fixed flex items-center justify-end right-4 top-4 text-lg z-40',
+          'md:right-8 md:text-xl md:top-8 xl:right-12 xl:top-10 3xl:right-16 3xl:top-12 4xl:right-20 4xl:text-3xl 4xl:top-14',
+          isDesktop &&
+            'border-b-2 border-transparent duration-200 transition-colors hover:border-app',
+          isMobile && 'tap-highlight'
         )}
       >
         {menu ? 'Close' : 'Menu'}
@@ -106,39 +113,56 @@ export const Menu = (): ReactElement => {
         <div className="bg-menu duration-200 ease-in-out h-full transition-colors w-full">
           <div
             className={clsx(
-              'box-border flex flex-col justify-between h-full pb-4 px-4 pt-16 w-full',
-              'md:px-8 md:pb-8 md:pt-24 4xl:pb-12 4xl:px-12 4xl:pt-32'
+              'box-border flex flex-col justify-between h-full px-4 py-8 w-full',
+              'md:px-8 md:py-12 4xl:px-12 4xl:py-16'
             )}
           >
             <div className="flex flex-col">
-              <div className="flex items-center w-full">
+              <div>
                 <IconButton
-                  classes="mr-4 tap-highlight"
+                  classes="mb-2 tap-highlight lg:mb-4"
                   icon={['fas', theme === 'light' ? 'moon' : 'sun']}
-                  iconColor={clsx(
-                    isDesktop &&
-                      'duration-200 transition-colors hover:text-hover'
-                  )}
                   onClick={toggleTheme}
                 />
-                <Icon icon={['fas', 'search']} classes="mr-2 p-2" />
-                <input
-                  placeholder="Search"
-                  onKeyPress={event => {
-                    if (event.key === 'Enter') {
-                      search();
-                    }
-                  }}
-                  onChange={event => setSearchValue(event.target.value)}
-                  style={{
-                    borderBottom: '2px',
-                    borderBottomStyle: 'solid'
-                  }}
-                  value={searchValue}
-                  className="py-1 w-full"
-                ></input>
               </div>
-              <nav className="flex flex-col font-medium items-end pt-8 sm:pt-16">
+              <div className="flex items-center">
+                <IconButton
+                  classes="justify-start mr-4"
+                  icon={['fas', 'search']}
+                  onClick={onSearch}
+                />
+                <div className="border-app border-b-2 relative w-full">
+                  <input
+                    placeholder="Search"
+                    ref={menuSearchElem}
+                    value={searchValue}
+                    onKeyPress={event => {
+                      if (event.key === 'Enter') {
+                        onSearch();
+                      }
+                    }}
+                    onChange={event => setSearchValue(event.target.value)}
+                    className="placeholder-sub py-1 left-0 w-full"
+                  />
+                  <Transition
+                    show={searchValue.length > 0}
+                    enter="transition-opacity duration-200"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="transition-opacity duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                    className="absolute h-8 right-0 top-0"
+                  >
+                    <IconButton
+                      icon={['fas', 'times']}
+                      iconSize="text-md"
+                      onClick={() => setSearchValue('')}
+                    />
+                  </Transition>
+                </div>
+              </div>
+              <nav className="flex flex-col font-medium items-center pt-8 sm:pt-16">
                 {menuLinksGet().map((link: MenuLink, index: number) => {
                   return (
                     <Link
@@ -146,10 +170,9 @@ export const Menu = (): ReactElement => {
                       to={link.to}
                       onClick={toggleMenu}
                       className={clsx(
-                        'my-2 text-xl sm:text-2xl xl:my-3 xl:text-3xl 3xl:text-4xl',
+                        'border-b border-transparent my-1 tap-highlight text-lg lg:border-b-2 lg:my-2 lg:text-xl 3xl:text-2xl',
                         isDesktop &&
-                          'duration-200 transition-colors hover:text-hover',
-                        isMobile && 'tap-highlight'
+                          'duration-200 transition-all hover:border-app'
                       )}
                     >
                       {link.title}
@@ -159,39 +182,11 @@ export const Menu = (): ReactElement => {
               </nav>
             </div>
             <div className="flex flex-col">
-              <div className="flex flex-wrap mt-4 xl:mt-8">
+              <div className="flex flex-wrap justify-center mt-4 xl:mt-8">
                 {menuExternalLinksGet().map(
-                  (link: MenuExternalLink, index: number) => {
-                    return (
-                      <a
-                        key={index}
-                        href={link.to}
-                        rel="noreferrer"
-                        target="_blank"
-                        className={clsx(
-                          'flex group items-center mb-1 mr-4',
-                          isMobile && 'tap-highlight'
-                        )}
-                      >
-                        <Icon
-                          color={clsx(
-                            isDesktop &&
-                              'duration-200 transition-colors group-hover:text-hover'
-                          )}
-                          icon={link.icon}
-                        />
-                        <span
-                          className={clsx(
-                            'ml-2 text-app ',
-                            isDesktop &&
-                              'duration-200 transition-colors group-hover:text-hover'
-                          )}
-                        >
-                          {link.title}
-                        </span>
-                      </a>
-                    );
-                  }
+                  (link: IMenuExternalLink, index: number) => (
+                    <MenuExternalLink key={index} link={link} />
+                  )
                 )}
               </div>
               <div className="flex items-center justify-between mt-4 text-xs xl:mt-8">
@@ -213,7 +208,7 @@ export const Menu = (): ReactElement => {
                     className={clsx(
                       'mr-4',
                       isDesktop &&
-                        'duration-200 transition-colors hover:text-hover',
+                        'border-b border-transparent duration-200 transition-colors hover:border-app',
                       isMobile && 'tap-highlight'
                     )}
                   >
@@ -225,7 +220,7 @@ export const Menu = (): ReactElement => {
                     target="_blank"
                     className={clsx(
                       isDesktop &&
-                        'duration-200 transition-colors hover:text-hover',
+                        'border-b border-transparent duration-200 transition-colors hover:border-app',
                       isMobile && 'tap-highlight'
                     )}
                   >

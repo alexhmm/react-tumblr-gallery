@@ -100,13 +100,13 @@ export const Contributors = (): ReactElement => {
         )}
       >
         {contributors?.length > 0 ? (
-          <section className="w-full flex flex-col md:flex-row md:flex-wrap md:justify-center xl:w-3/4 2xl:w-2/3 3xl:w-1/2">
+          <section className="w-full flex flex-col sm:flex-row sm:flex-wrap md:justify-center xl:w-3/4 2xl:w-2/3 3xl:w-1/2">
             {contributors.map(contributor => (
               <div
                 key={contributor.name}
-                className="box-border flex flex-col py-2 md:p-2 md:w-1/2 lg:w-1/3"
+                className="box-border flex flex-col py-2 sm:p-2 sm:w-1/2 lg:w-1/3"
               >
-                <div className="bg-menu p-2 shadow-md w-full md:p-4">
+                <div className="bg-menu p-2 w-full md:p-4">
                   <div className="flex items-center justify-between mb-2 lg:mb-4">
                     <span className="text-xl truncate lg:text-2xl">
                       {contributor.name}
@@ -125,18 +125,17 @@ export const Contributors = (): ReactElement => {
                       className="flex items-center group"
                     >
                       <Icon
-                        classes="mr-2"
-                        color={clsx(
-                          isDesktop &&
-                            'duration-200 transition-colors group-hover:text-hover'
+                        classes={clsx(
+                          isDesktop && 'border-b-2 border-transparent'
                         )}
                         icon={['fas', 'external-link-alt']}
                         size="text-md"
                       />
                       <span
                         className={clsx(
+                          'ml-2',
                           isDesktop &&
-                            'duration-200 transition-colors group-hover:text-hover'
+                            'border-b-2 border-transparent duration-200 transition-colors group-hover:border-app'
                         )}
                       >
                         Link
@@ -147,7 +146,7 @@ export const Contributors = (): ReactElement => {
                       className={clsx(
                         'text-sm w-max',
                         isDesktop &&
-                          'duration-200 transition-colors hover:text-hover'
+                          'border-b-2 border-transparent duration-200 transition-colors hover:border-app'
                       )}
                     >
                       {`Show ${contributor.total_posts} posts`}

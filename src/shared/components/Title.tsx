@@ -83,39 +83,36 @@ export const Title = (): ReactElement => {
 
   return (
     <button
+      disabled={!subtitle}
       onClick={subtitle ? onClickBack : onClickHome}
       className={clsx(
-        'duration-200 fixed flex group h-8 items-center max-w-[calc(100%-90px)] opacity-0 overflow-hidden top-4 transition-all whitespace-nowrap z-20',
-        'md:h-12 md:max-w-[calc(100%-160px)] xl:max-w-[calc(100%-200px)] xl:top-8 3xl:max-w-[calc(100%-240px)] 4xl:h-16 4xl:top-12',
+        'duration-200 fixed flex group items-center left-4 max-w-[calc(100%-90px)] opacity-0 overflow-hidden text-lg top-4 transition-all whitespace-nowrap z-20',
+        'md:left-8 md:max-w-[calc(100%-160px)] md:text-xl md:top-8 xl:left-12 xl:max-w-[calc(100%-200px)] xl:top-10',
+        '3xl:left-16 3xl:max-w-[calc(100%-240px)] 3xl:top-12 4xl:left-20 4xl:text-3xl 4xl:top-12',
         init && title && 'opacity-100',
-        isDesktop && 'cursor-pointer',
-        isMobile && 'tap-highlight',
-        'left-4 text-xl md:left-8 md:text-2xl xl:left-12 3xl:left-16 4xl:left-24 4xl:text-3xl'
+        isDesktop && 'disabled:cursor-default',
+        isMobile && 'tap-highlight'
       )}
     >
       {subtitle ? (
         <>
           <Icon
-            color={clsx(
-              isDesktop &&
-                'duration-200 transition-colors group-hover:text-hover'
-            )}
+            color={clsx(isDesktop && 'border-b-2 border-transparent')}
             icon={['fas', 'arrow-left']}
           />
           <span
             className={clsx(
               'ml-2 truncate md:ml-4',
               isDesktop &&
-                'duration-200 transition-colors group-hover:text-hover'
+                subtitle &&
+                'border-b-2 border-transparent duration-200 transition-colors group-hover:border-app'
             )}
           >
             {subtitle.text}
           </span>
         </>
       ) : (
-        <span
-          className={clsx(isDesktop && 'duration-200 group hover:text-hover')}
-        >
+        <span className={clsx(isDesktop && 'border-b-2 border-transparent')}>
           {title}
         </span>
       )}

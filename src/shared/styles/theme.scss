@@ -2,6 +2,7 @@
   --app-bg: #1f1f1f;
   --app-color: #ebebeb;
   --app-color-hover: #b9b9b9;
+  --border-color: rgba(255, 255, 255, 0.1);
   --loader-color: rgba(255, 255, 255, 0.5);
   --menu-bg: #252525;
   --select-color: rgba(255, 255, 255, 0.05);
@@ -9,9 +10,10 @@
 }
 
 .light {
-  --app-bg: #fafafa;
+  --app-bg: #ffffff;
   --app-color: #202020;
   --app-color-hover: #565656;
+  --border-color: rgba(0, 0, 0, 0.1);
   --loader-color: rgba(0, 0, 0, 0.5);
   --menu-bg: #f8f8f8;
   --select-color: rgba(0, 0, 0, 0.05);

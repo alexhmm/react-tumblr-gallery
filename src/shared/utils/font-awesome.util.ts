@@ -20,7 +20,8 @@ import {
   faHeart as fasHeart,
   faMoon as fasMoon,
   faSearch as fasSearch,
-  faSun as fasSun
+  faSun as fasSun,
+  faTimes as fasTimes
 } from '@fortawesome/free-solid-svg-icons';
 
 // Add icons to library to use them in the app
@@ -40,6 +41,7 @@ library.add(
   fabSnapchat,
   fasSun,
   fabTiktok,
+  fasTimes,
   fabTwitch,
   fabTwitter
 );

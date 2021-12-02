@@ -5,19 +5,20 @@ import {
   useEffect,
   useState
 } from 'react';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { isDesktop, isMobile } from 'react-device-detect';
 import { useSwipeable } from 'react-swipeable';
 import { Transition } from '@headlessui/react';
 import Zoomable from 'react-instagram-zoom';
+import clsx from 'clsx';
 import * as dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
-import clsx from 'clsx';
 
 // Components
 import { Icon } from '../../shared/ui/Icon';
 import { IconButton } from '../../shared/ui/IconButton';
 import Loader from '../../shared/ui/Loader/Loader';
+import { Tag } from '../components/Tag';
 
 // Hooks
 import { useDimensions } from '../../shared/hooks/use-dimensions.hook';
@@ -300,19 +301,8 @@ export const PostDetail = (): ReactElement => {
                     {post.summary}
                   </div>
                 )}
-                {post.tags.map((tag: string) => (
-                  <Link
-                    key={tag}
-                    to={'/tagged/' + tag}
-                    className={clsx(
-                      'ml-1 overflow-clip overflow-hidden text-sub whitespace-nowrap',
-                      isDesktop &&
-                        'duration-200 transition-colors hover:text-app visited:text-sub',
-                      isMobile && 'tap-highlight'
-                    )}
-                  >
-                    {'#' + tag}
-                  </Link>
+                {post.tags.map((tag: string, index: number) => (
+                  <Tag key={index} tag={tag} />
                 ))}
               </section>
               <Zoomable
@@ -397,24 +387,24 @@ export const PostDetail = (): ReactElement => {
                   >
                     <a
                       href={contributor?.href}
-                      className={clsx(
-                        'flex group items-center ml-4 tap-highlight',
-                        isDesktop &&
-                          'duration-200 group transition-colors hover:text-hover'
-                      )}
+                      className="flex group items-center ml-4 tap-highlight"
                       rel="noreferrer"
                       target="_blank"
                     >
                       <Icon
-                        color={clsx(
-                          'text-app',
-                          isDesktop &&
-                            'duration-200 transition-colors group-hover:text-hover'
-                        )}
+                        color="text-app"
                         icon={['fas', 'camera']}
                         size="text-sm"
                       />
-                      <span className="ml-2 text-sm">{contributor?.name}</span>
+                      <span
+                        className={clsx(
+                          'ml-2 text-sm',
+                          isDesktop &&
+                            'border-b-2 border-transparent duration-200 transition-colors group-hover:border-app'
+                        )}
+                      >
+                        {contributor?.name}
+                      </span>
                     </a>
                   </Transition>
                 </div>

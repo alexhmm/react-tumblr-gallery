@@ -24,8 +24,8 @@ const App = () => {
 
   return (
     <Router>
-      <Menu />
       <Title />
+      <Menu />
       <AppRouter />
     </Router>
   );

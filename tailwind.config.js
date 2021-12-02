@@ -6,6 +6,7 @@ module.exports = {
     extend: {
       backgroundColor: {
         app: 'var(--app-bg)',
+        icon: 'var(--select-color)',
         menu: 'var(--menu-bg)'
       },
       borderColor: {
@@ -19,6 +20,9 @@ module.exports = {
         'loader': 'var(--loader-color)',
         'posts-tag': '#acacac',
         'primary': '#0077fa'
+      },
+      placeholderColor: {
+        sub: 'var(--sub-color)'
       },
       screens: {
         '3xl': '1920px',

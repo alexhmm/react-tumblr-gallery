@@ -1,4 +1,4 @@
-import { isDesktop } from 'react-device-detect';
+import { isDesktop, isMobile } from 'react-device-detect';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import clsx from 'clsx';
 
@@ -19,18 +19,17 @@ export const IconButton = (props: IconButtonProps) => {
   return (
     <button
       className={clsx(
-        'group',
+        'group rounded-lg',
         props.classes && props.classes,
-        props.padding ?? 'p-2'
+        props.padding ?? 'p-2',
+        isDesktop && 'duration-200 transition-colors hover:bg-icon',
+        isMobile && 'tap-highlight'
       )}
       onClick={props.onClick}
     >
       <Icon
         classes={clsx(props.iconClasses && props.iconClasses)}
-        color={clsx(
-          isDesktop && 'duration-200 transition-colors group-hover:text-hover',
-          props.iconColor ?? 'text-app'
-        )}
+        color={clsx(props.iconColor ?? 'text-app')}
         icon={props.icon}
         size={props.iconSize}
       />
