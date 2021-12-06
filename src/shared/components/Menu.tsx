@@ -7,12 +7,14 @@ import clsx from 'clsx';
 // Components
 import { Icon } from '../ui/Icon';
 import { IconButton } from '../ui/IconButton';
+import { MenuCustomTag } from './MenuCustomTag';
 import { MenuExternalLink } from './MenuExternalLink';
 
 // Hooks
 import { useSharedUtils } from '../hooks/use-shared-utils.hook';
 
 // Models
+import { CustomTag } from '../models/custom-tag.interface';
 import {
   MenuExternalLink as IMenuExternalLink,
   MenuLink
@@ -24,7 +26,11 @@ import useSharedStore from '../store/shared.store';
 
 export const Menu = (): ReactElement => {
   const history = useHistory();
-  const { menuExternalLinksGet, menuLinksGet } = useSharedUtils();
+  const {
+    customTagsGet,
+    menuExternalLinksGet,
+    menuLinksGet
+  } = useSharedUtils();
 
   // Menu element references
   const menuSearchElem = useRef<HTMLInputElement>(null);
@@ -36,13 +42,17 @@ export const Menu = (): ReactElement => {
   ]);
 
   // Component state
+  const [customTags, setCustomTags] = useState<CustomTag[]>([]);
   const [menu, setMenu] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>('');
 
-  // Effects on component mount
+  // Set application theme (and custom tags) on mount
   useEffect(() => {
-    // Set application theme on mount
     setTheme(localStorage.getItem('theme') || 'light');
+    const getCustomTags = async () => {
+      setCustomTags(await customTagsGet());
+    };
+    process.env.REACT_APP_TAGS_CUSTOM && getCustomTags();
     // eslint-disable-next-line
   }, []);
 
@@ -182,6 +192,21 @@ export const Menu = (): ReactElement => {
               </nav>
             </div>
             <div className="flex flex-col">
+              {customTags?.length > 0 && (
+                <div className="flex flex-wrap justify-center mt-4 xl:mt-8">
+                  {customTags.map((customTag: CustomTag, index: number) => (
+                    <MenuCustomTag
+                      classes={customTag.classes}
+                      key={index}
+                      name={customTag.name}
+                      tag={customTag.tag}
+                      // styles="bg-[#2a7230] px-2 rounded-full hover:bg-icon"
+                      styles={customTag.styles}
+                      onClick={toggleMenu}
+                    />
+                  ))}
+                </div>
+              )}
               <div className="flex flex-wrap justify-center mt-4 xl:mt-8">
                 {menuExternalLinksGet().map(
                   (link: IMenuExternalLink, index: number) => (

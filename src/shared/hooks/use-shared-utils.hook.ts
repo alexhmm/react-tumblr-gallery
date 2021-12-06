@@ -1,5 +1,6 @@
 // Models
 import { BlogInfo } from '../models/blog-info.interface';
+import { CustomTag } from '../models/custom-tag.interface';
 import { MenuLink, MenuExternalLink } from '../models/menu-link.interface';
 import { PostsResponse } from '../../posts/models/posts-response.interface';
 
@@ -116,8 +117,30 @@ export const useSharedUtils = () => {
         return data.response;
       })
       .catch(error => {
-        console.error('Error fetching posts:', error);
+        console.error('Error fetching contributors:', error);
         return null;
+      });
+  };
+
+  /**
+   * Get custom tags data.
+   * @returns Custom tags data
+   */
+  const customTagsGet = (): Promise<CustomTag[]> => {
+    let url = process.env.REACT_APP_TAGS_CUSTOM ?? '';
+    return fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        return data.custom_tags;
+      })
+      .catch(error => {
+        console.error('Error fetching custom tags:', error);
+        return [];
       });
   };
 
@@ -212,6 +235,7 @@ export const useSharedUtils = () => {
     appMetaDataSet,
     blogInfoGet,
     contributorGet,
+    customTagsGet,
     menuExternalLinksGet,
     menuLinksGet
   };
