@@ -335,6 +335,7 @@ export const PostDetail = (): ReactElement => {
                     <IconButton
                       classes="absolute left-2 tap-highlight top-1/2 -translate-y-1/2"
                       icon={['fas', 'chevron-left']}
+                      iconColor="text-white"
                       onClick={onPostPrev}
                     />
                   )}
@@ -355,6 +356,7 @@ export const PostDetail = (): ReactElement => {
                     <IconButton
                       classes="absolute right-2 tap-highlight top-1/2 -translate-y-1/2"
                       icon={['fas', 'chevron-right']}
+                      iconColor="text-white"
                       onClick={onPostNext}
                     />
                   )}
