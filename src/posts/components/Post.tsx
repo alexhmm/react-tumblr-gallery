@@ -75,11 +75,11 @@ export const Post = (props: { post: IPost }): ReactElement => {
     >
       <div
         className={clsx(
-          'aspect-w-3 aspect-h-2 relative w-full',
+          'relative w-full',
           isDesktop && 'duration-300 ease-in-out group transition-all'
         )}
       >
-        <div className="flex justify-center overflow-hidden z-20">
+        <div className="aspect-[3/2] flex justify-center overflow-hidden z-20">
           <img
             alt={props?.post?.caption}
             src={imgSrc}
